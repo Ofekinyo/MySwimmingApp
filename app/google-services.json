@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "234660278588",
+    "project_id": "swimmingproject-c7ec0",
+    "storage_bucket": "swimmingproject-c7ec0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:234660278588:android:23a462e920d50b23112e39",
+        "android_client_info": {
+          "package_name": "com.ofekinyo.myswimmingapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABIb6Noenhlgwtl00dpagJHj0mHNTiVg0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
