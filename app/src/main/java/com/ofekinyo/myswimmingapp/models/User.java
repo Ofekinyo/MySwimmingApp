@@ -1,4 +1,4 @@
-package com.ofekinyo.myswimmingapp.model;
+package com.ofekinyo.myswimmingapp.models;
 
 public class User {
     String id;
