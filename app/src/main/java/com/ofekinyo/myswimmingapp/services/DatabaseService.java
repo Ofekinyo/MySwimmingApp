@@ -10,6 +10,7 @@ import com.ofekinyo.myswimmingapp.models.SwimStudent;
 import com.ofekinyo.myswimmingapp.models.Feedback;
 import com.ofekinyo.myswimmingapp.models.Session;
 import com.ofekinyo.myswimmingapp.models.Trainer;
+import com.ofekinyo.myswimmingapp.models.User;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -56,6 +57,10 @@ public class DatabaseService {
 
     private DatabaseReference readData(@NotNull final String path) {
         return databaseReference.child(path);
+    }
+
+    public void getUser(@NotNull final String uid, @NotNull final DatabaseCallback<User> callback) {
+        getData("users/" + uid, User.class, callback);
     }
 
     private <T> void getData(@NotNull final String path, @NotNull final Class<T> clazz, @NotNull final DatabaseCallback<T> callback) {
