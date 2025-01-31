@@ -24,7 +24,7 @@
         android:id="@+id/etFirstName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:hint="שם פרטי"
         android:inputType="textPersonName"
         android:minHeight="48dp"
@@ -63,8 +63,6 @@
         android:minHeight="48dp"
         android:padding="12dp" />
 
-
-
     <!-- Spinner for Cities -->
     <Spinner
         android:id="@+id/spinnerCities"
@@ -79,7 +77,9 @@
         android:layout_height="wrap_content"
         android:hint="מגדר"
         android:layout_marginTop="16dp"
-        android:inputType="text" />
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:padding="12dp" />
 
     <!-- Age EditText -->
     <EditText
@@ -88,7 +88,10 @@
         android:layout_height="wrap_content"
         android:hint="גיל"
         android:layout_marginTop="16dp"
-        android:inputType="number" />
+        android:inputType="number"
+        android:minHeight="48dp"
+        android:padding="12dp" />
+
     <!-- Password -->
     <EditText
         android:id="@+id/etPassword"
@@ -100,11 +103,12 @@
         android:minHeight="48dp"
         android:padding="12dp" />
 
-    <!-- Radio button for role select -->
+    <!-- Radio button for role selection -->
     <RadioGroup
         android:id="@+id/radioGroupRole"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:orientation="horizontal">
 
         <RadioButton
@@ -112,7 +116,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Trainer"
-            android:checked="false" />
+            android:checked="false"
+            android:layout_marginEnd="16dp" />
 
         <RadioButton
             android:id="@+id/radioTrainee"

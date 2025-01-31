@@ -76,7 +76,7 @@ public class TrainersList extends AppCompatActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
                 LayoutInflater inflater = LayoutInflater.from(context);
-                convertView = inflater.inflate(R.layout.activity_each_session, parent, false);
+                convertView = inflater.inflate(R.layout.activity_each_trainer, parent, false);
             }
 
             // Get current trainer
@@ -99,7 +99,7 @@ public class TrainersList extends AppCompatActivity {
 
             btnMoreInfo.setOnClickListener(v -> {
                 // Handle More Info click
-                Intent intent = new Intent(context, TrainerDetailsActivity.class);
+                Intent intent = new Intent(context, TrainerInfo.class);
                 intent.putExtra("trainerName", trainer.name);
                 intent.putExtra("trainerEmail", trainer.email);
                 context.startActivity(intent);

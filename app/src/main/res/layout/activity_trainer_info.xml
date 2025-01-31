@@ -1,27 +1,81 @@
-<!-- activity_trainer_info.xml -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:layout_height="match_parent">
 
-    <!-- TextView to display the trainer's name -->
-    <TextView
-        android:id="@+id/tvTrainerName"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Trainer Name"
-        android:textSize="24sp"
-        android:textColor="@android:color/black" />
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:gravity="center_horizontal">
 
-    <!-- TextView to display the trainer's full details -->
-    <TextView
-        android:id="@+id/tvTrainerDetails"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Trainer Details will go here"
-        android:textSize="16sp"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="16dp" />
+        <!-- Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="פרטי המאמן"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:paddingBottom="10dp"/>
 
-</LinearLayout>
+        <!-- Profile Image -->
+
+        <!-- Experience Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ניסיון (שנים)"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingTop="10dp"/>
+
+        <TextView
+            android:id="@+id/experienceTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="טוען..."
+            android:textSize="16sp"/>
+
+        <!-- Certifications Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="הסמכות"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingTop="10dp"/>
+
+        <TextView
+            android:id="@+id/certificationsTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="טוען..."
+            android:textSize="16sp"/>
+
+        <!-- Certification File Download -->
+        <Button
+            android:id="@+id/btnDownloadCert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="הורדת קובץ הסמכה"
+            android:layout_marginTop="5dp"/>
+
+        <!-- Biography Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ביוגרפיה"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingTop="10dp"/>
+
+        <TextView
+            android:id="@+id/bioTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="טוען..."
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+</ScrollView>

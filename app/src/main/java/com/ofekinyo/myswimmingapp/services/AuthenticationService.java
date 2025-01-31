@@ -4,47 +4,29 @@ import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.jetbrains.annotations.NotNull;
 
-
-/// a service to interact with the Firebase Authentication.
-/// this class is a singleton, use getInstance() to get an instance of this class
-/// @see FirebaseAuth
 public class AuthenticationService {
 
-    /// tag for logging
-    /// @see Log
     private static final String TAG = "AuthenticationService";
 
-    /// callback interface for authentication operations
-    /// @param <T> the type of the object to return
-    /// @see AuthCallback#onCompleted(Object)
-    /// @see AuthCallback#onFailed(Exception)
     public interface AuthCallback<T> {
-        /// called when the operation is completed successfully
         void onCompleted(T object);
 
-        /// called when the operation fails with an exception
         void onFailed(Exception e);
     }
 
-    /// the instance of this class
-    /// @see #getInstance()
     private static AuthenticationService instance;
-
-    /// the reference to the authentication
-    /// @see FirebaseAuth
     private final FirebaseAuth mAuth;
+    private final FirebaseDatabase mDatabase;
 
-    /// use getInstance() to get an instance of this class
     private AuthenticationService() {
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance();
     }
 
-    /// get an instance of this class
-    /// @return an instance of this class
-    /// @see AuthenticationService
     public static AuthenticationService getInstance() {
         if (instance == null) {
             instance = new AuthenticationService();
@@ -52,14 +34,6 @@ public class AuthenticationService {
         return instance;
     }
 
-    /// sign in a user with email and password
-    /// @param email the email of the user
-    /// @param password the password of the user
-    /// @param callback the callback to call when the operation is completed
-    ///              the callback will receive true if the operation is successful
-    ///              if the operation fails, the callback will receive an exception
-    /// @return void
-    /// @see AuthCallback
     public void signIn(@NotNull final String email, @NotNull final String password, @NotNull final AuthCallback<String> callback) {
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -71,18 +45,15 @@ public class AuthenticationService {
         });
     }
 
-    /// sign up a new user with email and password
-    /// @param email the email of the user
-    /// @param password the password of the user
-    /// @param callback the callback to call when the operation is completed
-    ///              the callback will receive the FirebaseUser object if the operation is successful
-    ///              if the operation fails, the callback will receive an exception
-    /// @see AuthCallback
-    /// @see FirebaseUser
-    public void signUp(@NotNull final String email, @NotNull final String password, @NotNull final AuthCallback<String> callback) {
+    public void signUp(@NotNull final String email, @NotNull final String password, @NotNull final String role, @NotNull final AuthCallback<String> callback) {
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                callback.onCompleted(getCurrentUserId());
+                FirebaseUser user = mAuth.getCurrentUser();
+                if (user != null) {
+                    String userId = user.getUid();
+                    saveUserRoleToDatabase(userId, role);
+                    callback.onCompleted(userId);
+                }
             } else {
                 Log.e(TAG, "Error signing up", task.getException());
                 callback.onFailed(task.getException());
@@ -90,13 +61,19 @@ public class AuthenticationService {
         });
     }
 
-    /// sign out the current user
+    private void saveUserRoleToDatabase(String userId, String role) {
+        // Store the user's information under the appropriate node based on their role (Trainer or Trainee)
+        if ("Trainer".equals(role)) {
+            mDatabase.getReference("Trainers").child(userId).setValue(true);  // Add any relevant user data as needed
+        } else if ("Trainee".equals(role)) {
+            mDatabase.getReference("Trainees").child(userId).setValue(true);  // Add any relevant user data as needed
+        }
+    }
+
     public void signOut() {
         mAuth.signOut();
     }
 
-    /// get the current user ID
-    /// @return the current user ID
     public String getCurrentUserId() {
         if (mAuth.getCurrentUser() == null) {
             return null;
@@ -104,8 +81,6 @@ public class AuthenticationService {
         return mAuth.getCurrentUser().getUid();
     }
 
-    /// check if a user is signed in
-    /// @return true if a user is signed in, false otherwise
     public boolean isUserSignedIn() {
         return mAuth.getCurrentUser() != null;
     }

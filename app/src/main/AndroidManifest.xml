@@ -16,7 +16,7 @@
             android:name=".screens.TrainerInfo"
             android:exported="false" />
         <activity
-            android:name=".screens.EachSession"
+            android:name=".screens.EachTrainer"
             android:exported="false" />
         <activity
             android:name=".screens.AllSessions"

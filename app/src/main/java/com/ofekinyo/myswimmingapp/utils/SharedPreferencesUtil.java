@@ -7,15 +7,9 @@ import com.ofekinyo.myswimmingapp.models.User;
 
 public class SharedPreferencesUtil {
 
-    /// The name of the shared preferences file
-    /// @see Context#getSharedPreferences(String, int)
     private static final String PREF_NAME = "com.example.testapp.PREFERENCE_FILE_KEY";
 
-    /// Save a string to shared preferences
-    /// @param context The context to use
-    /// @param key The key to save the string with
-    /// @param value The string to save
-    /// @see SharedPreferences.Editor#putString(String, String)
+    // Save a string to shared preferences
     private static void saveString(Context context, String key, String value) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -23,22 +17,13 @@ public class SharedPreferencesUtil {
         editor.apply();
     }
 
-    /// Get a string from shared preferences
-    /// @param context The context to use
-    /// @param key The key to get the string with
-    /// @param defaultValue The default value to return if the key is not found
-    /// @return The string value stored in shared preferences
-    /// @see SharedPreferences#getString(String, String)
+    // Get a string from shared preferences
     private static String getString(Context context, String key, String defaultValue) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getString(key, defaultValue);
     }
 
-    /// Save an integer to shared preferences
-    /// @param context The context to use
-    /// @param key The key to save the integer with
-    /// @param value The integer to save
-    /// @see SharedPreferences.Editor#putInt(String, int)
+    // Save an integer to shared preferences
     private static void saveInt(Context context, String key, int value) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -46,22 +31,13 @@ public class SharedPreferencesUtil {
         editor.apply();
     }
 
-    /// Get an integer from shared preferences
-    /// @param context The context to use
-    /// @param key The key to get the integer with
-    /// @param defaultValue The default value to return if the key is not found
-    /// @return The integer value stored in shared preferences
-    /// @see SharedPreferences#getInt(String, int)
+    // Get an integer from shared preferences
     private static int getInt(Context context, String key, int defaultValue) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getInt(key, defaultValue);
     }
 
-    // Add more methods for other data types as needed
-
-    /// Clear all data from shared preferences
-    /// @param context The context to use
-    /// @see SharedPreferences.Editor#clear()
+    // Clear all data from shared preferences
     public static void clear(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -69,10 +45,7 @@ public class SharedPreferencesUtil {
         editor.apply();
     }
 
-    /// Remove a specific key from shared preferences
-    /// @param context The context to use
-    /// @param key The key to remove
-    /// @see SharedPreferences.Editor#remove(String)
+    // Remove a specific key from shared preferences
     private static void remove(Context context, String key) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -80,23 +53,14 @@ public class SharedPreferencesUtil {
         editor.apply();
     }
 
-    /// Check if a key exists in shared preferences
-    /// @param context The context to use
-    /// @param key The key to check
-    /// @return true if the key exists, false otherwise
-    /// @see SharedPreferences#contains(String)
+    // Check if a key exists in shared preferences
     private static boolean contains(Context context, String key) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.contains(key);
     }
 
-    // Add more utility methods as needed
-
-    /// Save a user object to shared preferences
-    /// @param context The context to use
-    /// @param user The user object to save
-    /// @see User
-    public static void saveUser(Context context, User user) {
+    // Save user object to shared preferences
+    public static void saveUser(Context context, User user, String role) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("uid", user.getId());
@@ -108,17 +72,13 @@ public class SharedPreferencesUtil {
         editor.putInt("age", user.getAge());
         editor.putString("city", user.getCity());
         editor.putString("gender", user.getGender());
+        editor.putString("role", role);  // Save the role as Trainer or Trainee
         editor.apply();
     }
 
-    /// Get the user object from shared preferences
-    /// @param context The context to use
-    /// @return The user object stored in shared preferences
-    /// @see User
-    /// @see #isUserLoggedIn(Context)
+    // Get user object from shared preferences
     public static User getUser(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        // check if user is logged in
         if (!isUserLoggedIn(context)) {
             return null;
         }
@@ -127,15 +87,17 @@ public class SharedPreferencesUtil {
         String password = sharedPreferences.getString("password", "");
         String Fname = sharedPreferences.getString("Fname", "");
         String Lname = sharedPreferences.getString("Lname", "");
-        int phone = sharedPreferences.getInt("phone", Integer.parseInt(""));
-        int age = sharedPreferences.getInt("age", Integer.parseInt(""));
+        int phone = sharedPreferences.getInt("phone", 0);
+        int age = sharedPreferences.getInt("age", 0);
         String city = sharedPreferences.getString("city", "");
         String gender = sharedPreferences.getString("gender", "");
-        return new User(uid, Fname, Lname, phone, email, age, city, gender, password );
+        String role = sharedPreferences.getString("role", "");  // Retrieve the role
+
+        // Create and return the User object with role
+        return new User(uid, Fname, Lname, phone, email, age, city, gender, password, role);
     }
 
-    /// Sign out the user by removing user data from shared preferences
-    /// @param context The context to use
+    // Sign out user by removing user data from shared preferences
     public static void signOutUser(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -148,15 +110,17 @@ public class SharedPreferencesUtil {
         editor.remove("age");
         editor.remove("city");
         editor.remove("gender");
-
+        editor.remove("role");  // Remove role as well
         editor.apply();
     }
 
-    /// Check if a user is logged in by checking if the user id is present in shared preferences
-    /// @param context The context to use
-    /// @return true if the user is logged in, false otherwise
-    /// @see #contains(Context, String)
+    // Check if a user is logged in
     public static boolean isUserLoggedIn(Context context) {
         return contains(context, "uid");
+    }
+
+    // Get the user's role (Trainer/Trainee)
+    public static String getUserRole(Context context) {
+        return getString(context, "role", "");  // Retrieve the role from shared preferences
     }
 }
