@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">MySwimmingApp</string>
+
+    <!-- Add session types -->
+    <string-array name="session_types">
+        <item>Speed</item>
+        <item>Durability</item>
+        <item>Breathing</item>
+        <item>Endurance</item>
+        <item>Technique</item>
+    </string-array>
+
+</resources>

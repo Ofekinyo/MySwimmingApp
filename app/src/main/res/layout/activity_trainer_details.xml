@@ -1,0 +1,60 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="הוספת נתוני מאמנים"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ניסיון (שנים)"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/etExperience"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="ניסיון"
+        android:inputType="numberDecimal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="הסמכות"
+        android:textSize="16sp" />
+
+    <!-- Button for uploading files -->
+    <Button
+        android:id="@+id/btnUploadFile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="העלה קובץ הסמכה" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ביוגרפיה"
+        android:textSize="16sp" />
+
+    <!-- Trainer's Bio -->
+    <EditText
+        android:id="@+id/etBio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="הכנס ביוגרפיה של המאמן"
+        android:inputType="textMultiLine" />
+
+    <Button
+        android:id="@+id/btnSaveTrainerDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="שמור פרטים" />
+
+</LinearLayout>

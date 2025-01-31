@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/ic_android_black_24dp"
+        android:contentDescription="Android Logo"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Welcome Message -->
+    <TextView
+        android:id="@+id/tvWelcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome to SwimLink!"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:textColor="@color/blue1_font"
+        android:gravity="center"
+        android:layout_marginBottom="32dp" />
+
+    <!-- List of Trainers Button -->
+    <Button
+        android:id="@+id/btnTrainers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="List of Trainers"
+        android:backgroundTint="@color/button_blue"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:elevation="4dp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Sessions Page View Button -->
+    <Button
+        android:id="@+id/btnSessions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sessions Page View"
+        android:backgroundTint="@color/button_green"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:elevation="4dp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Sending Requests Button -->
+    <Button
+        android:id="@+id/btnSendingRequests"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sending Requests"
+        android:backgroundTint="@color/yellow"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:elevation="4dp"
+        android:layout_marginTop="16dp" />
+
+    <!-- Logout Button -->
+    <Button
+        android:id="@+id/logoutButton"
+        android:layout_width="100sp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/red"
+        android:text="Logout"
+        android:textColor="@android:color/white"
+        android:enabled="true" />
+
+</LinearLayout>

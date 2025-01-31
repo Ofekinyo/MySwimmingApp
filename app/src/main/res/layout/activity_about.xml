@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+
+    <!-- App Logo -->
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/ic_android_black_24dp"
+        android:contentDescription="Android Logo"
+        android:layout_marginBottom="24dp" />
+
+    <!-- App Info Title -->
+    <TextView
+        android:id="@+id/tvAppInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="App Information"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Description of the app -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome to SwimLink! This app connects trainers and trainees for a seamless swimming experience. You can track schedules, goals, and progress! With a user-friendly interface and advanced features, it’s perfect for all levels of swimming enthusiasts."
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- More information about app features -->
+    <TextView
+        android:id="@+id/tvMoreInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Features:\n- Link trainers and trainees\n- Track progress and goals\n- Manage training schedules\n- Receive personalized swimming tips\n\nBenefits:\n- Enhances learning experience\n- Connects users with experts\n- Promotes healthy living"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Contact Email -->
+    <TextView
+        android:id="@+id/tvContactEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You can contact us at: contact@swimlink.com"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Contact Email Button -->
+    <Button
+        android:id="@+id/btnContactEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send an Email"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Social Media Links -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Follow us on:"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+
+    <Button
+        android:id="@+id/btnFacebook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Facebook"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp" />
+
+    <Button
+        android:id="@+id/btnTwitter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Twitter"
+        android:textSize="16sp"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Optional Image for branding (logo) -->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/cropped_image"
+        android:contentDescription="SwimLink Logo"
+        android:layout_marginBottom="16dp" />
+</LinearLayout>

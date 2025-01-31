@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+
+    <!-- Session Type Spinner -->
+    <TextView
+        android:id="@+id/tvSessionType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Session Type"
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp" />
+
+    <Spinner
+        android:id="@+id/spinnerSessionType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- Length of Session Input -->
+    <TextView
+        android:id="@+id/tvLength"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Length of Session (hours)"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp" />
+
+    <EditText
+        android:id="@+id/etLength"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter length (hours)"
+        android:inputType="numberDecimal" />
+
+    <!-- Date Input -->
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp" />
+
+    <EditText
+        android:id="@+id/etDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter session date (YYYY-MM-DD)"
+        android:inputType="date" />
+
+    <!-- Goals Input -->
+    <TextView
+        android:id="@+id/tvGoals"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Goals"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp" />
+
+    <EditText
+        android:id="@+id/etGoals"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter goals"
+        android:inputType="text" />
+
+    <!-- Submit Button -->
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit Request"
+        android:backgroundTint="@color/button_blue"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:elevation="4dp"
+        android:layout_marginTop="20dp" />
+</LinearLayout>

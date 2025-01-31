@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:orientation="vertical"
+    tools:context=".screens.Register">
+
+    <!-- Headline -->
+    <TextView
+        android:id="@+id/tvHeadline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="16dp"
+        android:text="הרשמה"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_gravity="center" />
+
+    <!-- First Name -->
+    <EditText
+        android:id="@+id/etFirstName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="שם פרטי"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:padding="12dp" />
+
+    <!-- Last Name -->
+    <EditText
+        android:id="@+id/etLastName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="שם משפחה"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:padding="12dp" />
+
+    <!-- Email -->
+    <EditText
+        android:id="@+id/etEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="אימייל"
+        android:inputType="textEmailAddress"
+        android:minHeight="48dp"
+        android:padding="12dp" />
+
+    <!-- Phone -->
+    <EditText
+        android:id="@+id/etPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="טלפון"
+        android:inputType="phone"
+        android:minHeight="48dp"
+        android:padding="12dp" />
+
+
+
+    <!-- Spinner for Cities -->
+    <Spinner
+        android:id="@+id/spinnerCities"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp" />
+
+    <!-- Gender EditText -->
+    <EditText
+        android:id="@+id/etGender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="מגדר"
+        android:layout_marginTop="16dp"
+        android:inputType="text" />
+
+    <!-- Age EditText -->
+    <EditText
+        android:id="@+id/etAge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="גיל"
+        android:layout_marginTop="16dp"
+        android:inputType="number" />
+    <!-- Password -->
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="סיסמה"
+        android:inputType="textPassword"
+        android:minHeight="48dp"
+        android:padding="12dp" />
+
+    <!-- Radio button for role select -->
+    <RadioGroup
+        android:id="@+id/radioGroupRole"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radioTrainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trainer"
+            android:checked="false" />
+
+        <RadioButton
+            android:id="@+id/radioTrainee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trainee"
+            android:checked="false" />
+    </RadioGroup>
+
+    <!-- Submit Button -->
+    <Button
+        android:id="@+id/btnRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="שלח" />
+
+</LinearLayout>

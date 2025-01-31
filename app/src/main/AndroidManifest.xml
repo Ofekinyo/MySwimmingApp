@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MySwimmingApp"
+        tools:targetApi="31">
+        <activity
+            android:name=".screens.TrainerInfo"
+            android:exported="false" />
+        <activity
+            android:name=".screens.EachSession"
+            android:exported="false" />
+        <activity
+            android:name=".screens.AllSessions"
+            android:exported="false" />
+        <activity
+            android:name=".screens.SendRequest"
+            android:exported="false" />
+        <activity
+            android:name=".screens.TrainersList"
+            android:exported="false" />
+        <activity
+            android:name=".screens.SessionDetails"
+            android:exported="false" />
+        <activity
+            android:name=".screens.TrainerPage"
+            android:exported="false" />
+        <activity
+            android:name=".screens.TraineePage"
+            android:exported="false" />
+        <activity
+            android:name=".screens.Account"
+            android:exported="false" />
+        <activity
+            android:name=".screens.About"
+            android:exported="false" />
+        <activity
+            android:name=".screens.AdminPage"
+            android:exported="false" />
+        <activity
+            android:name=".screens.AdminVerification"
+            android:exported="false" />
+        <activity
+            android:name=".screens.AddSession"
+            android:exported="false" />
+        <activity
+            android:name=".screens.EditAccount"
+            android:exported="false" />
+        <activity
+            android:name=".screens.Schedule"
+            android:exported="false" />
+        <activity
+            android:name=".screens.HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".screens.TraineeDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".screens.TrainerDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".screens.Register"
+            android:exported="false" />
+        <activity
+            android:name=".screens.Login"
+            android:exported="false" />
+        <activity
+            android:name=".screens.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

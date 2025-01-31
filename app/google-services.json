@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "3964810683",
+    "firebase_url": "https://swimlink-6aa08-default-rtdb.firebaseio.com",
+    "project_id": "swimlink-6aa08",
+    "storage_bucket": "swimlink-6aa08.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:3964810683:android:5b2844eabf6bc06390009e",
+        "android_client_info": {
+          "package_name": "com.ofekinyo.myswimmingapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5LFA9sbouecOWBkdSNw8ZydlEgJmmozg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
