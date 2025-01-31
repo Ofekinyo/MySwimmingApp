@@ -2,57 +2,20 @@ package com.ofekinyo.myswimmingapp.models;
 
 import java.io.Serializable;
 
-
 public class Trainee extends User implements Serializable {
-    double height,Weight;
-    int age;
+    private double height, weight;
+    private int age;
+    private User myCoach;  // The trainer assigned to the trainee
 
-    User myCoach;
-    public Trainee(String id, String Fname, String Lname, int phone, String email, String pass, String gender, String city, String password, double height, double weight, int age, User myCoach) {
-        super(id, Fname, Lname, phone, email, age, gender, city ,password);
+    // Constructor with all parameters
+    public Trainee(String id, String Fname, String Lname, int phone, String email, int age, String gender, String city, String password, String role, double height, double weight, User myCoach) {
+        super(id, Fname, Lname, phone, email, age, gender, city, password, role);
         this.height = height;
-        this.Weight = weight;
-        this.age = age;
-
-        this.myCoach = myCoach;
-
-    }
-
-    public Trainee(String id, String Fname, String Lname, int phone, String email, String gender, String city, String password, double height, double weight, int age, User myCoach) {
-        super(id, Fname, Lname, phone, email, age, gender, city ,password);  // Now passing all necessary parameters
-        this.height = height;
-        this.Weight = weight;
-        this.age = age;
+        this.weight = weight;
         this.myCoach = myCoach;
     }
 
-
-    public Trainee(User user, double height, double weight, int age, User myCoach) {
-        super(user);
-        this.height = height;
-        Weight = weight;
-        this.age = age;
-        this.myCoach = myCoach;
-    }
-
-    public Trainee(double height, double weight, int age, User myCoach) {
-        this.height = height;
-        Weight = weight;
-        this.age = age;
-        this.myCoach = myCoach;
-    }
-
-    public Trainee(Trainee trainee) {
-        super(trainee);  // Calling the copy constructor of the User class
-        this.height = trainee.height;
-        this.Weight = trainee.Weight;  // Correcting the assignment to Weight
-        this.age = trainee.age;
-
-        // Check if the coach is not null and assign it
-        if (trainee.myCoach != null) {
-            this.myCoach = trainee.getCoach();  // Assuming you have a getter method for myCoach
-        }
-    }
+    // Getters and Setters
     public double getHeight() {
         return height;
     }
@@ -62,11 +25,11 @@ public class Trainee extends User implements Serializable {
     }
 
     public double getWeight() {
-        return Weight;
+        return weight;
     }
 
     public void setWeight(double weight) {
-        Weight = weight;
+        this.weight = weight;
     }
 
     public int getAge() {
@@ -77,11 +40,11 @@ public class Trainee extends User implements Serializable {
         this.age = age;
     }
 
-    public User getCoach() {
+    public User getMyCoach() {
         return myCoach;
     }
 
-    public void setCoach(User myCoach) {
+    public void setMyCoach(User myCoach) {
         this.myCoach = myCoach;
     }
 
@@ -89,17 +52,18 @@ public class Trainee extends User implements Serializable {
     public String toString() {
         return "Trainee{" +
                 "height=" + height +
-                ", Weight=" + Weight +
+                ", weight=" + weight +
                 ", age=" + age +
                 ", myCoach=" + myCoach +
                 ", id='" + id + '\'' +
                 ", Fname='" + Fname + '\'' +
                 ", Lname='" + Lname + '\'' +
-                ", phone='" + phone + '\'' +
+                ", phone=" + phone +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", city='" + city + '\'' +
                 ", gender='" + gender + '\'' +
+                ", city='" + city + '\'' +
+                ", role='" + role + '\'' +
                 '}';
     }
 }

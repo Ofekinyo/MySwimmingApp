@@ -1,75 +1,121 @@
 package com.ofekinyo.myswimmingapp.models;
 
-public class User {
-    private String id;
-    private String fname;
-    private String lname;
-    private int phone;
-    private String email;
-    private int age;
-    private String city;
-    private String gender;
-    private String password;
-    private String role;  // Add role to the user
+import java.io.Serializable;
 
-    // Constructor with the role
-    public User(String id, String fname, String lname, int phone, String email, int age, String city, String gender, String password, String role) {
+public class User implements Serializable {
+    protected String id, Fname, Lname, email, password, gender, city, role;
+    protected int phone, age;
+
+    // Constructor with all parameters
+    public User(String id, String Fname, String Lname, int phone, String email, int age, String gender, String city, String password, String role) {
         this.id = id;
-        this.fname = fname;
-        this.lname = lname;
+        this.Fname = Fname;
+        this.Lname = Lname;
         this.phone = phone;
         this.email = email;
         this.age = age;
-        this.city = city;
         this.gender = gender;
+        this.city = city;
         this.password = password;
-        this.role = role;  // Initialize the role
+        this.role = role;
     }
 
-    // Getters and setters
+    // Default constructor
+    public User() {}
+
+    // Getters and Setters
     public String getId() {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getFname() {
-        return fname;
+        return Fname;
+    }
+
+    public void setFname(String fname) {
+        this.Fname = fname;
     }
 
     public String getLname() {
-        return lname;
+        return Lname;
+    }
+
+    public void setLname(String lname) {
+        this.Lname = lname;
     }
 
     public int getPhone() {
         return phone;
     }
 
+    public void setPhone(int phone) {
+        this.phone = phone;
+    }
+
     public String getEmail() {
         return email;
     }
 
-    public int getAge() {
-        return age;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public String getGender() {
-        return gender;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
         return password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
     public String getRole() {
-        return role;  // Getter for the role
+        return role;
     }
 
     public void setRole(String role) {
-        this.role = role;  // Setter for the role
+        this.role = role;
     }
 
-    // Other setters can be added if needed
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", Fname='" + Fname + '\'' +
+                ", Lname='" + Lname + '\'' +
+                ", phone=" + phone +
+                ", email='" + email + '\'' +
+                ", age=" + age +
+                ", gender='" + gender + '\'' +
+                ", city='" + city + '\'' +
+                ", role='" + role + '\'' +
+                '}';
+    }
 }
