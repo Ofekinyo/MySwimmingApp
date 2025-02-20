@@ -5,62 +5,108 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.ofekinyo.myswimmingapp.R;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     private TextView welcomeTextView;
-
-    private final ActivityResultLauncher<Intent> loginActivityLauncher =
-            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                    // Login was successful
-                    Log.d(TAG, "Login successful, navigating to HomeActivity.");
-                    Intent homeIntent = new Intent(MainActivity.this, HomeActivity.class);
-                    startActivity(homeIntent);
-                    finish();  // Optionally finish the MainActivity to prevent going back
-                } else {
-                    Log.d(TAG, "Login failed or canceled.");
-                }
-            });
-
-    private final ActivityResultLauncher<Intent> registerActivityLauncher =
-            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                    // Registration was successful
-                    Intent homeIntent = new Intent(MainActivity.this, HomeActivity.class);
-                    startActivity(homeIntent);
-                    finish();  // Optionally finish the MainActivity to prevent going back
-                }
-            });
+    private FirebaseAuth mAuth;
+    private DatabaseReference databaseReference;
+    private Button loginButton, registerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        welcomeTextView = findViewById(R.id.tvWelcome);
+        // Initialize Firebase
+        mAuth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
-        Button loginButton = findViewById(R.id.btnLogin);
+        welcomeTextView = findViewById(R.id.tvWelcome);
+        loginButton = findViewById(R.id.btnLogin);
+        registerButton = findViewById(R.id.btnRegister);
+
         loginButton.setOnClickListener(v -> {
             Intent loginIntent = new Intent(MainActivity.this, Login.class);
-            loginActivityLauncher.launch(loginIntent);
+            startActivity(loginIntent);
         });
 
-        Button registerButton = findViewById(R.id.btnRegister);
         registerButton.setOnClickListener(v -> {
             Intent registerIntent = new Intent(MainActivity.this, Register.class);
-            registerActivityLauncher.launch(registerIntent);
+            startActivity(registerIntent);
+        });
+
+        // Ensure Firebase is completely ready before checking anything
+   checkUserStatus();
+    }
+
+    private void checkUserStatus() {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser == null) {
+            Log.d(TAG, "No user logged in. Staying on MainActivity.");
+            return; // No user is logged in, stay on the login/register screen
+        }
+
+        Log.d(TAG, "User detected. Checking role..."+ currentUser.getUid());
+        checkUserRole(currentUser.getUid());
+    }
+
+    private void checkUserRole(String userId) {
+        databaseReference.child("Trainees").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    Log.d(TAG, "User is a Trainee. Navigating to TraineePage.");
+                    navigateToPage(TraineePage.class);
+                } else {
+                    checkTrainerRole(userId);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e(TAG, "Database error: " + error.getMessage());
+            }
         });
     }
 
-    private void updateWelcomeMessage(String firstName) {
-        welcomeTextView.setText("Welcome to SwimLink, " + firstName + "!");
-        Log.d(TAG, "Updated welcome message: Welcome to SwimLink, " + firstName + "!");
+    private void checkTrainerRole(String userId) {
+        databaseReference.child("Trainers").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    Log.d(TAG, "User is a Trainer. Navigating to TrainerPage.");
+                    navigateToPage(TrainerPage.class);
+                } else {
+                    Log.d(TAG, "User role not found. Staying on MainActivity.");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e(TAG, "Database error: " + error.getMessage());
+            }
+        });
+    }
+
+    private void navigateToPage(Class<?> destination) {
+        Intent intent = new Intent(MainActivity.this, destination);
+        startActivity(intent);
+        finish();
     }
 }

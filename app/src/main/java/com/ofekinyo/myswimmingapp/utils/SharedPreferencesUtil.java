@@ -7,51 +7,50 @@ import com.ofekinyo.myswimmingapp.models.User;
 
 public class SharedPreferencesUtil {
 
-    private static final String PREF_NAME = "com.example.testapp.PREFERENCE_FILE_KEY";
+    private static final String PREF_NAME = "com.ofekinyo.myswimmingapp.PREFERENCE_FILE_KEY";  // Updated package name
 
-    // Save a user object to shared preferences
+    // Save user data (excluding password for security)
     public static void saveUser(Context context, User user) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("uid", user.getId());
         editor.putString("email", user.getEmail());
-        editor.putString("password", user.getPassword());
         editor.putString("Fname", user.getFname());
         editor.putString("Lname", user.getLname());
-        editor.putInt("phone", user.getPhone());
-        editor.putInt("age", user.getAge());
+        editor.putString("phone", String.valueOf(user.getPhone()));  // Store as String to avoid issues
+        editor.putString("age", String.valueOf(user.getAge()));      // Store as String
         editor.putString("city", user.getCity());
         editor.putString("gender", user.getGender());
-        editor.putString("role", user.getRole());  // Storing the user's role (Trainee or Trainer)
+        editor.putString("role", user.getRole());  // Save role (Trainee or Trainer)
         editor.apply();
     }
 
-    // Get the user object from shared preferences
+    // Retrieve user data
     public static User getUser(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         if (!isUserLoggedIn(context)) {
             return null;
         }
+
         String uid = sharedPreferences.getString("uid", "");
         String email = sharedPreferences.getString("email", "");
-        String password = sharedPreferences.getString("password", "");
         String Fname = sharedPreferences.getString("Fname", "");
         String Lname = sharedPreferences.getString("Lname", "");
-        int phone = sharedPreferences.getInt("phone", 0);
-        int age = sharedPreferences.getInt("age", 0);
+        int phone = Integer.parseInt(sharedPreferences.getString("phone", "0"));  // Convert safely
+        int age = Integer.parseInt(sharedPreferences.getString("age", "0"));
         String city = sharedPreferences.getString("city", "");
         String gender = sharedPreferences.getString("gender", "");
-        String role = sharedPreferences.getString("role", "");  // Retrieving role
+        String role = sharedPreferences.getString("role", "");  // Retrieve role
 
-        return new User(uid, Fname, Lname, phone, email, age, gender, city, password, role);
+        return new User(uid, Fname, Lname, phone, email, age, gender, city, "", role);
     }
 
-    // Check if a user is logged in by checking if the user id is present in shared preferences
+    // Check if user is logged in
     public static boolean isUserLoggedIn(Context context) {
         return context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).contains("uid");
     }
 
-    // Sign out the user by removing user data from shared preferences
+    // Sign out user (clear stored data)
     public static void signOutUser(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

@@ -1,60 +1,59 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="הוספת נתוני מאמנים"
-        android:textSize="20dp"/>
-
-    <TextView
+        android:id="@+id/tvTrainerDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ניסיון (שנים)"
-        android:textSize="16sp" />
+        android:text="Trainer Details"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp" />
+
+    <TextView
+        android:id="@+id/tvExperience"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Experience:"
+        android:layout_below="@id/tvTrainerDetails"
+        android:layout_marginBottom="8dp" />
 
     <EditText
         android:id="@+id/etExperience"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="ניסיון"
-        android:inputType="numberDecimal" />
+        android:hint="Enter your experience"
+        android:inputType="textMultiLine"
+        android:layout_below="@id/tvExperience"
+        android:layout_marginBottom="16dp" />
 
     <TextView
+        android:id="@+id/tvBio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="הסמכות"
-        android:textSize="16sp" />
+        android:text="Bio:"
+        android:layout_below="@id/etExperience"
+        android:layout_marginBottom="8dp" />
 
-    <!-- Button for uploading files -->
-    <Button
-        android:id="@+id/btnUploadFile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="העלה קובץ הסמכה" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ביוגרפיה"
-        android:textSize="16sp" />
-
-    <!-- Trainer's Bio -->
     <EditText
         android:id="@+id/etBio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="הכנס ביוגרפיה של המאמן"
-        android:inputType="textMultiLine" />
+        android:hint="Enter your bio"
+        android:inputType="textMultiLine"
+        android:layout_below="@id/tvBio"
+        android:layout_marginBottom="16dp" />
 
     <Button
         android:id="@+id/btnSaveTrainerDetails"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="שמור פרטים" />
+        android:text="Save Trainer Details"
+        android:layout_below="@id/etBio"
+        android:layout_marginTop="16dp" />
 
-</LinearLayout>
+</RelativeLayout>

@@ -3,15 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center">
+    android:gravity="center"
+    android:padding="16dp">
 
+    <!-- Logo -->
     <ImageView
         android:id="@+id/ivLogo"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:src="@drawable/ic_android_black_24dp"
-        android:contentDescription="Android Logo"
+        android:contentDescription="App Logo"
         android:layout_marginBottom="24dp" />
 
     <!-- Welcome Message -->
@@ -19,52 +20,52 @@
         android:id="@+id/tvWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to SwimLink!"
+        android:text="Welcome Trainee"
         android:textSize="26sp"
         android:textStyle="bold"
         android:textColor="@color/blue1_font"
         android:gravity="center"
         android:layout_marginBottom="32dp" />
 
-    <!-- List of Trainers Button -->
+    <!-- Trainers List Button -->
     <Button
-        android:id="@+id/btnTrainers"
+        android:id="@+id/btnTrainersList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="List of Trainers"
+        android:text="Trainers List"
         android:backgroundTint="@color/button_blue"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:elevation="4dp"
         android:layout_marginBottom="16dp" />
 
-    <!-- Sessions Page View Button -->
+    <!-- All Sessions Button -->
     <Button
-        android:id="@+id/btnSessions"
+        android:id="@+id/btnAllSessions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sessions Page View"
+        android:text="All Sessions"
         android:backgroundTint="@color/button_green"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:elevation="4dp"
         android:layout_marginBottom="16dp" />
 
-    <!-- Sending Requests Button -->
+    <!-- Session Details Button -->
     <Button
-        android:id="@+id/btnSendingRequests"
+        android:id="@+id/btnSessionDetails"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sending Requests"
+        android:text="Session Details"
         android:backgroundTint="@color/yellow"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:elevation="4dp"
-        android:layout_marginTop="16dp" />
+        android:layout_marginBottom="16dp" />
 
     <!-- Logout Button -->
     <Button
-        android:id="@+id/logoutButton"
+        android:id="@+id/btnLogout"
         android:layout_width="100sp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
