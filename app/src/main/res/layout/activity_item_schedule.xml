@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@android:color/white"
+    android:elevation="2dp"
+    android:layout_margin="5dp">
+
+    <TextView
+        android:id="@+id/tvScheduleTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Session Title"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:paddingBottom="4dp" />
+
+    <TextView
+        android:id="@+id/tvScheduleDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Date: YYYY-MM-DD"
+        android:textSize="16sp"
+        android:textColor="@android:color/darker_gray"
+        android:paddingBottom="2dp" />
+
+    <TextView
+        android:id="@+id/tvScheduleTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Time: HH:MM"
+        android:textSize="16sp"
+        android:textColor="@android:color/darker_gray" />
+
+</LinearLayout>

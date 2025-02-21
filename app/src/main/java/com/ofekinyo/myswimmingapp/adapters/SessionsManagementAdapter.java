@@ -4,28 +4,29 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.models.Session;
-
 import java.util.List;
 
 public class SessionsManagementAdapter extends RecyclerView.Adapter<SessionsManagementAdapter.ViewHolder> {
     private List<Session> sessionList;
     private Context context;
+    private OnSessionClickListener listener;
 
-    public SessionsManagementAdapter(List<Session> sessionList, Context context) {
+    public SessionsManagementAdapter(List<Session> sessionList, Context context, OnSessionClickListener listener) {
         this.sessionList = sessionList;
         this.context = context;
+        this.listener = listener;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_session_management, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_item_session, parent, false);
         return new ViewHolder(view);
     }
 
@@ -35,12 +36,11 @@ public class SessionsManagementAdapter extends RecyclerView.Adapter<SessionsMana
         holder.sessionTitle.setText(session.getTitle());
         holder.sessionTime.setText(session.getTime());
 
-        holder.btnEdit.setOnClickListener(v -> {
-            // Implement edit functionality
-        });
-
-        holder.btnDelete.setOnClickListener(v -> {
-            // Implement delete functionality
+        // Handle click event
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onSessionClick(session);
+            }
         });
     }
 
@@ -49,16 +49,13 @@ public class SessionsManagementAdapter extends RecyclerView.Adapter<SessionsMana
         return sessionList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         TextView sessionTitle, sessionTime;
-        Button btnEdit, btnDelete;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             sessionTitle = itemView.findViewById(R.id.tvSessionTitle);
             sessionTime = itemView.findViewById(R.id.tvSessionTime);
-            btnEdit = itemView.findViewById(R.id.btnEditSession);
-            btnDelete = itemView.findViewById(R.id.btnDeleteSession);
         }
     }
 }

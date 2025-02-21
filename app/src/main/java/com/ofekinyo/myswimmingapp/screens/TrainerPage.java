@@ -7,6 +7,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.ofekinyo.myswimmingapp.R;
+import com.ofekinyo.myswimmingapp.models.Schedule;
 import com.ofekinyo.myswimmingapp.utils.SharedPreferencesUtil;
 
 public class TrainerPage extends AppCompatActivity {

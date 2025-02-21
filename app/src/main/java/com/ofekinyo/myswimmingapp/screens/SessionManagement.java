@@ -5,25 +5,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.ofekinyo.myswimmingapp.R;
+import com.ofekinyo.myswimmingapp.adapters.OnSessionClickListener;
 import com.ofekinyo.myswimmingapp.adapters.SessionsManagementAdapter;
 import com.ofekinyo.myswimmingapp.models.Session;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class SessionManagement extends AppCompatActivity {
+public class SessionManagement extends AppCompatActivity implements OnSessionClickListener {
 
     private RecyclerView recyclerView;
     private SessionsManagementAdapter sessionAdapter;
@@ -37,19 +35,23 @@ public class SessionManagement extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_session_management);
 
+        // Initialize views
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         sessionList = new ArrayList<>();
-        sessionAdapter = new SessionsManagementAdapter(sessionList, this);
+        sessionAdapter = new SessionsManagementAdapter(sessionList, this, this);
         recyclerView.setAdapter(sessionAdapter);
 
+        // Initialize Firebase Database reference
         databaseReference = FirebaseDatabase.getInstance().getReference("TrainerSessions");
 
+        // Input fields
         etTitle = findViewById(R.id.etTitle);
         etDate = findViewById(R.id.etDate);
         etTime = findViewById(R.id.etTime);
         etLocation = findViewById(R.id.etLocation);
 
+        // Button to add a new session
         Button btnAddSession = findViewById(R.id.btnAddSession);
         btnAddSession.setOnClickListener(v -> addSession());
 
@@ -88,7 +90,7 @@ public class SessionManagement extends AppCompatActivity {
             return;
         }
 
-        String sessionId = databaseReference.push().getKey();
+        String sessionId = databaseReference.push().getKey(); // Generate unique key
         Session newSession = new Session(sessionId, title, date, time, location);
         databaseReference.child(sessionId).setValue(newSession).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -105,5 +107,12 @@ public class SessionManagement extends AppCompatActivity {
         etDate.setText("");
         etTime.setText("");
         etLocation.setText("");
+    }
+
+    @Override
+    public void onSessionClick(Session session) {
+        // Handle the session click event here
+        Toast.makeText(this, "Clicked on: " + session.getTitle(), Toast.LENGTH_SHORT).show();
+        // You can add logic to edit the session or show details
     }
 }
