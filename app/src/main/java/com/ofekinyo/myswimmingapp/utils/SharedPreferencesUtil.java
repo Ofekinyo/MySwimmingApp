@@ -36,7 +36,7 @@ public class SharedPreferencesUtil {
         String email = sharedPreferences.getString("email", "");
         String Fname = sharedPreferences.getString("Fname", "");
         String Lname = sharedPreferences.getString("Lname", "");
-        int phone = Integer.parseInt(sharedPreferences.getString("phone", "0"));  // Convert safely
+        String phone = (sharedPreferences.getString("phone", "0"));  // Convert safely
         int age = Integer.parseInt(sharedPreferences.getString("age", "0"));
         String city = sharedPreferences.getString("city", "");
         String gender = sharedPreferences.getString("gender", "");

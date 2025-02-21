@@ -1,92 +1,39 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="16dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="משקל (קילוגרם)"
-        android:textSize="16sp" />
-
-    <EditText
-        android:id="@+id/etWeight"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="משקל"
-        android:inputType="numberDecimal" />
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="גובה (סנטימטרים)"
-        android:textSize="16sp" />
+        <!-- Swimming Goals -->
+        <EditText
+            android:id="@+id/etSwimmingGoals"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="מטרות שחייה"
+            android:inputType="text"
+            android:layout_marginTop="8dp" />
 
-    <EditText
-        android:id="@+id/etHeight"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="גובה"
-        android:inputType="number" />
+        <!-- Training Locations -->
+        <EditText
+            android:id="@+id/etTrainingLocations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="מקומות בהם אתה מתאמן"
+            android:inputType="text"
+            android:layout_marginTop="8dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="רמת כושר"
-        android:textSize="16sp" />
+        <!-- Save Button -->
+        <Button
+            android:id="@+id/btnSaveTraineeDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="שמור פרטים"
+            android:layout_marginTop="16dp" />
 
-    <Spinner
-        android:id="@+id/spFitnessLevel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="מטרות"
-        android:textSize="16sp" />
-
-    <!-- Multi-choice CheckBoxes for Goals -->
-    <CheckBox
-        android:id="@+id/cbLoseWeight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="לרדת במשקל" />
-
-    <CheckBox
-        android:id="@+id/cbGainWeight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="לעלות במשקל" />
-
-    <CheckBox
-        android:id="@+id/cbHoldBreath"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="לעצור נשימה יותר זמן" />
-
-    <CheckBox
-        android:id="@+id/cbSwimFaster"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="לשחות מהר יותר" />
-
-    <CheckBox
-        android:id="@+id/cbBuildMuscle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="לבנות שריר" />
-
-    <CheckBox
-        android:id="@+id/cbImproveTechnique"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="לשפר טכניקה בשחייה" />
-
-    <Button
-        android:id="@+id/btnSaveTraineeDetails"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="שמור פרטים" />
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

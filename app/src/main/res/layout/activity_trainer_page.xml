@@ -1,10 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screens.TrainerPage">
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Logo -->
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/ic_android_black_24dp"
+        android:contentDescription="App Logo"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Welcome Message -->
+    <TextView
+        android:id="@+id/tvWelcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome Trainer"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:textColor="@color/blue1_font"
+        android:gravity="center"
+        android:layout_marginBottom="32dp" />
+
+    <!-- Schedule Button -->
+    <Button
+        android:id="@+id/btnSchedule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Schedule"
+        android:backgroundTint="@color/button_blue"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:elevation="4dp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- My Sessions Button -->
+    <Button
+        android:id="@+id/btnMySessions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="My Sessions"
+        android:backgroundTint="@color/button_green"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:elevation="4dp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Session Management Button -->
+    <Button
+        android:id="@+id/btnSessionManagement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Session Management"
+        android:backgroundTint="@color/yellow"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:elevation="4dp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Logout Button -->
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="100sp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/red"
+        android:text="Logout"
+        android:textColor="@android:color/white"
+        android:enabled="true" />
+
+</LinearLayout>

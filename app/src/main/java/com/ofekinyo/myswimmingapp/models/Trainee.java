@@ -8,7 +8,7 @@ public class Trainee extends User implements Serializable {
     private User myCoach;  // The trainer assigned to the trainee
 
     // Constructor with all parameters
-    public Trainee(String id, String Fname, String Lname, int phone, String email, int age, String gender, String city, String password, String role, double height, double weight, User myCoach) {
+    public Trainee(String id, String Fname, String Lname, String phone, String email, int age, String gender, String city, String password, String role, double height, double weight, User myCoach) {
         super(id, Fname, Lname, phone, email, age, gender, city, password, role);
         this.height = height;
         this.weight = weight;

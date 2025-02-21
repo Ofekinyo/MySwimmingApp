@@ -6,16 +6,16 @@
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/tvSchedule"
+        android:id="@+id/tvMySessions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:layout_marginBottom="16dp"
-        android:text="Your Schedule" />
+        android:text="My Sessions" />
 
-    <!-- RecyclerView for displaying sessions -->
+    <!-- RecyclerView for displaying trainer's sessions -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
         android:id="@+id/btnRefresh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Refresh Schedule"
+        android:text="Refresh My Sessions"
         android:layout_gravity="center" />
 
 </LinearLayout>

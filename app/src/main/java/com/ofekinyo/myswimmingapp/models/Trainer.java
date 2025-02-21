@@ -8,7 +8,7 @@ public class Trainer extends User implements Serializable {
     private int experience; // Number of years of experience
 
     // Constructor with all parameters
-    public Trainer(String id, String Fname, String Lname, int phone, String email, int age, String password, String gender, String city, String role, String domain, int experience, double price) {
+    public Trainer(String id, String Fname, String Lname, String phone, String email, int age, String password, String gender, String city, String role, String domain, int experience, double price) {
         super(id, Fname, Lname, phone, email, age, gender, city, password, role);
         this.domain = domain;
         this.experience = experience;

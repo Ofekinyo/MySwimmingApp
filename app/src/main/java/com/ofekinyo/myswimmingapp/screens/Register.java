@@ -1,6 +1,7 @@
 package com.ofekinyo.myswimmingapp.screens;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -21,6 +22,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.ofekinyo.myswimmingapp.R;
+import com.ofekinyo.myswimmingapp.models.User;
+import com.ofekinyo.myswimmingapp.utils.SharedPreferencesUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -123,7 +126,11 @@ public class Register extends AppCompatActivity {
                         String userPath = role.equals("Trainer") ? "Trainers" : "Trainees";
                         DatabaseReference roleDatabaseRef = FirebaseDatabase.getInstance().getReference(userPath);
 
-                        User user = new User(fname, lname, email, phone, city, gender, age, role);
+
+
+
+                            User user = new User(userId, fname, lname,  phone+"", email, age, gender, city,password,role);
+                        SharedPreferencesUtil.saveUser(this,user);
                         roleDatabaseRef.child(userId).setValue(user)
                                 .addOnCompleteListener(dbTask -> {
                                     if (dbTask.isSuccessful()) {
@@ -142,21 +149,5 @@ public class Register extends AppCompatActivity {
                 });
     }
 
-    public static class User {
-        public String fname, lname, email, phone, city, gender, role;
-        public int age;
 
-        public User() {}
-
-        public User(String fname, String lname, String email, String phone, String city, String gender, int age, String role) {
-            this.fname = fname;
-            this.lname = lname;
-            this.email = email;
-            this.phone = phone;
-            this.city = city;
-            this.gender = gender;
-            this.age = age;
-            this.role = role;
-        }
-    }
 }

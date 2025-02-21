@@ -1,59 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/tvTrainerDetails"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Trainer Details"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="24dp" />
-
-    <TextView
-        android:id="@+id/tvExperience"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Experience:"
-        android:layout_below="@id/tvTrainerDetails"
-        android:layout_marginBottom="8dp" />
-
-    <EditText
-        android:id="@+id/etExperience"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter your experience"
-        android:inputType="textMultiLine"
-        android:layout_below="@id/tvExperience"
-        android:layout_marginBottom="16dp" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvBio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Bio:"
-        android:layout_below="@id/etExperience"
-        android:layout_marginBottom="8dp" />
+        <!-- Experience -->
+        <EditText
+            android:id="@+id/etExperienceYears"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="שנות ניסיון"
+            android:inputType="number"
+            android:layout_marginTop="8dp" />
 
-    <EditText
-        android:id="@+id/etBio"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter your bio"
-        android:inputType="textMultiLine"
-        android:layout_below="@id/tvBio"
-        android:layout_marginBottom="16dp" />
+        <!-- Competitive History -->
+        <EditText
+            android:id="@+id/etCompetitiveHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="היסטוריית תחרויות (אם יש)"
+            android:inputType="text"
+            android:layout_marginTop="8dp" />
 
-    <Button
-        android:id="@+id/btnSaveTrainerDetails"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Save Trainer Details"
-        android:layout_below="@id/etBio"
-        android:layout_marginTop="16dp" />
+        <!-- Training Locations -->
+        <EditText
+            android:id="@+id/etTrainingLocations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="מקומות בהם אתה מאמן"
+            android:inputType="text"
+            android:layout_marginTop="8dp" />
 
-</RelativeLayout>
+        <!-- Swimming Styles -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="סגנונות שחייה שאתה מאמן:"
+            android:textSize="16sp"
+            android:layout_marginTop="12dp" />
+
+        <CheckBox
+            android:id="@+id/cbFreestyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="חתירה" />
+
+        <CheckBox
+            android:id="@+id/cbBackstroke"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="גב" />
+
+        <CheckBox
+            android:id="@+id/cbBreaststroke"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="חזה" />
+
+        <CheckBox
+            android:id="@+id/cbButterfly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="פרפר" />
+
+        <!-- Lifeguard Certification -->
+        <CheckBox
+            android:id="@+id/cbLifeguardCertified"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="תעודת מציל"
+            android:layout_marginTop="12dp" />
+
+        <!-- Save Button -->
+        <Button
+            android:id="@+id/btnSaveTrainerDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="שמור פרטים"
+            android:layout_marginTop="16dp" />
+
+    </LinearLayout>
+</ScrollView>

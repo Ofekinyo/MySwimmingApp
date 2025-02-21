@@ -3,6 +3,7 @@ package com.ofekinyo.myswimmingapp.screens;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -30,6 +31,8 @@ public class Login extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference databaseReference;
 
+    User user=null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +42,7 @@ public class Login extends AppCompatActivity {
             User user = SharedPreferencesUtil.getUser(this);
             if (user != null) {
                 redirectToUserPage(user.getRole());
-                return;
+                return; // Ensure it returns here to stop execution
             }
         }
 
@@ -53,6 +56,14 @@ public class Login extends AppCompatActivity {
         etEmail = findViewById(R.id.et_login_email);
         etPassword = findViewById(R.id.et_login_password);
         btnLogin = findViewById(R.id.btn_login_login);
+        user=SharedPreferencesUtil.getUser(this);
+        if(user!=null){
+
+            etEmail.setText(user.getEmail());
+            etPassword.setText(user.getPassword());
+        }
+
+
 
         // Set up login button click listener
         btnLogin.setOnClickListener(v -> {
@@ -104,6 +115,9 @@ public class Login extends AppCompatActivity {
                                     SharedPreferencesUtil.saveUser(Login.this, user);
                                     navigateToPage(TrainerPage.class);
                                 }
+                            } else {
+                                // If user is not found in both nodes
+                                Toast.makeText(Login.this, "User not found in database", Toast.LENGTH_SHORT).show();
                             }
                         }
 

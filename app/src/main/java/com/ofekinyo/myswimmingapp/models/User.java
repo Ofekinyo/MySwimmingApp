@@ -3,11 +3,11 @@ package com.ofekinyo.myswimmingapp.models;
 import java.io.Serializable;
 
 public class User implements Serializable {
-    protected String id, Fname, Lname, email, password, gender, city, role;
-    protected int phone, age;
+    protected String id, Fname, Lname, email, password, gender, city, role,phone;
+    protected int  age;
 
     // Constructor with all parameters
-    public User(String id, String Fname, String Lname, int phone, String email, int age, String gender, String city, String password, String role) {
+    public User(String id, String Fname, String Lname, String phone, String email, int age, String gender, String city, String password, String role) {
         this.id = id;
         this.Fname = Fname;
         this.Lname = Lname;
@@ -48,11 +48,11 @@ public class User implements Serializable {
         this.Lname = lname;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
