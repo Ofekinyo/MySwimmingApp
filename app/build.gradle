@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace 'com.ofekinyo.myswimmingapp'
-    compileSdk 34 // updated to match the latest stable SDK
+    compileSdk 35 // updated to match the latest stable SDK
 
     defaultConfig {
         applicationId "com.ofekinyo.myswimmingapp"
-        minSdk 30
-        targetSdk 33 // updated to match the latest stable SDK
+        minSdk 35
+        targetSdk 35 // updated to match the latest stable SDK
         versionCode 1
         versionName "1.0"
 

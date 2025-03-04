@@ -22,8 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AllSessions extends AppCompatActivity implements OnSessionClickListener {
-    private RecyclerView recyclerView;
-    private SessionsAdapter sessionsAdapter;
+    private SessionsAdapter sessionsAdapter;    private RecyclerView recyclerView;
+
     private List<Session> sessionList;
     private DatabaseReference databaseReference;
 

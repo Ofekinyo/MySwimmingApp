@@ -1,5 +1,6 @@
 package com.ofekinyo.myswimmingapp.screens;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
@@ -7,7 +8,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -90,10 +90,9 @@ public class TrainerDetailsActivity extends AppCompatActivity {
         trainerDatabaseRef.updateChildren(trainerDetails).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Toast.makeText(TrainerDetailsActivity.this, "פרטי המאמן נשמרו בהצלחה!", Toast.LENGTH_LONG).show();
-                // Redirect to TrainerPage (not implemented here, add as needed)
-                // Intent intent = new Intent(TrainerDetailsActivity.this, TrainerPage.class);
-                // startActivity(intent);
-                // finish();
+                Intent intent = new Intent(TrainerDetailsActivity.this, TrainerPage.class);
+                startActivity(intent);
+                finish();
             } else {
                 Toast.makeText(TrainerDetailsActivity.this, "שגיאה בשמירת הנתונים", Toast.LENGTH_LONG).show();
             }

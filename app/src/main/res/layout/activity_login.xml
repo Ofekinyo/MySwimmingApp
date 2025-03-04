@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:id="@+id/main"
     tools:context=".screens.Login">
 
     <!-- Title or Header -->
@@ -26,13 +25,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:autofillHints="Email"
         android:hint="Email"
         android:inputType="textEmailAddress"
         android:padding="10dp"
-        android:textSize="16sp"
-        android:importantForAccessibility="yes"
-        android:contentDescription="Email field" />
+        android:textSize="16sp" />
 
     <!-- Password Field -->
     <EditText
@@ -40,23 +36,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:autofillHints="Password"
         android:hint="Password"
         android:inputType="textPassword"
         android:padding="10dp"
-        android:textSize="16sp"
-        android:importantForAccessibility="yes"
-        android:contentDescription="Password field" />
+        android:textSize="16sp" />
 
     <!-- Login Button -->
     <Button
-        android:id="@+id/btn_login_login"
+        android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:padding="10dp"
-        android:text="Login"
-        android:importantForAccessibility="yes"
-        android:contentDescription="Login button" />
+        android:text="Login" />
+
+    <!-- Signup Prompt -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Don't have an account yet?"
+        android:textSize="16sp"
+        android:textColor="@android:color/darker_gray" />
+
+    <!-- Signup Button -->
+    <Button
+        android:id="@+id/btnSignup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:padding="10dp"
+        android:text="Register Here" />
 
 </LinearLayout>

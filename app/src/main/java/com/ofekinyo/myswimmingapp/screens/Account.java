@@ -6,24 +6,34 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.ofekinyo.myswimmingapp.R;
 
 public class Account extends AppCompatActivity {
 
-    // Declare UI components
     private TextView tvFirstName, tvLastName, tvEmail, tvPhone, tvCity, tvGender, tvAge;
     private Button btnEditDetails, btnBack;
     private ImageView ivProfile;
+    private FirebaseAuth mAuth;
+    private DatabaseReference databaseReference;
+    private String userType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
 
-        // Initialize UI components
         Toolbar toolbar = findViewById(R.id.toolbar);
         ivProfile = findViewById(R.id.ivProfile);
         tvFirstName = findViewById(R.id.tvFirstName);
@@ -36,45 +46,88 @@ public class Account extends AppCompatActivity {
         btnEditDetails = findViewById(R.id.btnEditDetails);
         btnBack = findViewById(R.id.btnBack);
 
-        // Set up the toolbar
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("My Account");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        // Load user details (replace with real data fetching)
-        loadUserDetails();
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
 
-        // Set button click listeners
-        btnEditDetails.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Navigate to EditDetailsActivity (replace with your actual activity)
-                Intent intent = new Intent(Account.this, EditAccount.class);
-                startActivity(intent);
-            }
+        if (user != null) {
+            tvEmail.setText(user.getEmail());
+            getUserType(user.getUid());
+        } else {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+        btnEditDetails.setOnClickListener(v -> {
+            Intent intent = new Intent(Account.this, EditAccount.class);
+            startActivity(intent);
         });
 
-        btnBack.setOnClickListener(new View.OnClickListener() {
+        btnBack.setOnClickListener(v -> finish());
+    }
+
+    private void getUserType(String uid) {
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+
+        rootRef.child("Trainers").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
-                // Finish the current activity and return to the previous screen
-                finish();
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    userType = "Trainers";
+                    fetchUserData(uid, userType);
+                } else {
+                    rootRef.child("Trainees").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                userType = "Trainees";
+                                fetchUserData(uid, userType);
+                            } else {
+                                Toast.makeText(Account.this, "User data not found", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(Account.this, "Database Error", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(Account.this, "Database Error", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void loadUserDetails() {
-        // Simulate fetching user data (replace with real data from Firebase or other source)
-        ivProfile.setImageResource(R.drawable.default_profile); // Set a default profile image
-        tvFirstName.setText("שם פרטי: John");
-        tvLastName.setText("שם משפחה: Doe");
-        tvEmail.setText("אימייל: johndoe@example.com");
-        tvPhone.setText("טלפון: 123-456-7890");
-        tvCity.setText("עיר: Tel Aviv");
-        tvGender.setText("מגדר: Male");
-        tvAge.setText("גיל: 30");
+    private void fetchUserData(String uid, String userType) {
+        databaseReference = FirebaseDatabase.getInstance().getReference().child(userType).child(uid);
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    tvFirstName.setText("שם פרטי: " + snapshot.child("firstName").getValue(String.class));
+                    tvLastName.setText("שם משפחה: " + snapshot.child("lastName").getValue(String.class));
+                    tvPhone.setText("טלפון: " + snapshot.child("phone").getValue(String.class));
+                    tvCity.setText("עיר: " + snapshot.child("city").getValue(String.class));
+                    tvGender.setText("מגדר: " + snapshot.child("gender").getValue(String.class));
+                    tvAge.setText("גיל: " + snapshot.child("age").getValue(String.class));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(Account.this, "Failed to load data", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
