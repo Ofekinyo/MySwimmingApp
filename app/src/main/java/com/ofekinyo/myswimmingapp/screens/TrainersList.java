@@ -10,12 +10,17 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.ofekinyo.myswimmingapp.R;
-
 import java.util.ArrayList;
 
 public class TrainersList extends AppCompatActivity {
+
+    private DatabaseReference trainersDatabaseRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,21 +29,45 @@ public class TrainersList extends AppCompatActivity {
 
         ListView lvTrainers = findViewById(R.id.lvTrainers);
 
-        // Dummy data for trainers
-        ArrayList<Trainer> trainers = new ArrayList<>();
-        trainers.add(new Trainer("Chris Nissan", "john@example.com"));
-        trainers.add(new Trainer("Jane Smith", "jane@example.com"));
-        trainers.add(new Trainer("Emily Brown", "emily@example.com"));
+        // Initialize Firebase Database reference
+        trainersDatabaseRef = FirebaseDatabase.getInstance().getReference("Trainers");
 
-        // Set the adapter
-        TrainerAdapter adapter = new TrainerAdapter(this, trainers);
-        lvTrainers.setAdapter(adapter);
+        // ArrayList to store trainers
+        ArrayList<Trainer> trainers = new ArrayList<>();
+
+        // Attach a listener to retrieve trainers from Firebase
+        trainersDatabaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                trainers.clear();  // Clear the list before adding new data
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Trainer trainer = snapshot.getValue(Trainer.class);
+                    if (trainer != null) {
+                        trainers.add(trainer);  // Add trainer to the list
+                    }
+                }
+
+                // Set the adapter
+                TrainerAdapter adapter = new TrainerAdapter(TrainersList.this, trainers);
+                lvTrainers.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle possible errors
+            }
+        });
     }
 
     // Trainer class for data
     public static class Trainer {
         String name;
         String email;
+
+        public Trainer() {
+            // Default constructor required for calls to DataSnapshot.getValue(Trainer.class)
+        }
 
         public Trainer(String name, String email) {
             this.name = name;

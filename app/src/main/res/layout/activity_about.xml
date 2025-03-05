@@ -47,49 +47,17 @@
         android:id="@+id/tvContactEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="You can contact us at: contact@swimlink.com"
+        android:text="For inquiries, contact us at: ofekah2903@gmail.com"
         android:textSize="16sp"
         android:layout_marginBottom="16dp" />
 
-    <!-- Contact Email Button -->
+    <!-- Back Button -->
     <Button
-        android:id="@+id/btnContactEmail"
+        android:id="@+id/btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Send an Email"
+        android:text="Back"
         android:textSize="16sp"
         android:layout_marginBottom="16dp" />
 
-    <!-- Social Media Links -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Follow us on:"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="8dp" />
-
-    <Button
-        android:id="@+id/btnFacebook"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Facebook"
-        android:textSize="16sp"
-        android:layout_marginBottom="8dp" />
-
-    <Button
-        android:id="@+id/btnTwitter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Twitter"
-        android:textSize="16sp"
-        android:layout_marginBottom="24dp" />
-
-    <!-- Optional Image for branding (logo) -->
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/cropped_image"
-        android:contentDescription="SwimLink Logo"
-        android:layout_marginBottom="16dp" />
 </LinearLayout>

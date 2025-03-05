@@ -1,39 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:gravity="center"
+    android:background="@color/white">
 
-    <LinearLayout
+    <!-- Title -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="פרטי שחיין"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_gravity="center"
+        android:paddingBottom="20dp"/>
+
+    <!-- Height Input -->
+    <EditText
+        android:id="@+id/etHeight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:hint="הכנס גובה (סנטימטרים)"
+        android:inputType="numberDecimal"
+        android:padding="12dp"
+        android:background="@android:drawable/edit_text"
+        android:textSize="16sp"/>
 
-        <!-- Swimming Goals -->
-        <EditText
-            android:id="@+id/etSwimmingGoals"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="מטרות שחייה"
-            android:inputType="text"
-            android:layout_marginTop="8dp" />
+    <!-- Weight Input -->
+    <EditText
+        android:id="@+id/etWeight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="הכנס משקל (קילוגרם)"
+        android:inputType="numberDecimal"
+        android:padding="12dp"
+        android:background="@android:drawable/edit_text"
+        android:textSize="16sp"
+        android:layout_marginTop="12dp"/>
 
-        <!-- Training Locations -->
-        <EditText
-            android:id="@+id/etTrainingLocations"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="מקומות בהם אתה מתאמן"
-            android:inputType="text"
-            android:layout_marginTop="8dp" />
+    <!-- Goal Input -->
+    <EditText
+        android:id="@+id/etGoal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="הכנס מטרת אימון"
+        android:inputType="text"
+        android:padding="12dp"
+        android:background="@android:drawable/edit_text"
+        android:textSize="16sp"
+        android:layout_marginTop="12dp"/>
 
-        <!-- Save Button -->
-        <Button
-            android:id="@+id/btnSaveTraineeDetails"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="שמור פרטים"
-            android:layout_marginTop="16dp" />
+    <!-- Save Button -->
+    <Button
+        android:id="@+id/btnSaveTraineeDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="שמור פרטים"
+        android:textSize="18sp"
+        android:textColor="@android:color/white"
+        android:background="@color/button_blue"
+        android:padding="14dp"
+        android:layout_marginTop="20dp"/>
 
-    </LinearLayout>
-</ScrollView>
+</LinearLayout>

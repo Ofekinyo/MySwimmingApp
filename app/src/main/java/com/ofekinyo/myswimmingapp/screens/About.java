@@ -1,53 +1,54 @@
 package com.ofekinyo.myswimmingapp.screens;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.ofekinyo.myswimmingapp.R;
 
 public class About extends AppCompatActivity {
+
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
-        // Set app information
-        TextView appInfo = findViewById(R.id.tvAppInfo);
-        appInfo.setText("Welcome to SwimLink! This app connects trainers and trainees for a seamless swimming experience. You can track schedules, goals, and progress! With a user-friendly interface and advanced features, it’s perfect for all levels of swimming enthusiasts.");
+        mAuth = FirebaseAuth.getInstance();
 
-        // Set more information about the app
-        TextView moreInfo = findViewById(R.id.tvMoreInfo);
-        moreInfo.setText("Features:\n- Link trainers and trainees\n- Track progress and goals\n- Manage training schedules\n- Receive personalized swimming tips\n\nBenefits:\n- Enhances learning experience\n- Connects users with experts\n- Promotes healthy living");
+        // Initialize Back Button
+        Button btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> navigateToCorrectPage());
+    }
 
-        // Set contact email
-        TextView contactEmail = findViewById(R.id.tvContactEmail);
-        contactEmail.setText("For inquiries, contact us at: contact@swimlink.com");
+    private void navigateToCorrectPage() {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
 
-        // Set up email button functionality
-        Button emailButton = findViewById(R.id.btnContactEmail);
-        emailButton.setOnClickListener(v -> {
-            Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-            emailIntent.setData(Uri.parse("mailto:contact@swimlink.com"));
-            startActivity(Intent.createChooser(emailIntent, "Send Email"));
-        });
+        if (currentUser != null) {
+            // Check if the user is a trainer or trainee (Assume there is a field to distinguish them)
+            String userType = getUserType(currentUser.getUid()); // Replace with your method to check the user type
 
-        // Set up social media buttons
-        Button facebookButton = findViewById(R.id.btnFacebook);
-        facebookButton.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/SwimLink"));
-            startActivity(intent);
-        });
+            if ("trainer".equals(userType)) {
+                // Navigate to TrainerPage
+                Intent intent = new Intent(About.this, TrainerPage.class);
+                startActivity(intent);
+            } else {
+                // Navigate to TraineePage
+                Intent intent = new Intent(About.this, TraineePage.class);
+                startActivity(intent);
+            }
+        }
+    }
 
-        Button twitterButton = findViewById(R.id.btnTwitter);
-        twitterButton.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/SwimLink"));
-            startActivity(intent);
-        });
+    private String getUserType(String userId) {
+        // Your logic to check the user type (trainer or trainee)
+        // This could be a database lookup in Firebase or some other method.
+        return "trainer"; // Placeholder - replace with actual implementation
     }
 }

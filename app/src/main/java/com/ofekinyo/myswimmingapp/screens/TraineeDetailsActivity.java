@@ -7,15 +7,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 import com.ofekinyo.myswimmingapp.R;
 
 import java.util.HashMap;
@@ -23,7 +19,7 @@ import java.util.Map;
 
 public class TraineeDetailsActivity extends AppCompatActivity {
 
-    private EditText etSwimmingGoals, etTrainingLocations;
+    private EditText etHeight, etWeight, etGoal; // Add the new input field for goal
     private Button btnSaveTraineeDetails;
     private DatabaseReference traineeDatabaseRef;
     private FirebaseAuth mAuth;
@@ -38,35 +34,43 @@ public class TraineeDetailsActivity extends AppCompatActivity {
         userId = mAuth.getCurrentUser().getUid();
         traineeDatabaseRef = FirebaseDatabase.getInstance().getReference("Trainees").child(userId);
 
-        etSwimmingGoals = findViewById(R.id.etSwimmingGoals);
-        etTrainingLocations = findViewById(R.id.etTrainingLocations);
-
+        etHeight = findViewById(R.id.etHeight);
+        etWeight = findViewById(R.id.etWeight);
+        etGoal = findViewById(R.id.etGoal); // Initialize the new input field
         btnSaveTraineeDetails = findViewById(R.id.btnSaveTraineeDetails);
 
         btnSaveTraineeDetails.setOnClickListener(v -> saveTraineeDetails());
     }
 
     private void saveTraineeDetails() {
-        String swimmingGoals = etSwimmingGoals.getText().toString().trim();
-        String trainingLocations = etTrainingLocations.getText().toString().trim();
+        String heightStr = etHeight.getText().toString().trim();
+        String weightStr = etWeight.getText().toString().trim();
+        String goal = etGoal.getText().toString().trim(); // Get the value of the new field
 
-        if (TextUtils.isEmpty(swimmingGoals)) {
-            etSwimmingGoals.setError("יש להזין מטרות שחייה");
+        if (TextUtils.isEmpty(heightStr)) {
+            etHeight.setError("יש להזין גובה");
+            return;
+        }
+        if (TextUtils.isEmpty(weightStr)) {
+            etWeight.setError("יש להזין משקל");
+            return;
+        }
+        if (TextUtils.isEmpty(goal)) {  // Check if goal is empty
+            etGoal.setError("יש להזין מטרת אימון");
             return;
         }
 
-        if (TextUtils.isEmpty(trainingLocations)) {
-            etTrainingLocations.setError("יש להזין מקומות אימון");
-            return;
-        }
+        double height = Double.parseDouble(heightStr);
+        double weight = Double.parseDouble(weightStr);
 
         Map<String, Object> traineeDetails = new HashMap<>();
-        traineeDetails.put("swimmingGoals", swimmingGoals);
-        traineeDetails.put("trainingLocations", trainingLocations);
+        traineeDetails.put("height", height);
+        traineeDetails.put("weight", weight);
+        traineeDetails.put("goal", goal); // Add the goal to the data
 
         traineeDatabaseRef.updateChildren(traineeDetails).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                Toast.makeText(TraineeDetailsActivity.this, "פרטי הטרייני נשמרו בהצלחה!", Toast.LENGTH_LONG).show();
+                Toast.makeText(TraineeDetailsActivity.this, "פרטי השחיין נשמרו בהצלחה!", Toast.LENGTH_LONG).show();
                 navigateToPage(); // Navigate to the appropriate page after saving
             } else {
                 Toast.makeText(TraineeDetailsActivity.this, "שגיאה בשמירת הנתונים", Toast.LENGTH_LONG).show();

@@ -21,6 +21,7 @@ public class TraineePage extends AppCompatActivity {
         Button btnAllSessions = findViewById(R.id.btnAllSessions);
         Button btnSessionDetails = findViewById(R.id.btnSessionDetails);
         Button btnLogout = findViewById(R.id.btnLogout);
+        Button btnAbout = findViewById(R.id.btnAbout); // New "About" button
 
         // Set button click listeners
         btnTrainersList.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +61,16 @@ public class TraineePage extends AppCompatActivity {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
+            }
+        });
+
+        // Set listener for "About" button
+        btnAbout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate to About activity
+                Intent intent = new Intent(TraineePage.this, About.class);
+                startActivity(intent);
             }
         });
     }

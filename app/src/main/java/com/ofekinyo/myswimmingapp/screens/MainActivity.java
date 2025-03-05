@@ -6,7 +6,6 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,19 +42,21 @@ public class MainActivity extends AppCompatActivity {
             startActivity(registerIntent);
         });
 
-        // Check user status
+        // Check user status when MainActivity is started
         checkUserStatus();
     }
 
     private void checkUserStatus() {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            // If a user is logged in, log them out and stay on the MainActivity
-            Log.d(TAG, "User is logged in. Logging out...");
-            mAuth.signOut();
-        } else {
-            // No user is logged in, stay on MainActivity
-            Log.d(TAG, "No user logged in. Staying on MainActivity.");
+            // User is logged in, but don't sign them out. Just handle it in Login activity.
+            Log.d(TAG, "User is logged in.");
+            navigateToAppropriatePage();
         }
+    }
+
+    private void navigateToAppropriatePage() {
+        // Optionally, check the user type here if you want to navigate to a specific page.
+        // For now, just stay on MainActivity or redirect them to the appropriate page.
     }
 }

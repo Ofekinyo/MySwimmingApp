@@ -9,72 +9,43 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <!-- Title (Headline) -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="פרטי מדריך"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_gravity="center"
+            android:paddingBottom="20dp"/>
+
         <!-- Experience -->
         <EditText
-            android:id="@+id/etExperienceYears"
+            android:id="@+id/etExperience"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="שנות ניסיון"
             android:inputType="number"
             android:layout_marginTop="8dp" />
 
-        <!-- Competitive History -->
+        <!-- Domain -->
         <EditText
-            android:id="@+id/etCompetitiveHistory"
+            android:id="@+id/etDomain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="היסטוריית תחרויות (אם יש)"
+            android:hint="תחום התמחות"
             android:inputType="text"
             android:layout_marginTop="8dp" />
 
-        <!-- Training Locations -->
+        <!-- Price -->
         <EditText
-            android:id="@+id/etTrainingLocations"
+            android:id="@+id/etPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="מקומות בהם אתה מאמן"
-            android:inputType="text"
+            android:hint="מחיר לשיעור"
+            android:inputType="numberDecimal"
             android:layout_marginTop="8dp" />
-
-        <!-- Swimming Styles -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="סגנונות שחייה שאתה מאמן:"
-            android:textSize="16sp"
-            android:layout_marginTop="12dp" />
-
-        <CheckBox
-            android:id="@+id/cbFreestyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="חתירה" />
-
-        <CheckBox
-            android:id="@+id/cbBackstroke"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="גב" />
-
-        <CheckBox
-            android:id="@+id/cbBreaststroke"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="חזה" />
-
-        <CheckBox
-            android:id="@+id/cbButterfly"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="פרפר" />
-
-        <!-- Lifeguard Certification -->
-        <CheckBox
-            android:id="@+id/cbLifeguardCertified"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="תעודת מציל"
-            android:layout_marginTop="12dp" />
 
         <!-- Save Button -->
         <Button
@@ -82,7 +53,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="שמור פרטים"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/button_blue"
+            android:textColor="@android:color/white"/>
 
     </LinearLayout>
 </ScrollView>

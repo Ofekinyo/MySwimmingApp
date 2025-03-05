@@ -4,10 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,8 +20,7 @@ import java.util.Map;
 
 public class TrainerDetailsActivity extends AppCompatActivity {
 
-    private EditText etExperienceYears, etCompetitiveHistory, etTrainingLocations;
-    private CheckBox cbFreestyle, cbBackstroke, cbBreaststroke, cbButterfly, cbLifeguardCertified;
+    private EditText etExperience, etDomain, etPrice;
     private Button btnSaveTrainerDetails;
     private DatabaseReference trainerDatabaseRef;
     private FirebaseAuth mAuth;
@@ -36,66 +35,51 @@ public class TrainerDetailsActivity extends AppCompatActivity {
         userId = mAuth.getCurrentUser().getUid();
         trainerDatabaseRef = FirebaseDatabase.getInstance().getReference("Trainers").child(userId);
 
-        etExperienceYears = findViewById(R.id.etExperienceYears);
-        etCompetitiveHistory = findViewById(R.id.etCompetitiveHistory);
-        etTrainingLocations = findViewById(R.id.etTrainingLocations);
-
-        cbFreestyle = findViewById(R.id.cbFreestyle);
-        cbBackstroke = findViewById(R.id.cbBackstroke);
-        cbBreaststroke = findViewById(R.id.cbBreaststroke);
-        cbButterfly = findViewById(R.id.cbButterfly);
-        cbLifeguardCertified = findViewById(R.id.cbLifeguardCertified);
-
+        etExperience = findViewById(R.id.etExperience);
+        etDomain = findViewById(R.id.etDomain);
+        etPrice = findViewById(R.id.etPrice);
         btnSaveTrainerDetails = findViewById(R.id.btnSaveTrainerDetails);
 
         btnSaveTrainerDetails.setOnClickListener(v -> saveTrainerDetails());
     }
 
     private void saveTrainerDetails() {
-        String experienceYears = etExperienceYears.getText().toString().trim();
-        String competitiveHistory = etCompetitiveHistory.getText().toString().trim();
-        String trainingLocations = etTrainingLocations.getText().toString().trim();
+        String experience = etExperience.getText().toString().trim();
+        String domain = etDomain.getText().toString().trim();
+        String priceStr = etPrice.getText().toString().trim();
 
-        if (TextUtils.isEmpty(experienceYears)) {
-            etExperienceYears.setError("יש להזין מספר שנות ניסיון");
+        if (TextUtils.isEmpty(experience)) {
+            etExperience.setError("יש להזין מספר שנות ניסיון");
+            return;
+        }
+        if (TextUtils.isEmpty(domain)) {
+            etDomain.setError("יש להזין תחום התמחות");
+            return;
+        }
+        if (TextUtils.isEmpty(priceStr)) {
+            etPrice.setError("יש להזין מחיר לשיעור");
             return;
         }
 
-        if (TextUtils.isEmpty(trainingLocations)) {
-            etTrainingLocations.setError("יש להזין מקומות אימון");
-            return;
-        }
-
-        // Get selected swimming styles
-        StringBuilder swimmingStyles = new StringBuilder();
-        if (cbFreestyle.isChecked()) swimmingStyles.append("Freestyle, ");
-        if (cbBackstroke.isChecked()) swimmingStyles.append("Backstroke, ");
-        if (cbBreaststroke.isChecked()) swimmingStyles.append("Breaststroke, ");
-        if (cbButterfly.isChecked()) swimmingStyles.append("Butterfly, ");
-
-        // Remove trailing comma
-        if (swimmingStyles.length() > 0) {
-            swimmingStyles.setLength(swimmingStyles.length() - 2);
-        }
-
-        boolean isLifeguardCertified = cbLifeguardCertified.isChecked();
+        double price = Double.parseDouble(priceStr);
 
         Map<String, Object> trainerDetails = new HashMap<>();
-        trainerDetails.put("experienceYears", experienceYears);
-        trainerDetails.put("competitiveHistory", competitiveHistory);
-        trainerDetails.put("trainingLocations", trainingLocations);
-        trainerDetails.put("swimmingStyles", swimmingStyles.toString());
-        trainerDetails.put("isLifeguardCertified", isLifeguardCertified);
+        trainerDetails.put("experience", Integer.parseInt(experience));
+        trainerDetails.put("domain", domain);
+        trainerDetails.put("price", price);
 
         trainerDatabaseRef.updateChildren(trainerDetails).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                Toast.makeText(TrainerDetailsActivity.this, "פרטי המאמן נשמרו בהצלחה!", Toast.LENGTH_LONG).show();
+                Toast.makeText(TrainerDetailsActivity.this, "פרטי המדריך נשמרו בהצלחה!", Toast.LENGTH_LONG).show();
+
+                // Redirect to TrainerPage
                 Intent intent = new Intent(TrainerDetailsActivity.this, TrainerPage.class);
                 startActivity(intent);
-                finish();
+                finish(); // Close the current activity
             } else {
                 Toast.makeText(TrainerDetailsActivity.this, "שגיאה בשמירת הנתונים", Toast.LENGTH_LONG).show();
             }
         });
     }
+
 }
