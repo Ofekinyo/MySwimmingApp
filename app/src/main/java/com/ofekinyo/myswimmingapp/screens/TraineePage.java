@@ -21,57 +21,43 @@ public class TraineePage extends AppCompatActivity {
         Button btnAllSessions = findViewById(R.id.btnAllSessions);
         Button btnSessionDetails = findViewById(R.id.btnSessionDetails);
         Button btnLogout = findViewById(R.id.btnLogout);
-        Button btnAbout = findViewById(R.id.btnAbout); // New "About" button
+        Button btnAbout = findViewById(R.id.btnAbout);
+        Button btnAdminPage = findViewById(R.id.btnAdminPage); // New Admin Page button
 
         // Set button click listeners
-        btnTrainersList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Navigate to TrainersList activity
-                Intent intent = new Intent(TraineePage.this, TrainersList.class);
-                startActivity(intent);
-            }
+        btnTrainersList.setOnClickListener(v -> {
+            Intent intent = new Intent(TraineePage.this, TrainersList.class);
+            startActivity(intent);
         });
 
-        btnAllSessions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Navigate to AllSessions activity
-                Intent intent = new Intent(TraineePage.this, AllSessions.class);
-                startActivity(intent);
-            }
+        btnAllSessions.setOnClickListener(v -> {
+            Intent intent = new Intent(TraineePage.this, AllSessions.class);
+            startActivity(intent);
         });
 
-        btnSessionDetails.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Navigate to SessionDetails activity
-                Intent intent = new Intent(TraineePage.this, SessionDetails.class);
-                startActivity(intent);
-            }
+        btnSessionDetails.setOnClickListener(v -> {
+            Intent intent = new Intent(TraineePage.this, SessionDetails.class);
+            startActivity(intent);
         });
 
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Logout the user
-                SharedPreferencesUtil.signOutUser(TraineePage.this);
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(TraineePage.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
-            }
+        btnLogout.setOnClickListener(v -> {
+            SharedPreferencesUtil.signOutUser(TraineePage.this);
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(TraineePage.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
         });
 
-        // Set listener for "About" button
-        btnAbout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Navigate to About activity
-                Intent intent = new Intent(TraineePage.this, About.class);
-                startActivity(intent);
-            }
+        btnAbout.setOnClickListener(v -> {
+            Intent intent = new Intent(TraineePage.this, About.class);
+            startActivity(intent);
+        });
+
+        // Navigate to Admin Page
+        btnAdminPage.setOnClickListener(v -> {
+            Intent intent = new Intent(TraineePage.this, AdminVerification.class);
+            startActivity(intent);
         });
     }
 }

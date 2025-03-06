@@ -1,5 +1,6 @@
 package com.ofekinyo.myswimmingapp.screens;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,37 +18,30 @@ public class AdminPage extends AppCompatActivity {
         setContentView(R.layout.activity_admin_page);
 
         // Initialize buttons
-        Button editUserButton = findViewById(R.id.btnEditUser);
+        Button editUserButton = findViewById(R.id.btnUsersList);
         Button deleteUserButton = findViewById(R.id.btnDeleteUser);
         Button addUserButton = findViewById(R.id.btnAddUser);
         Button disableUserButton = findViewById(R.id.btnDisableUser);
 
-        // Edit User Button functionality
+        // Navigate to EditUser Activity
         editUserButton.setOnClickListener(v -> {
-            // Implement user editing logic (e.g., open a form to edit user details)
-            Toast.makeText(AdminPage.this, "Edit User clicked", Toast.LENGTH_SHORT).show();
-            // Navigate to another activity or show edit form
+            Intent intent = new Intent(AdminPage.this, UsersList.class);
+            startActivity(intent);
         });
 
         // Delete User Button functionality
         deleteUserButton.setOnClickListener(v -> {
-            // Implement user deletion logic
             Toast.makeText(AdminPage.this, "Delete User clicked", Toast.LENGTH_SHORT).show();
-            // Delete selected user or show a confirmation dialog
         });
 
         // Add New User Button functionality
         addUserButton.setOnClickListener(v -> {
-            // Implement add new user functionality
             Toast.makeText(AdminPage.this, "Add New User clicked", Toast.LENGTH_SHORT).show();
-            // Open form to add a new user
         });
 
         // Disable User Button functionality
         disableUserButton.setOnClickListener(v -> {
-            // Implement disable user functionality
             Toast.makeText(AdminPage.this, "Disable User clicked", Toast.LENGTH_SHORT).show();
-            // Disable selected user (could be marked as inactive in database)
         });
     }
 }

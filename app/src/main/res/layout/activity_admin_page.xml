@@ -18,10 +18,10 @@
 
     <!-- Button to Edit User -->
     <Button
-        android:id="@+id/btnEditUser"
+        android:id="@+id/btnUsersList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Edit User"
+        android:text="Users list"
         android:backgroundTint="@color/button_blue"
         android:textColor="@color/white"
         android:textStyle="bold"
