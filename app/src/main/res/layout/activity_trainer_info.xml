@@ -1,81 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp"
-        android:gravity="center_horizontal">
+        android:padding="8dp">
 
-        <!-- Title -->
+        <!-- Trainer Name -->
         <TextView
+            android:id="@+id/tvTrainerName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="פרטי המאמן"
-            android:textSize="22sp"
+            android:text="Trainer Name"
+            android:textSize="18sp"
             android:textStyle="bold"
-            android:gravity="center"
-            android:paddingBottom="10dp"/>
+            android:layout_marginBottom="8dp" />
 
-        <!-- Profile Image -->
-
-        <!-- Experience Section -->
+        <!-- Email -->
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ניסיון (שנים)"
+            android:text="Email:"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:paddingTop="10dp"/>
-
-        <TextView
-            android:id="@+id/experienceTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="טוען..."
-            android:textSize="16sp"/>
-
-        <!-- Certifications Section -->
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="הסמכות"
+            android:layout_marginBottom="4dp" />
+        <TextView
+            android:id="@+id/tvEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Phone -->
+        <TextView
+            android:text="Phone:"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:paddingTop="10dp"/>
-
-        <TextView
-            android:id="@+id/certificationsTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="טוען..."
-            android:textSize="16sp"/>
-
-        <!-- Certification File Download -->
-        <Button
-            android:id="@+id/btnDownloadCert"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="הורדת קובץ הסמכה"
-            android:layout_marginTop="5dp"/>
-
-        <!-- Biography Section -->
+            android:layout_marginBottom="4dp" />
         <TextView
+            android:id="@+id/tvPhone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ביוגרפיה"
+            android:text="Phone Number"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Age -->
+        <TextView
+            android:text="Age:"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:paddingTop="10dp"/>
-
-        <TextView
-            android:id="@+id/bioTextView"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="טוען..."
-            android:textSize="16sp"/>
+            android:layout_marginBottom="4dp" />
+        <TextView
+            android:id="@+id/tvAge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Age"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Gender -->
+        <TextView
+            android:text="Gender:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp" />
+        <TextView
+            android:id="@+id/tvGender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gender"
+            android:layout_marginBottom="16dp" />
+
+        <!-- City -->
+        <TextView
+            android:text="City:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp" />
+        <TextView
+            android:id="@+id/tvCity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="City"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Price -->
+        <TextView
+            android:text="Price:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp" />
+        <TextView
+            android:id="@+id/tvPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Price"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Experience -->
+        <TextView
+            android:text="Experience (Years):"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp" />
+        <TextView
+            android:id="@+id/tvExperience"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Experience"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Training Types -->
+        <TextView
+            android:text="Training Types:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp" />
+        <TextView
+            android:id="@+id/tvTrainingTypes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Training Types" />
 
     </LinearLayout>
+
 </ScrollView>

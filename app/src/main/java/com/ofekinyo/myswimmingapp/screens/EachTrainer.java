@@ -26,7 +26,6 @@ public class EachTrainer extends AppCompatActivity {
         // Get trainer data from the Intent
         Intent intent = getIntent();
         String trainerName = intent.getStringExtra("trainerName");
-        String trainerEmail = intent.getStringExtra("trainerEmail");
 
         // Set trainer name on the TextView
         tvTrainerName.setText(trainerName);
@@ -42,9 +41,9 @@ public class EachTrainer extends AppCompatActivity {
         // Handle More Info button click
         btnMoreInfo.setOnClickListener(v -> {
             // Show more info about the trainer (if necessary)
-            Intent moreInfoIntent = new Intent(EachTrainer.this, TrainerDetailsActivity.class);
-            moreInfoIntent.putExtra("trainerName", trainerName);
-            moreInfoIntent.putExtra("trainerEmail", trainerEmail);
+            // Since you only need the name, we don’t need to pass the email here
+            Intent moreInfoIntent = new Intent(EachTrainer.this, TrainerInfo.class);
+            moreInfoIntent.putExtra("trainerName", trainerName); // Only passing the name
             startActivity(moreInfoIntent);
         });
     }

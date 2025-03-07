@@ -1,79 +1,109 @@
 package com.ofekinyo.myswimmingapp.screens;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.widget.Button;
+import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ofekinyo.myswimmingapp.R;
+import java.util.ArrayList;
 
 public class TrainerInfo extends AppCompatActivity {
-    private TextView experienceTextView, certificationsTextView, bioTextView;
-    private Button downloadCertButton;
-    private DatabaseReference trainerRef;
-    private String trainerId, certUrl;
+
+    private TextView tvTrainerName, tvEmail, tvPhone, tvAge, tvGender, tvCity, tvPrice, tvExperience, tvTrainingTypes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainer_info);
 
-        // Initialize UI components
-        experienceTextView = findViewById(R.id.experienceTextView);
-        certificationsTextView = findViewById(R.id.certificationsTextView);
-        bioTextView = findViewById(R.id.bioTextView);
-        downloadCertButton = findViewById(R.id.btnDownloadCert);
+        tvTrainerName = findViewById(R.id.tvTrainerName);
+        tvEmail = findViewById(R.id.tvEmail);
+        tvPhone = findViewById(R.id.tvPhone);
+        tvAge = findViewById(R.id.tvAge);
+        tvGender = findViewById(R.id.tvGender);
+        tvCity = findViewById(R.id.tvCity);
+        tvPrice = findViewById(R.id.tvPrice);
+        tvExperience = findViewById(R.id.tvExperience);
+        tvTrainingTypes = findViewById(R.id.tvTrainingTypes);
 
-        // Get Trainer ID from Intent
-        trainerId = getIntent().getStringExtra("trainerId");
+        // Get the trainer's ID passed from the previous activity
+        String trainerId = getIntent().getStringExtra("trainerId");
 
-        // Reference to Firebase
-        trainerRef = FirebaseDatabase.getInstance().getReference("Trainers").child(trainerId);
+        if (trainerId == null) {
+            Log.e("TrainerInfo", "Trainer ID is null!");
+            return;
+        }
 
-        // Fetch Trainer Data
-        loadTrainerInfo();
+        // Fetch trainer details from Firebase based on the trainer's ID
+        DatabaseReference trainerRef = FirebaseDatabase.getInstance().getReference("Trainers").child(trainerId);
 
-        // Handle Certification File Download
-        downloadCertButton.setOnClickListener(v -> {
-            if (certUrl != null) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(certUrl));
-                startActivity(browserIntent);
-            } else {
-                Toast.makeText(TrainerInfo.this, "No certification file found", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void loadTrainerInfo() {
         trainerRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    String experience = snapshot.child("experience").getValue(String.class);
-                    String certifications = snapshot.child("certifications").getValue(String.class);
-                    String bio = snapshot.child("bio").getValue(String.class);
-                    certUrl = snapshot.child("certFileUrl").getValue(String.class);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // Log the entire data snapshot for debugging
+                    Log.d("TrainerInfo", "DataSnapshot: " + dataSnapshot.toString());
 
-                    // Set values to UI
-                    experienceTextView.setText(experience + " שנים");
-                    certificationsTextView.setText(certifications);
-                    bioTextView.setText(bio);
+                    // Extract trAgainer details from the database
+                    String firstName = dataSnapshot.child("Fname").getValue(String.class);
+                    String lastName = dataSnapshot.child("Lname").getValue(String.class);
+                    String email = dataSnapshot.child("email").getValue(String.class);
+                    String phone = dataSnapshot.child("phone").getValue(String.class);
+                    Integer age = dataSnapshot.child("age").getValue(Integer.class);
+                    String gender = dataSnapshot.child("gender").getValue(String.class);
+                    String city = dataSnapshot.child("city").getValue(String.class);
+                    Double price = dataSnapshot.child("price").getValue(Double.class);
+                    Integer experience = dataSnapshot.child("experience").getValue(Integer.class);
+
+                    // Log the fetched data for debugging
+                    Log.d("TrainerInfo", "Fetched Data: Fname = " + firstName + ", Lname = " + lastName + ", Email = " + email);
+
+                    // Check if firstName or lastName is null
+                    if (firstName == null) {
+                        Log.w("TrainerInfo", "First name is null for trainer " + trainerId);
+                        firstName = "Unknown";  // Default to "Unknown" if null
+                    }
+                    if (lastName == null) {
+                        Log.w("TrainerInfo", "Last name is null for trainer " + trainerId);
+                        lastName = "Unknown";  // Default to "Unknown" if null
+                    }
+
+                    // Log the updated names
+                    Log.d("TrainerInfo", "Trainer Name: " + firstName + " " + lastName);
+
+                    // Display the trainer's details in the corresponding TextViews
+                    String name = firstName + " " + lastName;  // Concatenate first and last name
+                    tvTrainerName.setText(name);
+                    tvEmail.setText(email != null ? email : "Not available");
+                    tvPhone.setText(phone != null ? phone : "Not available");
+                    tvAge.setText(age != null ? String.valueOf(age) : "Not available");
+                    tvGender.setText(gender != null ? gender : "Not available");
+                    tvCity.setText(city != null ? city : "Not available");
+                    tvPrice.setText(price != null ? String.format("$%.2f", price) : "Not available");
+                    tvExperience.setText(experience != null ? String.valueOf(experience) : "Not available");
+
+                    // Display trainingTypes as a comma-separated string
+                    ArrayList<String> trainingTypes = (ArrayList<String>) dataSnapshot.child("trainingTypes").getValue();
+                    if (trainingTypes != null) {
+                        tvTrainingTypes.setText(String.join(", ", trainingTypes));
+                    } else {
+                        tvTrainingTypes.setText("Not available");
+                    }
+                } else {
+                    Log.e("TrainerInfo", "Trainer not found in the database");
                 }
             }
 
+
+
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(TrainerInfo.this, "Failed to load trainer info", Toast.LENGTH_SHORT).show();
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("TrainerInfo", "Failed to read data", databaseError.toException());
             }
         });
     }

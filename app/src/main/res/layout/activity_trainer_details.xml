@@ -29,15 +29,6 @@
             android:inputType="number"
             android:layout_marginTop="8dp" />
 
-        <!-- Domain -->
-        <EditText
-            android:id="@+id/etDomain"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="תחום התמחות"
-            android:inputType="text"
-            android:layout_marginTop="8dp" />
-
         <!-- Price -->
         <EditText
             android:id="@+id/etPrice"
@@ -46,6 +37,51 @@
             android:hint="מחיר לשיעור"
             android:inputType="numberDecimal"
             android:layout_marginTop="8dp" />
+
+        <!-- Training Types Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="בחר סוגי שיעורים:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"/>
+
+        <CheckBox
+            android:id="@+id/cbBeginner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="שחייה למתחילים" />
+
+        <CheckBox
+            android:id="@+id/cbAdvanced"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="טכניקה מתקדמת" />
+
+        <CheckBox
+            android:id="@+id/cbCompetitive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="אימוני תחרות" />
+
+        <CheckBox
+            android:id="@+id/cbSafety"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="בטיחות והישרדות במים" />
+
+        <CheckBox
+            android:id="@+id/cbRehab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="שיקום וטיפול במים" />
+
+        <CheckBox
+            android:id="@+id/cbInfants"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="שחייה לתינוקות ופעוטות" />
 
         <!-- Save Button -->
         <Button

@@ -1,27 +1,33 @@
 package com.ofekinyo.myswimmingapp.models;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Trainer extends User implements Serializable {
-    private String domain;  // Area of expertise (e.g., fitness, sports)
+    private List<String> trainingTypes;  // List of training types (e.g., swimming, fitness)
     private double price;   // Coaching price
     private int experience; // Number of years of experience
 
+    // No-argument constructor required by Firebase
+    public Trainer() {
+        // Firebase requires a no-argument constructor
+    }
+
     // Constructor with all parameters
-    public Trainer(String id, String Fname, String Lname, String phone, String email, int age, String password, String gender, String city, String role, String domain, int experience, double price) {
+    public Trainer(String id, String Fname, String Lname, String phone, String email, int age, String password, String gender, String city, String role, List<String> trainingTypes, int experience, double price) {
         super(id, Fname, Lname, phone, email, age, gender, city, password, role);
-        this.domain = domain;
+        this.trainingTypes = trainingTypes;
         this.experience = experience;
         this.price = price;
     }
 
     // Getters and Setters
-    public String getDomain() {
-        return domain;
+    public List<String> getTrainingTypes() {
+        return trainingTypes;
     }
 
-    public void setDomain(String domain) {
-        this.domain = domain;
+    public void setTrainingTypes(List<String> trainingTypes) {
+        this.trainingTypes = trainingTypes;
     }
 
     public double getPrice() {
@@ -40,16 +46,21 @@ public class Trainer extends User implements Serializable {
         this.experience = experience;
     }
 
+    // Method to get the full name of the Trainer
+    public String getName() {
+        return Fname + " " + Lname;
+    }
+
     @Override
     public String toString() {
         return "Trainer{" +
-                "domain='" + domain + '\'' +
+                "trainingTypes=" + trainingTypes +
                 ", price=" + price +
                 ", experience=" + experience +
                 ", id='" + id + '\'' +
                 ", Fname='" + Fname + '\'' +
                 ", Lname='" + Lname + '\'' +
-                ", phone=" + phone +
+                ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", gender='" + gender + '\'' +

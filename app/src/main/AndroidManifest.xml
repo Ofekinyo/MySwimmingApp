@@ -16,12 +16,6 @@
             android:name=".screens.UsersList"
             android:exported="false" />
         <activity
-            android:name=".MenuMain"
-            android:exported="false" />
-        <activity
-            android:name=".screens.BasicActivity"
-            android:exported="false" />
-        <activity
             android:name=".screens.EditUser"
             android:exported="false" />
         <activity
@@ -40,16 +34,10 @@
             android:name=".screens.ItemMySession"
             android:exported="false" />
         <activity
-            android:name=".item_my_session"
-            android:exported="false" />
-        <activity
             android:name=".adapters.MySessionsAdapter"
             android:exported="false" />
         <activity
             android:name=".adapters.ScheduleAdapter"
-            android:exported="false" />
-        <activity
-            android:name=".screens.ManageSessionAdapter"
             android:exported="false" />
         <activity
             android:name=".screens.SessionManagement"
