@@ -51,12 +51,12 @@
         android:elevation="4dp"
         android:layout_marginBottom="16dp" />
 
-    <!-- Session Management Button -->
+    <!-- Session Requests Button (Updated name) -->
     <Button
-        android:id="@+id/btnSessionManagement"
+        android:id="@+id/btnSessionRequests"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Session Management"
+        android:text="Session Requests"
         android:backgroundTint="@color/yellow"
         android:textColor="@color/white"
         android:textStyle="bold"
@@ -79,8 +79,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Admin Page" />
-
-
 
     <!-- Logout Button -->
     <Button

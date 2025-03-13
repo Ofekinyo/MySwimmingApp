@@ -1,4 +1,4 @@
-package com.ofekinyo.myswimmingapp.screens;
+/*package com.ofekinyo.myswimmingapp.screens;
 
 import android.os.Bundle;
 import android.view.View;
@@ -116,3 +116,4 @@ public class SessionManagement extends AppCompatActivity implements OnSessionCli
         // You can add logic to edit the session or show details
     }
 }
+*/

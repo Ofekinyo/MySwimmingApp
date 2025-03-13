@@ -6,20 +6,6 @@
     android:padding="16dp"
     android:gravity="center">
 
-    <!-- Session Type Spinner -->
-    <TextView
-        android:id="@+id/tvSessionType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Session Type"
-        android:textSize="18sp"
-        android:layout_marginBottom="8dp" />
-
-    <Spinner
-        android:id="@+id/spinnerSessionType"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <!-- Length of Session Input -->
     <TextView
         android:id="@+id/tvLength"
@@ -50,7 +36,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter session date (YYYY-MM-DD)"
-        android:inputType="date" />
+        android:focusable="false"
+        android:clickable="true"
+        android:inputType="none" />
+
 
     <!-- Goals Input -->
     <TextView
@@ -61,12 +50,46 @@
         android:textSize="18sp"
         android:layout_marginTop="16dp" />
 
-    <EditText
-        android:id="@+id/etGoals"
+    <LinearLayout
+        android:id="@+id/llGoals"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter goals"
-        android:inputType="text" />
+        android:orientation="vertical"
+        android:layout_marginTop="8dp">
+
+        <!-- Common goals checkboxes -->
+        <CheckBox
+            android:id="@+id/cbGoal1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Improve technique" />
+
+        <CheckBox
+            android:id="@+id/cbGoal2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Increase stamina" />
+
+        <CheckBox
+            android:id="@+id/cbGoal3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Speed improvement" />
+
+        <!-- Other goals -->
+        <CheckBox
+            android:id="@+id/cbOther"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Other" />
+
+        <EditText
+            android:id="@+id/etOtherGoal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter your goal"
+            android:visibility="gone" />
+    </LinearLayout>
 
     <!-- Submit Button -->
     <Button

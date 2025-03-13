@@ -1,10 +1,12 @@
 package com.ofekinyo.myswimmingapp.screens;
 
-import android.os.Bundle;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.models.Schedule;
@@ -20,10 +22,10 @@ public class TrainerPage extends AppCompatActivity {
         // Get button references
         Button btnSchedule = findViewById(R.id.btnSchedule);
         Button btnMySessions = findViewById(R.id.btnMySessions);
-        Button btnSessionManagement = findViewById(R.id.btnSessionManagement);
+        Button btnSessionRequests = findViewById(R.id.btnSessionRequests); // Updated button ID
         Button btnLogout = findViewById(R.id.btnLogout);
         Button btnAbout = findViewById(R.id.btnAbout);
-        Button btnAdminPage = findViewById(R.id.btnAdminPage); // New Admin Page button
+        Button btnAdminPage = findViewById(R.id.btnAdminPage); // Admin Page button
 
         // Set button click listeners
         btnSchedule.setOnClickListener(v -> {
@@ -36,8 +38,9 @@ public class TrainerPage extends AppCompatActivity {
             startActivity(intent);
         });
 
-        btnSessionManagement.setOnClickListener(v -> {
-            Intent intent = new Intent(TrainerPage.this, SessionManagement.class);
+        btnSessionRequests.setOnClickListener(v -> {
+            // When the trainer clicks "Session Requests", navigate to SessionRequestsActivity
+            Intent intent = new Intent(TrainerPage.this, TrainerRequests.class);
             startActivity(intent);
         });
 

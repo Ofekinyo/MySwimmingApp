@@ -1,24 +1,30 @@
 package com.ofekinyo.myswimmingapp.screens;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ofekinyo.myswimmingapp.R;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
 public class SendRequest extends AppCompatActivity {
 
-    private Spinner spinnerSessionType;
-    private EditText etLength, etDate, etGoals;
+    private EditText etLength, etDate;
+    private LinearLayout llGoals;
+    private CheckBox cbGoal1, cbGoal2, cbGoal3, cbOther;
+    private EditText etOtherGoal;
     private Button btnSubmit;
-    private String selectedSessionType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,29 +32,44 @@ public class SendRequest extends AppCompatActivity {
         setContentView(R.layout.activity_send_request);
 
         // Initialize UI components
-        spinnerSessionType = findViewById(R.id.spinnerSessionType);
         etLength = findViewById(R.id.etLength);
         etDate = findViewById(R.id.etDate);
-        etGoals = findViewById(R.id.etGoals);
+        llGoals = findViewById(R.id.llGoals);
+        cbGoal1 = findViewById(R.id.cbGoal1);
+        cbGoal2 = findViewById(R.id.cbGoal2);
+        cbGoal3 = findViewById(R.id.cbGoal3);
+        cbOther = findViewById(R.id.cbOther);
+        etOtherGoal = findViewById(R.id.etOtherGoal);
         btnSubmit = findViewById(R.id.btnSubmit);
 
-        // Set up the Spinner with session types
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.session_types, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerSessionType.setAdapter(adapter);
-
-        // Spinner item selection listener
-        spinnerSessionType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                selectedSessionType = parentView.getItemAtPosition(position).toString();
+        // Set a listener for the "Other" checkbox to show or hide the "Other" goal input field
+        cbOther.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                etOtherGoal.setVisibility(View.VISIBLE); // Show the input field for "Other"
+            } else {
+                etOtherGoal.setVisibility(View.GONE); // Hide the input field for "Other"
             }
+        });
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                selectedSessionType = null;
-            }
+        // Set a listener for the date input field
+        etDate.setOnClickListener(v -> {
+            // Get current date
+            Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+            // Create DatePickerDialog
+            DatePickerDialog datePickerDialog = new DatePickerDialog(
+                    SendRequest.this,
+                    (view, year1, monthOfYear, dayOfMonth) -> {
+                        // Set the selected date in the EditText field
+                        etDate.setText(year1 + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+                    },
+                    year, month, day);
+
+            // Show the DatePickerDialog
+            datePickerDialog.show();
         });
 
         // Submit button click listener
@@ -56,15 +77,26 @@ public class SendRequest extends AppCompatActivity {
             // Collect inputs
             String length = etLength.getText().toString();
             String date = etDate.getText().toString();
-            String goals = etGoals.getText().toString();
+
+            // Collect goals
+            List<String> selectedGoals = new ArrayList<>();
+            if (cbGoal1.isChecked()) selectedGoals.add(cbGoal1.getText().toString());
+            if (cbGoal2.isChecked()) selectedGoals.add(cbGoal2.getText().toString());
+            if (cbGoal3.isChecked()) selectedGoals.add(cbGoal3.getText().toString());
+            if (cbOther.isChecked()) {
+                String otherGoal = etOtherGoal.getText().toString();
+                if (!otherGoal.isEmpty()) {
+                    selectedGoals.add(otherGoal);
+                }
+            }
 
             // Validation check
-            if (selectedSessionType == null || length.isEmpty() || date.isEmpty() || goals.isEmpty()) {
+            if (length.isEmpty() || date.isEmpty() || selectedGoals.isEmpty()) {
                 Toast.makeText(SendRequest.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             } else {
                 // Handle the request submission logic here
                 // For example, saving the data or sending it to a server
-                Toast.makeText(SendRequest.this, "Request Submitted: " + selectedSessionType, Toast.LENGTH_SHORT).show();
+                Toast.makeText(SendRequest.this, "Request Submitted\nGoals: " + selectedGoals, Toast.LENGTH_SHORT).show();
                 clearFields();
             }
         });
@@ -74,7 +106,11 @@ public class SendRequest extends AppCompatActivity {
     private void clearFields() {
         etLength.setText("");
         etDate.setText("");
-        etGoals.setText("");
-        spinnerSessionType.setSelection(0);
+        etOtherGoal.setText("");
+        cbGoal1.setChecked(false);
+        cbGoal2.setChecked(false);
+        cbGoal3.setChecked(false);
+        cbOther.setChecked(false);
+        etOtherGoal.setVisibility(View.GONE);
     }
 }

@@ -1,128 +1,128 @@
 package com.ofekinyo.myswimmingapp.screens;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.ArrayAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ofekinyo.myswimmingapp.R;
+import com.ofekinyo.myswimmingapp.adapters.TrainerAdapter;
 import com.ofekinyo.myswimmingapp.models.Trainer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TrainersList extends AppCompatActivity {
-
     private DatabaseReference trainersDatabaseRef;
-    private ArrayList<Trainer> trainers;
+    private List<Trainer> trainers, filteredTrainers;
     private TrainerAdapter adapter;
+    private EditText searchBar;
+    private Spinner searchSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainers_list);
 
-        ListView lvTrainers = findViewById(R.id.lvTrainers);
+        RecyclerView rvTrainers = findViewById(R.id.rvTrainers); // Changed to RecyclerView
+        searchBar = findViewById(R.id.searchBar);
+        searchSpinner = findViewById(R.id.searchSpinner);
 
-        // Initialize Firebase Database reference
+        // Set up the Spinner with options
+        String[] searchOptions = {"Name", "City", "Price", "Experience", "Gender", "Age", "Training Type"};
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, searchOptions);
+        searchSpinner.setAdapter(spinnerAdapter);
+
         trainersDatabaseRef = FirebaseDatabase.getInstance().getReference("Trainers");
-
-        // ArrayList to store trainers
         trainers = new ArrayList<>();
+        filteredTrainers = new ArrayList<>();
 
-        // Attach a listener to retrieve trainers from Firebase
+        adapter = new TrainerAdapter(this, filteredTrainers);
+        rvTrainers.setAdapter(adapter);  // Set adapter to RecyclerView
+
         trainersDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                trainers.clear();  // Clear the list before adding new data
+                trainers.clear();
+                filteredTrainers.clear();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Trainer trainer = snapshot.getValue(Trainer.class);
                     if (trainer != null) {
-                        trainers.add(trainer);  // Add trainer to the list
+                        trainers.add(trainer);
                     }
                 }
 
-                // Set the adapter to the ListView
-                adapter = new TrainerAdapter(TrainersList.this, trainers);
-                lvTrainers.setAdapter(adapter);
+                filteredTrainers.addAll(trainers);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Handle possible errors
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                filterTrainers(charSequence.toString());
             }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
         });
     }
 
-    // Custom Adapter for Trainer List
-    public static class TrainerAdapter extends android.widget.BaseAdapter {
+    private void filterTrainers(String query) {
+        filteredTrainers.clear();
+        if (query.isEmpty()) {
+            filteredTrainers.addAll(trainers);
+        } else {
+            String selectedOption = searchSpinner.getSelectedItem().toString().toLowerCase();
+            query = query.toLowerCase();
 
-        private final Context context;
-        private final ArrayList<Trainer> trainers;
+            for (Trainer trainer : trainers) {
+                boolean matches = false;
+                switch (selectedOption) {
+                    case "name":
+                        matches = trainer.getName().toLowerCase().contains(query);
+                        break;
+                    case "city":
+                        matches = trainer.getCity().toLowerCase().contains(query);
+                        break;
+                    case "price":
+                        matches = String.valueOf(trainer.getPrice()).contains(query);
+                        break;
+                    case "experience":
+                        matches = String.valueOf(trainer.getExperience()).contains(query);
+                        break;
+                    case "gender":
+                        matches = trainer.getGender().toLowerCase().contains(query);
+                        break;
+                    case "age":
+                        matches = String.valueOf(trainer.getAge()).contains(query);
+                        break;
+                    case "training type":
+                        matches = trainer.getTrainingTypes().toString().toLowerCase().contains(query);
+                        break;
+                }
 
-        public TrainerAdapter(Context context, ArrayList<Trainer> trainers) {
-            this.context = context;
-            this.trainers = trainers;
-        }
-
-        @Override
-        public int getCount() {
-            return trainers.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return trainers.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                LayoutInflater inflater = LayoutInflater.from(context);
-                convertView = inflater.inflate(R.layout.activity_each_trainer, parent, false);
+                if (matches) {
+                    filteredTrainers.add(trainer);
+                }
             }
-
-            Trainer trainer = trainers.get(position);
-
-            TextView tvTrainerName = convertView.findViewById(R.id.tvTrainerName);
-            tvTrainerName.setText(trainer.getName());  // Show the trainer's name
-
-            Button btnRequestSession = convertView.findViewById(R.id.btnRequestSession);
-            Button btnMoreInfo = convertView.findViewById(R.id.btnMoreInfo);
-
-            // Handle the Request Session button click
-            btnRequestSession.setOnClickListener(v -> {
-                Intent intent = new Intent(context, SendRequest.class);
-                intent.putExtra("trainerName", trainer.getName());
-                context.startActivity(intent);
-            });
-
-            // Handle the More Info button click
-            btnMoreInfo.setOnClickListener(v -> {
-                // Pass the trainer's ID to the TrainerInfo activity
-                Intent intent = new Intent(context, TrainerInfo.class);
-                intent.putExtra("trainerId", trainer.getId());  // Pass the trainer's ID
-                context.startActivity(intent);
-            });
-
-            return convertView;
         }
+        adapter.notifyDataSetChanged();
     }
 }
