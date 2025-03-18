@@ -9,9 +9,10 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.ofekinyo.myswimmingapp.R;
 
 import java.util.ArrayList;
@@ -25,6 +26,10 @@ public class SendRequest extends AppCompatActivity {
     private CheckBox cbGoal1, cbGoal2, cbGoal3, cbOther;
     private EditText etOtherGoal;
     private Button btnSubmit;
+
+    private DatabaseReference requestsRef;
+    private String trainerId; // Get trainer ID from Intent
+    private String traineeId; // Get trainee ID from Firebase User
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +46,12 @@ public class SendRequest extends AppCompatActivity {
         cbOther = findViewById(R.id.cbOther);
         etOtherGoal = findViewById(R.id.etOtherGoal);
         btnSubmit = findViewById(R.id.btnSubmit);
+
+        // Get trainerId and traineeId from the Intent (or Firebase User)
+        trainerId = getIntent().getStringExtra("trainerId");
+        traineeId = getIntent().getStringExtra("traineeId"); // Assume this is passed from the logged-in user
+
+        requestsRef = FirebaseDatabase.getInstance().getReference("Requests");
 
         // Set a listener for the "Other" checkbox to show or hide the "Other" goal input field
         cbOther.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -94,10 +105,15 @@ public class SendRequest extends AppCompatActivity {
             if (length.isEmpty() || date.isEmpty() || selectedGoals.isEmpty()) {
                 Toast.makeText(SendRequest.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             } else {
-                // Handle the request submission logic here
-                // For example, saving the data or sending it to a server
-                Toast.makeText(SendRequest.this, "Request Submitted\nGoals: " + selectedGoals, Toast.LENGTH_SHORT).show();
-                clearFields();
+                // Save request to Firebase
+                String requestId = requestsRef.push().getKey();
+                if (requestId != null) {
+                    Request request = new Request(trainerId, traineeId, length, date, selectedGoals, "pending");
+                    requestsRef.child(trainerId).child(traineeId).child(requestId).setValue(request);
+
+                    Toast.makeText(SendRequest.this, "Request Submitted", Toast.LENGTH_SHORT).show();
+                    clearFields();
+                }
             }
         });
     }
@@ -112,5 +128,20 @@ public class SendRequest extends AppCompatActivity {
         cbGoal3.setChecked(false);
         cbOther.setChecked(false);
         etOtherGoal.setVisibility(View.GONE);
+    }
+
+    // Request model class
+    public static class Request {
+        public String trainerId, traineeId, length, date, status;
+        public List<String> goals;
+
+        public Request(String trainerId, String traineeId, String length, String date, List<String> goals, String status) {
+            this.trainerId = trainerId;
+            this.traineeId = traineeId;
+            this.length = length;
+            this.date = date;
+            this.goals = goals;
+            this.status = status;
+        }
     }
 }

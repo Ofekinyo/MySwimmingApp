@@ -3,8 +3,9 @@ package com.ofekinyo.myswimmingapp.models;
 import java.io.Serializable;
 
 public class User implements Serializable {
-    protected String id, Fname, Lname, email, password, gender, city, role,phone;
-    protected int  age;
+    protected String id, Fname, Lname, email, gender, city, role, phone;
+    protected int age;
+    protected String password;
 
     // Constructor with all parameters
     public User(String id, String Fname, String Lname, String phone, String email, int age, String gender, String city, String password, String role) {
@@ -22,6 +23,19 @@ public class User implements Serializable {
 
     // Default constructor
     public User() {}
+
+    // Copy constructor
+    public User(User user) {
+        this.id = user.id;
+        this.Fname = user.Fname;
+        this.Lname = user.Lname;
+        this.phone = user.phone;
+        this.email = user.email;
+        this.age = user.age;
+        this.gender = user.gender;
+        this.city = user.city;
+        this.role = user.role;
+    }
 
     // Getters and Setters
     public String getId() {
@@ -110,7 +124,7 @@ public class User implements Serializable {
                 "id='" + id + '\'' +
                 ", Fname='" + Fname + '\'' +
                 ", Lname='" + Lname + '\'' +
-                ", phone=" + phone +
+                ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 ", age=" + age +
                 ", gender='" + gender + '\'' +

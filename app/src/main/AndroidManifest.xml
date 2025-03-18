@@ -13,10 +13,16 @@
         android:theme="@style/Theme.MySwimmingApp"
         tools:targetApi="31">
         <activity
-            android:name=".screens.RequestItem"
+            android:name=".screens.TrainerRequests"
             android:exported="false" />
         <activity
-            android:name=".screens.TrainerRequests"
+            android:name=".ListItemRequest"
+            android:exported="false" />
+        <activity
+            android:name=".screens.ViewRequests"
+            android:exported="false" />
+        <activity
+            android:name=".screens.RequestItem"
             android:exported="false" />
         <activity
             android:name=".screens.UsersList"

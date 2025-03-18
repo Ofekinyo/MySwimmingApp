@@ -8,7 +8,11 @@ import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import android.view.View;
+import android.widget.AdapterView;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,9 +37,12 @@ public class TrainersList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainers_list);
 
-        RecyclerView rvTrainers = findViewById(R.id.rvTrainers); // Changed to RecyclerView
+        RecyclerView rvTrainers = findViewById(R.id.rvTrainers);
         searchBar = findViewById(R.id.searchBar);
         searchSpinner = findViewById(R.id.searchSpinner);
+
+        // Set RecyclerView layout manager
+        rvTrainers.setLayoutManager(new LinearLayoutManager(this));
 
         // Set up the Spinner with options
         String[] searchOptions = {"Name", "City", "Price", "Experience", "Gender", "Age", "Training Type"};
@@ -47,7 +54,7 @@ public class TrainersList extends AppCompatActivity {
         filteredTrainers = new ArrayList<>();
 
         adapter = new TrainerAdapter(this, filteredTrainers);
-        rvTrainers.setAdapter(adapter);  // Set adapter to RecyclerView
+        rvTrainers.setAdapter(adapter);
 
         trainersDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -81,6 +88,17 @@ public class TrainersList extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {}
+        });
+
+        // Spinner Listener - Update filter when changing the selected category
+        searchSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                filterTrainers(searchBar.getText().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
 

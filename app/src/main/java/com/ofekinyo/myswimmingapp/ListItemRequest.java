@@ -1,4 +1,4 @@
-package com.ofekinyo.myswimmingapp.screens;
+package com.ofekinyo.myswimmingapp;
 
 import android.os.Bundle;
 
@@ -8,15 +8,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.ofekinyo.myswimmingapp.R;
-
-public class TrainerRequests extends AppCompatActivity {
+public class ListItemRequest extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_trainer_requests2);
+        setContentView(R.layout.activity_list_item_request);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
