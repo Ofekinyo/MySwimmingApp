@@ -38,7 +38,7 @@
         android:id="@+id/tvMoreInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Features:\n- Link trainers and trainees\n- Track progress and goals\n- Manage training schedules\n- Receive personalized swimming tips\n\nBenefits:\n- Enhances learning experience\n- Connects users with experts\n- Promotes healthy living"
+        android:text="Features:\n- Link trainers and trainees\n- Manage swimming schedules\n- Recieve swimming tips \n\nBenefits:\n- Enhances learning experience\n- Connects users with experts\n- Promotes healthy living"
         android:textSize="16sp"
         android:layout_marginBottom="16dp" />
 

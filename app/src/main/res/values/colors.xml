@@ -4,6 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="button_blue">#0277BD</color>
     <color name="button_green">#43A047</color>
+    <color name="button_red">#B53939</color>
     <color name="blue1_font">#0C1342</color>
     <color name="blue2_font">#08172E</color>
     <color name="red">#FF0000</color>

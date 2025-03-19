@@ -21,7 +21,6 @@ public class AdminPage extends AppCompatActivity {
         Button editUserButton = findViewById(R.id.btnUsersList);
         Button deleteUserButton = findViewById(R.id.btnDeleteUser);
         Button addUserButton = findViewById(R.id.btnAddUser);
-        Button disableUserButton = findViewById(R.id.btnDisableUser);
 
         // Navigate to EditUser Activity
         editUserButton.setOnClickListener(v -> {
@@ -39,9 +38,5 @@ public class AdminPage extends AppCompatActivity {
             Toast.makeText(AdminPage.this, "Add New User clicked", Toast.LENGTH_SHORT).show();
         });
 
-        // Disable User Button functionality
-        disableUserButton.setOnClickListener(v -> {
-            Toast.makeText(AdminPage.this, "Disable User clicked", Toast.LENGTH_SHORT).show();
-        });
     }
 }

@@ -49,15 +49,5 @@
         android:textStyle="bold"
         android:layout_marginBottom="16dp" />
 
-    <!-- Button to Disable User -->
-    <Button
-        android:id="@+id/btnDisableUser"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Disable User"
-        android:backgroundTint="@color/orange"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:layout_marginBottom="16dp" />
 
 </LinearLayout>

@@ -39,17 +39,18 @@
         android:elevation="4dp"
         android:layout_marginBottom="16dp" />
 
-    <!-- All Sessions Button -->
+    <!-- Basic Exercises Button -->
     <Button
-        android:id="@+id/btnAllSessions"
+        android:id="@+id/btnBasicExercises"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="All Sessions"
+        android:text="Basic Exercises"
         android:backgroundTint="@color/button_green"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:elevation="4dp"
         android:layout_marginBottom="16dp" />
+
 
     <!-- Session Details Button -->
     <Button

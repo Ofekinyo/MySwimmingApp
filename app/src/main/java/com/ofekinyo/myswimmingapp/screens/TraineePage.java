@@ -23,7 +23,7 @@ public class TraineePage extends AppCompatActivity {
 
         // Get button references
         Button btnTrainersList = findViewById(R.id.btnTrainersList);
-        Button btnAllSessions = findViewById(R.id.btnAllSessions);
+        Button btnBasicExercises = findViewById(R.id.btnBasicExercises);  // Change button reference
         Button btnSessionDetails = findViewById(R.id.btnSessionDetails);
         Button btnLogout = findViewById(R.id.btnLogout);
         Button btnAbout = findViewById(R.id.btnAbout);
@@ -35,8 +35,8 @@ public class TraineePage extends AppCompatActivity {
             startActivity(intent);
         });
 
-        btnAllSessions.setOnClickListener(v -> {
-            Intent intent = new Intent(TraineePage.this, AllSessions.class);
+        btnBasicExercises.setOnClickListener(v -> {  // Change to navigate to BasicExercisesActivity
+            Intent intent = new Intent(TraineePage.this, BasicExercisesActivity.class);
             startActivity(intent);
         });
 

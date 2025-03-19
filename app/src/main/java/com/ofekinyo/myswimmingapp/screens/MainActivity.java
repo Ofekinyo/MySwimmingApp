@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private TextView welcomeTextView;
     private FirebaseAuth mAuth;
-    private Button loginButton, registerButton;
+    private Button loginButton, registerButton, adminLoginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         welcomeTextView = findViewById(R.id.tvWelcome);
         loginButton = findViewById(R.id.btnLogin);
         registerButton = findViewById(R.id.btnRegister);
+        adminLoginButton = findViewById(R.id.btnAdminLogin);
 
         // Set up button click listeners
         loginButton.setOnClickListener(v -> {
@@ -40,6 +41,11 @@ public class MainActivity extends AppCompatActivity {
         registerButton.setOnClickListener(v -> {
             Intent registerIntent = new Intent(MainActivity.this, Register.class);
             startActivity(registerIntent);
+        });
+
+        adminLoginButton.setOnClickListener(v -> {
+            Intent adminLoginIntent = new Intent(MainActivity.this, AdminLoginActivity.class);
+            startActivity(adminLoginIntent);
         });
 
         // Check user status when MainActivity is started
