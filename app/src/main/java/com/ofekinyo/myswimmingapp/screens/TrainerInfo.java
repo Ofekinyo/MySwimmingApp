@@ -49,9 +49,9 @@ public class TrainerInfo extends AppCompatActivity {
                     // Log the entire data snapshot for debugging
                     Log.d("TrainerInfo", "DataSnapshot: " + dataSnapshot.toString());
 
-                    // Extract trAgainer details from the database
-                    String firstName = dataSnapshot.child("Fname").getValue(String.class);
-                    String lastName = dataSnapshot.child("Lname").getValue(String.class);
+                    // Extract trainer details from the database
+                    String firstName = dataSnapshot.child("fname").getValue(String.class);
+                    String lastName = dataSnapshot.child("lname").getValue(String.class);
                     String email = dataSnapshot.child("email").getValue(String.class);
                     String phone = dataSnapshot.child("phone").getValue(String.class);
                     Integer age = dataSnapshot.child("age").getValue(Integer.class);
@@ -61,7 +61,7 @@ public class TrainerInfo extends AppCompatActivity {
                     Integer experience = dataSnapshot.child("experience").getValue(Integer.class);
 
                     // Log the fetched data for debugging
-                    Log.d("TrainerInfo", "Fetched Data: Fname = " + firstName + ", Lname = " + lastName + ", Email = " + email);
+                    Log.d("TrainerInfo", "Fetched Data: fname = " + firstName + ", lname = " + lastName + ", Email = " + email);
 
                     // Check if firstName or lastName is null
                     if (firstName == null) {

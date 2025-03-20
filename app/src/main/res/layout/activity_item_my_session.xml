@@ -3,31 +3,77 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:background="@android:color/white">
 
+    <!-- Session Title -->
     <TextView
         android:id="@+id/tvSessionTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Session Title"
         android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:textColor="@android:color/black"/>
 
+    <!-- Trainer Name -->
+    <TextView
+        android:id="@+id/tvTrainerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Trainer: "
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray"/>
+
+    <!-- Session Date -->
     <TextView
         android:id="@+id/tvSessionDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Session Date"/>
+        android:text="Date: "
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray"/>
 
+    <!-- Session Time -->
     <TextView
         android:id="@+id/tvSessionTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Session Time"/>
+        android:text="Time: "
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray"/>
 
+    <!-- Session Duration -->
+    <TextView
+        android:id="@+id/tvSessionDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Duration: "
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray"/>
+
+    <!-- Session Location -->
     <TextView
         android:id="@+id/tvSessionLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Session Location"/>
+        android:text="Location: "
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray"/>
+
+    <!-- Goals -->
+    <TextView
+        android:id="@+id/tvSessionGoals"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Goals: "
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray"/>
+
+    <!-- Divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_marginTop="8dp"/>
 </LinearLayout>

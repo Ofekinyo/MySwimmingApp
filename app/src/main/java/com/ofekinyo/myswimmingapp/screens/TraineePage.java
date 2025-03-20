@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.ofekinyo.myswimmingapp.R;
+import com.ofekinyo.myswimmingapp.models.Trainee;
 import com.ofekinyo.myswimmingapp.utils.SharedPreferencesUtil;
 
 public class TraineePage extends AppCompatActivity {
@@ -24,7 +25,8 @@ public class TraineePage extends AppCompatActivity {
         // Get button references
         Button btnTrainersList = findViewById(R.id.btnTrainersList);
         Button btnBasicExercises = findViewById(R.id.btnBasicExercises);  // Change button reference
-        Button btnSessionDetails = findViewById(R.id.btnSessionDetails);
+        Button btnAccount = findViewById(R.id.btnAccount);
+        Button btnTraineeSchedule = findViewById(R.id.btnTraineeSchedule);
         Button btnLogout = findViewById(R.id.btnLogout);
         Button btnAbout = findViewById(R.id.btnAbout);
 
@@ -39,8 +41,13 @@ public class TraineePage extends AppCompatActivity {
             startActivity(intent);
         });
 
-        btnSessionDetails.setOnClickListener(v -> {
-            Intent intent = new Intent(TraineePage.this, SessionDetails.class);
+        btnAccount.setOnClickListener(v -> {
+            Intent intent = new Intent(TraineePage.this, Account.class);
+            startActivity(intent);
+        });
+
+        btnTraineeSchedule.setOnClickListener(v -> {
+            Intent intent = new Intent(TraineePage.this, TraineeScheduleActivity.class);
             startActivity(intent);
         });
 

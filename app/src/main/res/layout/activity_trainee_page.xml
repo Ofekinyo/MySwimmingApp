@@ -51,13 +51,24 @@
         android:elevation="4dp"
         android:layout_marginBottom="16dp" />
 
+    <!-- Account Button -->
+    <Button
+        android:id="@+id/btnAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Account"
+        android:backgroundTint="@color/purple"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:elevation="4dp"
+        android:layout_marginBottom="16dp" />
 
     <!-- Session Details Button -->
     <Button
-        android:id="@+id/btnSessionDetails"
+        android:id="@+id/btnTraineeSchedule"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Session Details"
+        android:text="Schedule"
         android:backgroundTint="@color/yellow"
         android:textColor="@color/white"
         android:textStyle="bold"

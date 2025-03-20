@@ -42,7 +42,7 @@ public class TrainerPage extends AppCompatActivity {
 
         btnSessionRequests.setOnClickListener(v -> {
             // When the trainer clicks "Session Requests", navigate to SessionRequestsActivity
-            Intent intent = new Intent(TrainerPage.this, TrainerRequests.class);
+            Intent intent = new Intent(TrainerPage.this, SessionRequests.class);
             startActivity(intent);
         });
 

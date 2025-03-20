@@ -38,8 +38,7 @@
         android:textStyle="bold"
         android:elevation="4dp"
         android:layout_marginBottom="16dp" />
-
-    <!-- My Sessions Button -->
+    <!-- Account Button -->
     <Button
         android:id="@+id/btnAccount"
         android:layout_width="match_parent"

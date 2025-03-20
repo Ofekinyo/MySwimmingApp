@@ -13,6 +13,12 @@
         android:theme="@style/Theme.MySwimmingApp"
         tools:targetApi="31">
         <activity
+            android:name=".screens.TraineeScheduleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".screens.SessionRequests"
+            android:exported="false" />
+        <activity
             android:name=".screens.ScheduleActivity"
             android:exported="false" />
         <activity
@@ -22,15 +28,6 @@
             android:name=".screens.BasicExercisesActivity"
             android:exported="false" />
         <activity
-            android:name=".screens.TrainerRequests"
-            android:exported="false" />
-        <activity
-            android:name=".ListItemRequest"
-            android:exported="false" />
-        <activity
-            android:name=".screens.ViewRequests"
-            android:exported="false" />
-        <activity
             android:name=".screens.RequestItem"
             android:exported="false" />
         <activity
@@ -38,12 +35,6 @@
             android:exported="false" />
         <activity
             android:name=".screens.EditUser"
-            android:exported="false" />
-        <activity
-            android:name=".adapters.SessionsAdapter"
-            android:exported="false" />
-        <activity
-            android:name=".screens.AllSessions"
             android:exported="false" />
         <activity
             android:name=".screens.ItemSchedule"
@@ -61,9 +52,6 @@
             android:name=".screens.MySessions"
             android:exported="false" />
         <activity
-            android:name=".screens.ItemSession"
-            android:exported="false" />
-        <activity
             android:name=".screens.TrainerInfo"
             android:exported="false" />
         <activity
@@ -74,9 +62,6 @@
             android:exported="false" />
         <activity
             android:name=".screens.TrainersList"
-            android:exported="false" />
-        <activity
-            android:name=".screens.SessionDetails"
             android:exported="false" />
         <activity
             android:name=".screens.TrainerPage"
