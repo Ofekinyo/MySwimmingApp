@@ -1,6 +1,5 @@
 package com.ofekinyo.myswimmingapp.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +12,9 @@ import java.util.List;
 
 public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ScheduleViewHolder> {
     private List<Schedule> scheduleList;
-    private Context context;
 
-    public ScheduleAdapter(List<Schedule> scheduleList, Context context) {
+    public ScheduleAdapter(List<Schedule> scheduleList) {
         this.scheduleList = scheduleList;
-        this.context = context;
     }
 
     @NonNull
@@ -31,8 +28,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
     public void onBindViewHolder(@NonNull ScheduleViewHolder holder, int position) {
         Schedule schedule = scheduleList.get(position);
         holder.scheduleTitle.setText(schedule.getTitle());
-        holder.scheduleDate.setText(schedule.getDate());
-        holder.scheduleTime.setText(schedule.getTime());
+        holder.scheduleDate.setText("Date: " + schedule.getDate());
+        holder.scheduleTime.setText("Time: " + schedule.getTime());
     }
 
     @Override

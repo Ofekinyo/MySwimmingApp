@@ -114,12 +114,19 @@ public class Account extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    tvFirstName.setText("שם פרטי: " + snapshot.child("firstName").getValue(String.class));
-                    tvLastName.setText("שם משפחה: " + snapshot.child("lastName").getValue(String.class));
+                    tvFirstName.setText("שם פרטי: " + snapshot.child("fname").getValue(String.class));
+                    tvLastName.setText("שם משפחה: " + snapshot.child("lname").getValue(String.class));
                     tvPhone.setText("טלפון: " + snapshot.child("phone").getValue(String.class));
                     tvCity.setText("עיר: " + snapshot.child("city").getValue(String.class));
                     tvGender.setText("מגדר: " + snapshot.child("gender").getValue(String.class));
-                    tvAge.setText("גיל: " + snapshot.child("age").getValue(String.class));
+
+                    // FIX: Fetch age correctly
+                    Long ageValue = snapshot.child("age").getValue(Long.class);
+                    if (ageValue != null) {
+                        tvAge.setText("גיל: " + ageValue.toString());
+                    } else {
+                        tvAge.setText("גיל: N/A");
+                    }
                 }
             }
 

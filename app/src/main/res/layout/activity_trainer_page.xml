@@ -41,10 +41,10 @@
 
     <!-- My Sessions Button -->
     <Button
-        android:id="@+id/btnMySessions"
+        android:id="@+id/btnAccount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="My Sessions"
+        android:text="Account"
         android:backgroundTint="@color/button_green"
         android:textColor="@color/white"
         android:textStyle="bold"
@@ -72,13 +72,6 @@
         android:textColor="@color/black"
         android:layout_marginTop="16dp"
         android:layout_gravity="center"/>
-
-    <Button
-        android:id="@+id/btnAdminPage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Admin Page" />
 
     <!-- Logout Button -->
     <Button

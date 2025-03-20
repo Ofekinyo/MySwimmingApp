@@ -24,20 +24,19 @@ public class TrainerPage extends AppCompatActivity {
 
         // Get button references
         Button btnSchedule = findViewById(R.id.btnSchedule);
-        Button btnMySessions = findViewById(R.id.btnMySessions);
+        Button btnAccount = findViewById(R.id.btnAccount);
         Button btnSessionRequests = findViewById(R.id.btnSessionRequests); // Updated button ID
         Button btnLogout = findViewById(R.id.btnLogout);
         Button btnAbout = findViewById(R.id.btnAbout);
-        Button btnAdminPage = findViewById(R.id.btnAdminPage); // Admin Page button
 
         // Set button click listeners
         btnSchedule.setOnClickListener(v -> {
-            Intent intent = new Intent(TrainerPage.this, Schedule.class);
+            Intent intent = new Intent(TrainerPage.this, ScheduleActivity.class);
             startActivity(intent);
         });
 
-        btnMySessions.setOnClickListener(v -> {
-            Intent intent = new Intent(TrainerPage.this, MySessions.class);
+        btnAccount.setOnClickListener(v -> {
+            Intent intent = new Intent(TrainerPage.this, Account.class);
             startActivity(intent);
         });
 
@@ -59,29 +58,6 @@ public class TrainerPage extends AppCompatActivity {
         btnAbout.setOnClickListener(v -> {
             Intent intent = new Intent(TrainerPage.this, About.class);
             startActivity(intent);
-        });
-
-        // Navigate to Admin Page with UID check
-        btnAdminPage.setOnClickListener(v -> {
-            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-            if (currentUser != null) {
-                String userId = currentUser.getUid();
-                String adminUid = "AdminTrainer";  // Your predefined admin UID
-
-                // Log the current UID and admin UID for debugging
-                Log.d("AdminCheck", "User UID: " + userId);
-                Log.d("AdminCheck", "Admin UID: " + adminUid);
-
-                // Compare the current user ID with the admin ID
-                if (userId.equals(adminUid)) {
-                    // If the user is the admin, allow access to the admin page
-                    Intent intent = new Intent(TrainerPage.this, AdminPage.class);
-                    startActivity(intent);
-                } else {
-                    // Show an error message if the user is not the admin
-                    Toast.makeText(TrainerPage.this, "You are not authorized to access the Admin page", Toast.LENGTH_SHORT).show();
-                }
-            }
         });
     }
 }

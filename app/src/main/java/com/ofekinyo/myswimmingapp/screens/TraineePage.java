@@ -27,7 +27,6 @@ public class TraineePage extends AppCompatActivity {
         Button btnSessionDetails = findViewById(R.id.btnSessionDetails);
         Button btnLogout = findViewById(R.id.btnLogout);
         Button btnAbout = findViewById(R.id.btnAbout);
-        Button btnAdminPage = findViewById(R.id.btnAdminPage); // Admin Page button
 
         // Set button click listeners
         btnTrainersList.setOnClickListener(v -> {
@@ -59,27 +58,5 @@ public class TraineePage extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Navigate to Admin Page with UID check
-        btnAdminPage.setOnClickListener(v -> {
-            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-            if (currentUser != null) {
-                String userId = currentUser.getUid();
-                String adminUid = "AdminTrainee";  // Your predefined admin UID
-
-                // Log the current UID and admin UID for debugging
-                Log.d("AdminCheck", "User UID: " + userId);
-                Log.d("AdminCheck", "Admin UID: " + adminUid);
-
-                // Compare the current user ID with the admin ID
-                if (userId.equals(adminUid)) {
-                    // If the user is the admin, allow access to the admin page
-                    Intent intent = new Intent(TraineePage.this, AdminPage.class);
-                    startActivity(intent);
-                } else {
-                    // Show an error message if the user is not the admin
-                    Toast.makeText(TraineePage.this, "You are not authorized to access the Admin page", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
     }
 }
