@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.ofekinyo.myswimmingapp.models.Trainee;
 import com.ofekinyo.myswimmingapp.models.Trainer;
 import com.ofekinyo.myswimmingapp.models.User;
@@ -13,7 +14,9 @@ import com.ofekinyo.myswimmingapp.models.User;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DatabaseService {
 
@@ -55,10 +58,54 @@ public class DatabaseService {
         return databaseReference.child(path);
     }
 
+    /// get a list of data from the database at a specific path
+    /// @param path the path to get the data from
+    /// @param clazz the class of the objects to return
+    /// @param callback the callback to call when the operation is completed
+    private <T> void getDataList(@NotNull final String path, @NotNull final Class<T> clazz, @NotNull Map<String, String> filter, @NotNull final DatabaseCallback<List<T>> callback) {
+        Query dbRef = readData(path);
+
+        for (Map.Entry<String, String> entry : filter.entrySet()) {
+            dbRef = dbRef.orderByChild(entry.getKey()).equalTo(entry.getValue());
+        }
+
+        dbRef.get().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.e(TAG, "Error getting data", task.getException());
+                callback.onFailed(task.getException());
+                return;
+            }
+            List<T> tList = new ArrayList<>();
+            task.getResult().getChildren().forEach(dataSnapshot -> {
+                T t = dataSnapshot.getValue(clazz);
+                tList.add(t);
+            });
+
+            callback.onCompleted(tList);
+        });
+    }
+
     public void getUser(@NotNull final String uid, @NotNull final DatabaseCallback<User> callback) {
         getData("users/" + uid, User.class, callback);
     }
 
+    /// get all the users from the database
+    /// @param callback the callback to call when the operation is completed
+    ///              the callback will receive a list of user objects
+    ///            if the operation fails, the callback will receive an exception
+    /// @see DatabaseCallback
+    /// @see List
+    /// @see User
+    public void getUserList(@NotNull final DatabaseCallback<List<User>> callback) {
+        getDataList("users/", User.class, new HashMap<>(), callback);
+    }
+
+    /// get data from the database at a specific path
+    /// @param path the path to get the data from
+    /// @param clazz the class of the object to return
+    /// @param callback the callback to call when the operation is completed
+    /// @see DatabaseCallback
+    /// @see Class
     private <T> void getData(@NotNull final String path, @NotNull final Class<T> clazz, @NotNull final DatabaseCallback<T> callback) {
         readData(path).get().addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {

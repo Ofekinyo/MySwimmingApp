@@ -120,33 +120,30 @@ public class Register extends AppCompatActivity {
 
     private void registerUser(String fname, String lname, String email, String phone, String password, String city, String gender, int age, String role) {
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        String userId = mAuth.getCurrentUser().getUid();
-                        String userPath = role.equals("Trainer") ? "Trainers" : "Trainees";
-                        DatabaseReference roleDatabaseRef = FirebaseDatabase.getInstance().getReference(userPath);
+            .addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    String userId = mAuth.getCurrentUser().getUid();
+                    String userPath = role.equals("Trainer") ? "Trainers" : "Trainees";
+                    DatabaseReference roleDatabaseRef = FirebaseDatabase.getInstance().getReference(userPath);
 
-
-
-
-                            User user = new User(userId, fname, lname,  phone+"", email, age, gender, city,password,role);
-                        SharedPreferencesUtil.saveUser(this,user);
-                        roleDatabaseRef.child(userId).setValue(user)
-                                .addOnCompleteListener(dbTask -> {
-                                    if (dbTask.isSuccessful()) {
-                                        Toast.makeText(Register.this, "הרשמה בוצעה בהצלחה!", Toast.LENGTH_LONG).show();
-                                        Intent intent = new Intent(Register.this, role.equals("Trainer") ? TrainerDetailsActivity.class : TraineeDetailsActivity.class);
-                                        startActivity(intent);
-                                        finish();
-                                    } else {
-                                        Toast.makeText(Register.this, "שגיאה בשמירת נתוני המשתמש", Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                    } else {
-                        Log.e("joe", task.getException().getMessage());
-                        Toast.makeText(Register.this, "שגיאה בהרשמה: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
+                    User user = new User(userId, fname, lname,  phone+"", email, age, gender, city,password,role);
+                    SharedPreferencesUtil.saveUser(this,user);
+                    roleDatabaseRef.child(userId).setValue(user)
+                        .addOnCompleteListener(dbTask -> {
+                            if (dbTask.isSuccessful()) {
+                                Toast.makeText(Register.this, "הרשמה בוצעה בהצלחה!", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(Register.this, role.equals("Trainer") ? TrainerDetailsActivity.class : TraineeDetailsActivity.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                Toast.makeText(Register.this, "שגיאה בשמירת נתוני המשתמש", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                } else {
+                    Log.e("joe", task.getException().getMessage());
+                    Toast.makeText(Register.this, "שגיאה בהרשמה: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
     }
 
 
