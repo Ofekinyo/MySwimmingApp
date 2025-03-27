@@ -6,19 +6,15 @@
     android:padding="10dp"
     android:background="@android:color/white">
 
-    <!-- Session Title -->
     <TextView
-        android:id="@+id/tvSessionTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Session Title"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"/>
+        android:textSize="30dp"
+        android:text="My Session"/>
 
     <!-- Trainer Name -->
     <TextView
-        android:id="@+id/tvTrainerName"
+        android:id="@+id/tvTrainerId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Trainer: "
@@ -27,7 +23,7 @@
 
     <!-- Session Date -->
     <TextView
-        android:id="@+id/tvSessionDate"
+        android:id="@+id/tvTraineeId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Date: "
@@ -36,7 +32,7 @@
 
     <!-- Session Time -->
     <TextView
-        android:id="@+id/tvSessionTime"
+        android:id="@+id/lstRequests"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Time: "

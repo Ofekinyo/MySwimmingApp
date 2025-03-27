@@ -14,11 +14,11 @@ import com.ofekinyo.myswimmingapp.models.Session;
 
 import java.util.List;
 
-public class MySessionsAdapter extends RecyclerView.Adapter<MySessionsAdapter.ViewHolder> {
+public class TrainerSessionAdapter extends RecyclerView.Adapter<TrainerSessionAdapter.ViewHolder> {
     private List<Session> sessionList;
     private Context context;
 
-    public MySessionsAdapter(List<Session> sessionList, Context context) {
+    public TrainerSessionAdapter(List<Session> sessionList, Context context) {
         this.sessionList = sessionList;
         this.context = context;
     }
@@ -26,17 +26,22 @@ public class MySessionsAdapter extends RecyclerView.Adapter<MySessionsAdapter.Vi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_item_my_session, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_item_trainer_session, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Session session = sessionList.get(position);
-        holder.sessionTitle.setText(session.getTitle());
-        holder.sessionDate.setText(session.getDate());
-        holder.sessionTime.setText(session.getTime());
-        holder.sessionLocation.setText(session.getLocation());
+        holder.trainerId.setText(session.getTrainerId());
+        holder.traineeId.setText(session.getTraineeId());
+
+        // Assuming that `getRequest()` returns a `SessionRequest` object
+        // Update this to extract the specific fields you want to show from the SessionRequest object
+        String requestDetails = "Date: " + session.getRequest().getDate() +
+                "\nTime: " + session.getRequest().getTime() +
+                "\nGoals: " + session.getRequest().getGoals();
+        holder.request.setText(requestDetails);
     }
 
     @Override
@@ -45,14 +50,13 @@ public class MySessionsAdapter extends RecyclerView.Adapter<MySessionsAdapter.Vi
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView sessionTitle, sessionDate, sessionTime, sessionLocation;
+        TextView trainerId, traineeId, request;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            sessionTitle = itemView.findViewById(R.id.tvSessionTitle);
-            sessionDate = itemView.findViewById(R.id.tvSessionDate);
-            sessionTime = itemView.findViewById(R.id.tvSessionTime);
-            sessionLocation = itemView.findViewById(R.id.tvSessionLocation);
+            trainerId = itemView.findViewById(R.id.tvTrainerId);
+            traineeId = itemView.findViewById(R.id.tvTraineeId);
+            request = itemView.findViewById(R.id.lstRequests);
         }
     }
 }

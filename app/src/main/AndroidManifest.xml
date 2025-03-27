@@ -43,7 +43,7 @@
             android:name=".screens.ItemMySession"
             android:exported="false" />
         <activity
-            android:name=".adapters.MySessionsAdapter"
+            android:name=".adapters.TrainerSessionAdapter"
             android:exported="false" />
         <activity
             android:name=".adapters.ScheduleAdapter"

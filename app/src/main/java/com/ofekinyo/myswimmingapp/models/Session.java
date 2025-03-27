@@ -2,20 +2,18 @@ package com.ofekinyo.myswimmingapp.models;
 
 public class Session {
     private String sessionId;
-    private String title;
-    private String date;
-    private String time;
-    private String location;
+    private String trainerId;
+    private String traineeId;
+    private SessionRequest request;
 
     // No-argument constructor required for Firebase
     public Session() {}
 
-    public Session(String sessionId, String title, String date, String time, String location) {
+    public Session(String sessionId, String trainerId, String traineeId, SessionRequest request) {
         this.sessionId = sessionId;
-        this.title = title;
-        this.date = date;
-        this.time = time;
-        this.location = location;
+        this.trainerId = trainerId;
+        this.traineeId = traineeId;
+        this.request = request;
     }
 
     // Getters and setters
@@ -27,35 +25,27 @@ public class Session {
         this.sessionId = sessionId;
     }
 
-    public String getTitle() {
-        return title;
+    public String getTrainerId() {
+        return trainerId;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setTrainerId(String trainerId) {
+        this.trainerId = trainerId;
     }
 
-    public String getDate() {
-        return date;
+    public String getTraineeId() {
+        return traineeId;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setTraineeId(String traineeId) {
+            this.traineeId = traineeId;
     }
 
-    public String getTime() {
-        return time;
+    public SessionRequest getRequest() {
+        return request;
     }
 
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
+    public void setRequest(SessionRequest request) {
+        this.request = request;
     }
 }

@@ -3,6 +3,7 @@ package com.ofekinyo.myswimmingapp.screens;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -26,7 +27,7 @@ public class SendRequest extends AppCompatActivity {
     private Button btnSubmit;
 
     private DatabaseReference requestsRef;
-    private String trainerId, traineeId, trainerName; // Ensure these are passed when opening this activity
+    private String trainerId, traineeId, trainerName, traineeName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +37,16 @@ public class SendRequest extends AppCompatActivity {
         // Initialize Firebase reference
         requestsRef = FirebaseDatabase.getInstance().getReference("SessionRequests");
 
-        // Retrieve trainerId, traineeId, and trainerName from Intent
+        // Retrieve data passed from EachTrainer activity
         trainerId = getIntent().getStringExtra("trainerId");
         traineeId = getIntent().getStringExtra("traineeId");
         trainerName = getIntent().getStringExtra("trainerName");
+        traineeName = getIntent().getStringExtra("traineeName");
+
+        Log.d("SendRequest", "Trainer ID: " + trainerId);
+        Log.d("SendRequest", "Trainee ID: " + traineeId);
+        Log.d("SendRequest", "Trainer Name: " + trainerName);
+        Log.d("SendRequest", "Trainee Name: " + traineeName);
 
         // Initialize UI components
         etDate = findViewById(R.id.etDate);
@@ -109,7 +116,7 @@ public class SendRequest extends AppCompatActivity {
             return;
         }
 
-        if (trainerId == null || traineeId == null || trainerName == null) {
+        if (trainerId == null || traineeId == null || trainerName == null || traineeName == null) {
             Snackbar.make(findViewById(android.R.id.content), "Error: Missing trainer or trainee information", Snackbar.LENGTH_SHORT).show();
             return;
         }
@@ -125,28 +132,26 @@ public class SendRequest extends AppCompatActivity {
 
         if (goals.length() > 2) goals.setLength(goals.length() - 2); // Remove last comma
 
+        if (goals.length() == 0) {
+            Snackbar.make(findViewById(android.R.id.content), "Please select at least one goal", Snackbar.LENGTH_SHORT).show();
+            return;
+        }
+
         // Generate unique request ID
         String requestId = requestsRef.push().getKey();
         if (requestId != null) {
-            SessionRequest request = new SessionRequest(date, time, goals.toString(), trainerName);
+            // Create the SessionRequest object
+            SessionRequest request = new SessionRequest(date, time, goals.toString(), trainerName, traineeName);
+
+            // Save session request to Firebase
             requestsRef.child(trainerId).child(traineeId).child(requestId).setValue(request)
                     .addOnSuccessListener(aVoid -> {
-                        Snackbar.make(findViewById(android.R.id.content), "Request Submitted", Snackbar.LENGTH_SHORT).show();
-                        clearFields();
+                        Toast.makeText(SendRequest.this, "Session request submitted successfully!", Toast.LENGTH_SHORT).show();
+                        finish();
                     })
-                    .addOnFailureListener(e -> Snackbar.make(findViewById(android.R.id.content), "Failed to submit request", Snackbar.LENGTH_SHORT).show());
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(SendRequest.this, "Failed to submit request", Toast.LENGTH_SHORT).show();
+                    });
         }
-    }
-
-    // Clears fields after submitting request
-    private void clearFields() {
-        etDate.setText("");
-        etTime.setText("");
-        etOtherGoal.setText("");
-        cbGoal1.setChecked(false);
-        cbGoal2.setChecked(false);
-        cbGoal3.setChecked(false);
-        cbOther.setChecked(false);
-        etOtherGoal.setVisibility(View.GONE);
     }
 }

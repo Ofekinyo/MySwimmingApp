@@ -12,7 +12,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.ofekinyo.myswimmingapp.R;
-import com.ofekinyo.myswimmingapp.adapters.MySessionsAdapter;
+import com.ofekinyo.myswimmingapp.adapters.TrainerSessionAdapter;
 import com.ofekinyo.myswimmingapp.models.Session;
 import android.widget.Toast;
 
@@ -22,7 +22,7 @@ import java.util.List;
 public class MySessions extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private MySessionsAdapter mySessionsAdapter;
+    private TrainerSessionAdapter mySessionsAdapter;
     private List<Session> mySessionList;
     private DatabaseReference databaseReference;
 
@@ -34,7 +34,7 @@ public class MySessions extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mySessionList = new ArrayList<>();
-        mySessionsAdapter = new MySessionsAdapter(mySessionList, this);
+        mySessionsAdapter = new TrainerSessionAdapter(mySessionList, this);
         recyclerView.setAdapter(mySessionsAdapter);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("TrainerSessions"); // Adjust as necessary
