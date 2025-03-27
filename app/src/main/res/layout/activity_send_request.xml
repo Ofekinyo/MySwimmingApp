@@ -6,22 +6,6 @@
     android:padding="16dp"
     android:gravity="center">
 
-    <!-- Length of Session Input -->
-    <TextView
-        android:id="@+id/tvLength"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Length of Session (hours)"
-        android:textSize="18sp"
-        android:layout_marginTop="16dp" />
-
-    <EditText
-        android:id="@+id/etLength"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter length (hours)"
-        android:inputType="numberDecimal" />
-
     <!-- Date Input -->
     <TextView
         android:id="@+id/tvDate"
@@ -40,6 +24,22 @@
         android:clickable="true"
         android:inputType="none" />
 
+    <!-- Time Input -->
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp" />
+
+    <EditText
+        android:id="@+id/etTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Select Time"
+        android:focusable="false"
+        android:clickable="true"/>
 
     <!-- Goals Input -->
     <TextView

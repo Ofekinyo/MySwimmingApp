@@ -27,8 +27,7 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.SessionV
     @Override
     public void onBindViewHolder(@NonNull SessionViewHolder holder, int position) {
         SessionRequest session = sessionList.get(position);
-        holder.tvSessionType.setText(session.getSessionType());
-        holder.tvDuration.setText(session.getDuration());
+        holder.tvTime.setText(session.getTime());
         holder.tvDate.setText(session.getDate());
         holder.tvTrainerName.setText(session.getTrainerName());
     }
@@ -39,12 +38,12 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.SessionV
     }
 
     public static class SessionViewHolder extends RecyclerView.ViewHolder {
-        TextView tvSessionType, tvDuration, tvDate, tvTrainerName;
+        TextView tvSessionType, tvTime, tvDate, tvTrainerName;
 
         public SessionViewHolder(@NonNull View itemView) {
             super(itemView);
             tvSessionType = itemView.findViewById(R.id.tvSessionType);
-            tvDuration = itemView.findViewById(R.id.tvSessionDuration);
+            tvTime = itemView.findViewById(R.id.tvSessionTime);
             tvDate = itemView.findViewById(R.id.tvDate);
             tvTrainerName = itemView.findViewById(R.id.tvTrainerName);
         }

@@ -1,31 +1,21 @@
 package com.ofekinyo.myswimmingapp.models;
 
 public class SessionRequest {
-    private String sessionType;
-    private String duration;
     private String date;
-    private String trainerName;
+    private String time;
+    private String goals;
+    private String trainerName; // Add this field
 
-    public SessionRequest(String sessionType, String duration, String date, String trainerName) {
-        this.sessionType = sessionType;
-        this.duration = duration;
+    public SessionRequest(String date, String time, String goals, String trainerName) {
         this.date = date;
-        this.trainerName = trainerName;
+        this.time = time;
+        this.goals = goals;
+        this.trainerName = trainerName; // Assign it
     }
 
-    public String getSessionType() {
-        return sessionType;
-    }
-
-    public String getDuration() {
-        return duration;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public String getTrainerName() {
-        return trainerName;
-    }
+    // Getters and setters
+    public String getDate() { return date; }
+    public String getTime() { return time; }
+    public String getGoals() { return goals; }
+    public String getTrainerName() { return trainerName; }
 }
