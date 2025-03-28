@@ -4,13 +4,20 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="10dp"
-    android:background="@android:color/white">
+    android:background="@drawable/water_card_bg"
+    android:elevation="3dp"
+    android:layout_margin="5dp">
 
+    <!-- Session Title -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:text="My Session"/>
+        android:textSize="30sp"
+        android:text="My Session"
+        android:textColor="@android:color/white"
+        android:paddingBottom="8dp"
+        android:textStyle="bold"
+        android:layout_gravity="center"/>
 
     <!-- Trainer Name -->
     <TextView
@@ -19,7 +26,7 @@
         android:layout_height="wrap_content"
         android:text="Trainer: "
         android:textSize="14sp"
-        android:textColor="@android:color/darker_gray"/>
+        android:textColor="@android:color/white"/>
 
     <!-- Session Date -->
     <TextView
@@ -28,7 +35,7 @@
         android:layout_height="wrap_content"
         android:text="Date: "
         android:textSize="14sp"
-        android:textColor="@android:color/darker_gray"/>
+        android:textColor="@android:color/white"/>
 
     <!-- Session Time -->
     <TextView
@@ -37,7 +44,7 @@
         android:layout_height="wrap_content"
         android:text="Time: "
         android:textSize="14sp"
-        android:textColor="@android:color/darker_gray"/>
+        android:textColor="@android:color/white"/>
 
     <!-- Session Duration -->
     <TextView
@@ -46,7 +53,7 @@
         android:layout_height="wrap_content"
         android:text="Duration: "
         android:textSize="14sp"
-        android:textColor="@android:color/darker_gray"/>
+        android:textColor="@android:color/white"/>
 
     <!-- Session Location -->
     <TextView
@@ -55,7 +62,7 @@
         android:layout_height="wrap_content"
         android:text="Location: "
         android:textSize="14sp"
-        android:textColor="@android:color/darker_gray"/>
+        android:textColor="@android:color/white"/>
 
     <!-- Goals -->
     <TextView
@@ -64,12 +71,13 @@
         android:layout_height="wrap_content"
         android:text="Goals: "
         android:textSize="14sp"
-        android:textColor="@android:color/darker_gray"/>
+        android:textColor="@android:color/white"/>
 
     <!-- Divider -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
+        android:background="@android:color/white"
         android:layout_marginTop="8dp"/>
+
 </LinearLayout>

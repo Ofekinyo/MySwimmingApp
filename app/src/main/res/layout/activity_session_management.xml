@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@drawable/water_gradient_bg">
 
     <TextView
         android:layout_width="wrap_content"
@@ -11,39 +12,61 @@
         android:text="Manage Sessions"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:textColor="@color/black" />
 
     <!-- Input fields for session details -->
     <EditText
         android:id="@+id/etTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Session Title" />
+        android:hint="Session Title"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/edittext_background"
+        android:textColor="@color/black"
+        />
 
     <EditText
         android:id="@+id/etDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Date (YYYY-MM-DD)" />
+        android:hint="Date (YYYY-MM-DD)"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/edittext_background"
+        android:textColor="@color/black"
+      />
 
     <EditText
         android:id="@+id/etTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Time (HH:MM)" />
+        android:hint="Time (HH:MM)"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/edittext_background"
+        android:textColor="@color/black"
+        />
 
     <EditText
         android:id="@+id/etLocation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Location" />
+        android:hint="Location"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/edittext_background"
+        android:textColor="@color/black"
+         />
 
     <Button
         android:id="@+id/btnAddSession"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add Session"
-        android:layout_marginTop="16dp" />
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:elevation="4dp"
+        android:background="@drawable/rounded_button_green" />
 
     <!-- RecyclerView for displaying sessions -->
     <androidx.recyclerview.widget.RecyclerView

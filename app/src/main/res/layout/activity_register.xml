@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     android:orientation="vertical"
-    tools:context=".screens.Register">
+    tools:context=".screens.Register"
+    android:background="@drawable/water_gradient_bg">
 
     <!-- Headline -->
     <TextView
@@ -17,7 +18,10 @@
         android:text="הרשמה"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:layout_gravity="center" />
+        android:textColor="@color/white"
+        android:layout_gravity="center"
+        android:shadowColor="#000000"
+        android:shadowRadius="4"/>
 
     <!-- First Name -->
     <EditText
@@ -28,7 +32,10 @@
         android:hint="שם פרטי"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:padding="12dp" />
+        android:padding="12dp"
+        android:background="@drawable/rounded_transparent_bg"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"/>
 
     <!-- Last Name -->
     <EditText
@@ -39,7 +46,10 @@
         android:hint="שם משפחה"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:padding="12dp" />
+        android:padding="12dp"
+        android:background="@drawable/rounded_transparent_bg"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"/>
 
     <!-- Email -->
     <EditText
@@ -50,7 +60,10 @@
         android:hint="אימייל"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
-        android:padding="12dp" />
+        android:padding="12dp"
+        android:background="@drawable/rounded_transparent_bg"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"/>
 
     <!-- Phone -->
     <EditText
@@ -61,14 +74,17 @@
         android:hint="טלפון"
         android:inputType="phone"
         android:minHeight="48dp"
-        android:padding="12dp" />
+        android:padding="12dp"
+        android:background="@drawable/rounded_transparent_bg"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"/>
 
     <!-- Spinner for Cities -->
     <Spinner
         android:id="@+id/spinnerCities"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"/>
 
     <!-- Gender EditText -->
     <EditText
@@ -79,7 +95,10 @@
         android:layout_marginTop="16dp"
         android:inputType="text"
         android:minHeight="48dp"
-        android:padding="12dp" />
+        android:padding="12dp"
+        android:background="@drawable/rounded_transparent_bg"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"/>
 
     <!-- Age EditText -->
     <EditText
@@ -90,7 +109,10 @@
         android:layout_marginTop="16dp"
         android:inputType="number"
         android:minHeight="48dp"
-        android:padding="12dp" />
+        android:padding="12dp"
+        android:background="@drawable/rounded_transparent_bg"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"/>
 
     <!-- Password -->
     <EditText
@@ -101,7 +123,10 @@
         android:hint="סיסמה"
         android:inputType="textPassword"
         android:minHeight="48dp"
-        android:padding="12dp" />
+        android:padding="12dp"
+        android:background="@drawable/rounded_transparent_bg"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"/>
 
     <!-- Radio button for role selection -->
     <RadioGroup
@@ -117,6 +142,7 @@
             android:layout_height="wrap_content"
             android:text="Trainer"
             android:checked="false"
+            android:textColor="@color/white"
             android:layout_marginEnd="16dp" />
 
         <RadioButton
@@ -124,7 +150,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Trainee"
-            android:checked="false" />
+            android:checked="false"
+            android:textColor="@color/white" />
     </RadioGroup>
 
     <!-- Submit Button -->
@@ -133,6 +160,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="שלח" />
+        android:text="שלח"
+        android:textColor="@color/white"
+        android:background="@drawable/rounded_button_blue"/>
 
 </LinearLayout>

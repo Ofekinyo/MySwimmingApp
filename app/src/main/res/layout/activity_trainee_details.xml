@@ -27,8 +27,9 @@
         android:hint="הכנס גובה (סנטימטרים)"
         android:inputType="numberDecimal"
         android:padding="12dp"
-        android:background="@android:drawable/edit_text"
-        android:textSize="16sp"/>
+        android:textSize="16sp"
+        android:background="@drawable/edittext_background"
+        android:layout_marginBottom="12dp"/>
 
     <!-- Weight Input -->
     <EditText
@@ -38,8 +39,8 @@
         android:hint="הכנס משקל (קילוגרם)"
         android:inputType="numberDecimal"
         android:padding="12dp"
-        android:background="@android:drawable/edit_text"
         android:textSize="16sp"
+        android:background="@drawable/edittext_background"
         android:layout_marginTop="12dp"/>
 
     <!-- Goal Input -->
@@ -50,8 +51,8 @@
         android:hint="הכנס מטרת אימון"
         android:inputType="text"
         android:padding="12dp"
-        android:background="@android:drawable/edit_text"
         android:textSize="16sp"
+        android:background="@drawable/edittext_background"
         android:layout_marginTop="12dp"/>
 
     <!-- Save Button -->

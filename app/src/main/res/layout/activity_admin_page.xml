@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:gravity="center"
-    >
+    android:background="@drawable/water_gradient_bg">
 
     <TextView
         android:id="@+id/tvAdminWelcome"
@@ -14,7 +14,10 @@
         android:text="Welcome to the Admin Panel"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_marginBottom="24dp" />
+        android:layout_marginBottom="24dp"
+        android:textColor="@color/white"
+        android:shadowColor="#000000"
+        android:shadowRadius="2"/>
 
     <!-- Button to Edit User -->
     <Button
@@ -22,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Users list"
-        android:backgroundTint="@color/button_blue"
+        android:background="@drawable/rounded_button_blue"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:layout_marginBottom="16dp" />
@@ -33,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Delete User"
-        android:backgroundTint="@color/red"
+        android:background="@drawable/rounded_button_red"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:layout_marginBottom="16dp" />
@@ -44,10 +47,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Add New User"
-        android:backgroundTint="@color/button_green"
+        android:background="@drawable/rounded_button_green"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:layout_marginBottom="16dp" />
-
 
 </LinearLayout>

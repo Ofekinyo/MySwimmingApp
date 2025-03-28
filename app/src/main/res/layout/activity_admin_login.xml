@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="@drawable/water_gradient_bg">
 
     <!-- Title Text -->
     <TextView
@@ -13,6 +14,7 @@
         android:text="Admin Login"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:textColor="@color/white"
         android:layout_marginBottom="24dp" />
 
     <!-- Admin Username (Email) Input -->
@@ -22,7 +24,9 @@
         android:layout_height="wrap_content"
         android:hint="Username (Email)"
         android:inputType="textEmailAddress"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_transparent_bg"
+        android:padding="12dp" />
 
     <!-- Admin Password Input -->
     <EditText
@@ -31,7 +35,9 @@
         android:layout_height="wrap_content"
         android:hint="Password"
         android:inputType="textPassword"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_transparent_bg"
+        android:padding="12dp" />
 
     <!-- Login Button -->
     <Button
@@ -39,9 +45,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Login"
-        android:backgroundTint="@color/button_blue"
+        android:background="@drawable/rounded_button_green"
         android:textColor="@color/white"
         android:textStyle="bold"
-        android:layout_marginTop="24dp" />
+        android:layout_marginTop="24dp"
+        android:padding="12dp" />
 
 </LinearLayout>

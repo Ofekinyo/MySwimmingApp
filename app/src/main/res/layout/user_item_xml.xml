@@ -4,10 +4,9 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="8dp"
-    android:background="@android:color/white"
+    android:background="@drawable/water_card_bg"
     android:elevation="4dp"
-    android:layout_margin="8dp"
-    >
+    android:layout_margin="8dp">
 
     <TextView
         android:id="@+id/textViewName"
@@ -15,20 +14,24 @@
         android:layout_height="wrap_content"
         android:text="User Name"
         android:textStyle="bold"
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:textColor="@android:color/white" />
 
     <TextView
         android:id="@+id/textViewRole"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Role"
-        android:textSize="14sp"/>
+        android:textSize="14sp"
+        android:textColor="@android:color/white" />
 
     <ImageButton
         android:id="@+id/buttonEditUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@android:drawable/ic_menu_edit"
-        android:contentDescription="Edit User"/>
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:tint="@android:color/white"
+        android:contentDescription="Edit User" />
 
 </LinearLayout>

@@ -5,49 +5,49 @@
     android:orientation="vertical"
     android:padding="8dp"
     android:layout_marginBottom="8dp"
-    android:background="?android:attr/selectableItemBackground">
+    android:background="@drawable/water_recycler_view_bg">
 
-<TextView
-android:id="@+id/tvSessionType"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:text="Session Type: "
-android:textSize="16sp"
-android:layout_marginBottom="4dp" />
+    <TextView
+        android:id="@+id/tvSessionType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Session Type: "
+        android:textSize="16sp"
+        android:layout_marginBottom="4dp" />
 
-<TextView
-android:id="@+id/tvDate"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:text="Date: "
-android:textSize="16sp"
-android:layout_marginBottom="4dp" />
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Date: "
+        android:textSize="16sp"
+        android:layout_marginBottom="4dp" />
 
-<TextView
-android:id="@+id/tvGoals"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:text="Goals: "
-android:textSize="16sp"
-android:layout_marginBottom="4dp" />
+    <TextView
+        android:id="@+id/tvGoals"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Goals: "
+        android:textSize="16sp"
+        android:layout_marginBottom="4dp" />
 
-<LinearLayout
-android:orientation="horizontal"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:gravity="end">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end">
 
-<Button
-    android:id="@+id/btnApprove"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Approve"
-    android:layout_marginEnd="8dp"/>
+        <Button
+            android:id="@+id/btnApprove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Approve"
+            android:layout_marginEnd="8dp" />
 
-<Button
-    android:id="@+id/btnDecline"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Decline" />
-</LinearLayout>
+        <Button
+            android:id="@+id/btnDecline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Decline" />
     </LinearLayout>
+</LinearLayout>

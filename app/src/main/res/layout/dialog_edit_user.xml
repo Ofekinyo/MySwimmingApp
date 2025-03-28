@@ -4,19 +4,24 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@drawable/water_gradient_bg">
 
     <EditText
         android:id="@+id/editTextFname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="First Name"/>
+        android:hint="First Name"
+        android:backgroundTint="@android:color/darker_gray"
+        android:padding="12dp" />
 
     <EditText
         android:id="@+id/editTextLname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Last Name"/>
+        android:hint="Last Name"
+        android:backgroundTint="@android:color/darker_gray"
+        android:padding="12dp" />
 
     <TextView
         android:id="@+id/textViewEmail"
@@ -25,37 +30,49 @@
         android:text="Email"
         android:textSize="14sp"
         android:textColor="@android:color/darker_gray"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="8dp" />
 
     <EditText
         android:id="@+id/editTextPhone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Phone Number"/>
+        android:hint="Phone Number"
+        android:backgroundTint="@android:color/darker_gray"
+        android:padding="12dp" />
 
     <EditText
         android:id="@+id/editTextAge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Age"
-        android:inputType="number"/>
+        android:inputType="number"
+        android:backgroundTint="@android:color/darker_gray"
+        android:padding="12dp" />
 
     <EditText
         android:id="@+id/editTextGender"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Gender"/>
+        android:hint="Gender"
+        android:backgroundTint="@android:color/darker_gray"
+        android:padding="12dp" />
 
     <EditText
         android:id="@+id/editTextCity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="City"/>
+        android:hint="City"
+        android:backgroundTint="@android:color/darker_gray"
+        android:padding="12dp" />
 
     <Button
         android:id="@+id/buttonSaveUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save Changes"/>
+        android:text="Save Changes"
+        android:backgroundTint="@color/button_blue"
+        android:textColor="@android:color/white"
+        android:elevation="4dp"
+        android:layout_marginTop="16dp" />
 
 </LinearLayout>

@@ -11,4 +11,8 @@
     <color name="purple">#673AB7</color>
     <color name="orange">#FF5722</color>
     <color name="yellow">#FFC107</color>
+    <color name="light_blue">#A7D8FF</color>  <!-- Light blue color for watery feel -->
+    <color name="blue">#3F9FCF</color>        <!-- Primary blue color -->
+    <color name="darker_blue">#35788E</color>  <!-- Darker blue for borders -->
+    <color name="hint_gray">#8C8C8C</color>    <!-- Hint color -->
 </resources>

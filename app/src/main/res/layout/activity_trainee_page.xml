@@ -4,16 +4,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@drawable/water_gradient_bg">
 
     <!-- Logo -->
     <ImageView
         android:id="@+id/ivLogo"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:src="@drawable/ic_android_black_24dp"
+        android:src="@drawable/cropped_image"
         android:contentDescription="App Logo"
-        android:layout_marginBottom="24dp" />
+        android:layout_marginBottom="24dp"
+        android:layout_gravity="center" />
 
     <!-- Welcome Message -->
     <TextView
@@ -33,11 +35,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Trainers List"
-        android:backgroundTint="@color/button_blue"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:elevation="4dp"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_button_blue"/>
 
     <!-- Basic Exercises Button -->
     <Button
@@ -45,11 +47,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Basic Exercises"
-        android:backgroundTint="@color/button_green"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:elevation="4dp"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_button_blue"/>
 
     <!-- Account Button -->
     <Button
@@ -57,11 +59,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Account"
-        android:backgroundTint="@color/purple"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:elevation="4dp"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_button_blue"/>
 
     <!-- Session Details Button -->
     <Button
@@ -69,23 +71,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Schedule"
-        android:backgroundTint="@color/yellow"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:elevation="4dp"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_button_blue"/>
 
+    <!-- About Button -->
     <Button
         android:id="@+id/btnAbout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="About"
         android:textSize="14sp"
-        android:textColor="@color/black"
         android:padding="10dp"
         android:layout_marginTop="16dp"
-        android:layout_gravity="center"/>
-
+        android:layout_gravity="center"
+        android:background="@drawable/rounded_button_blue"/>
 
     <!-- Logout Button -->
     <Button

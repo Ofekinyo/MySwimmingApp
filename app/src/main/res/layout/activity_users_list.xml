@@ -4,12 +4,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@drawable/water_gradient_bg">
 
+    <TextView
+        android:id="@+id/tvUsersList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Users List"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="@color/blue1_font"
+        android:layout_marginBottom="16dp" />
+
+    <!-- RecyclerView for Users List -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewUsers"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:overScrollMode="never" />
 
 </LinearLayout>

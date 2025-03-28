@@ -1,12 +1,14 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="8dp"
-    android:background="?android:attr/selectableItemBackground"
-    android:layout_marginBottom="8dp">
+    android:backgroundTint="?android:attr/selectableItemBackground"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/water_card_bg">
 
+    <!-- Trainer Name Text -->
     <TextView
         android:id="@+id/tvTrainerName"
         android:layout_width="wrap_content"
@@ -14,25 +16,37 @@
         android:text="Trainer Name"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:layout_marginBottom="4dp" />
+        android:textColor="@color/white"
+        android:layout_marginBottom="4dp"
+        android:shadowColor="#000000"
+        android:shadowRadius="1" />
 
+    <!-- Horizontal LinearLayout for buttons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="end">
 
+        <!-- Request Session Button -->
         <Button
             android:id="@+id/btnRequestSession"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Request Session"
+            android:backgroundTint="@color/button_blue"
+            android:textColor="@color/white"
+            android:textStyle="bold"
             android:layout_marginEnd="8dp" />
 
+        <!-- More Info Button -->
         <Button
             android:id="@+id/btnMoreInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="More Info" />
+            android:text="More Info"
+            android:backgroundTint="@color/button_green"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
     </LinearLayout>
 </LinearLayout>

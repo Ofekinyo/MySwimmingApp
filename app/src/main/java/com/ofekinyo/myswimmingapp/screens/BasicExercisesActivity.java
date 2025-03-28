@@ -23,10 +23,8 @@ public class BasicExercisesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic_exercises);
-
         rvExercises = findViewById(R.id.rvExercises);
         rvExercises.setLayoutManager(new LinearLayoutManager(this));
-
         // Sample exercises
         exercisesList = new ArrayList<>();
         exercisesList.add(new Exercise("Floating", "Learn how to float on water easily.", "https://youtu.be/jyA-Q7j2UOs?si=UZwLYix70Os__BD2"));

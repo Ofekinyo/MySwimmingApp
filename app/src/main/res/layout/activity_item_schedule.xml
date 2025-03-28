@@ -4,10 +4,11 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="10dp"
-    android:background="@android:color/white"
-    android:elevation="2dp"
+    android:background="@drawable/water_card_bg"
+    android:elevation="3dp"
     android:layout_margin="5dp">
 
+    <!-- Session Title -->
     <TextView
         android:id="@+id/tvScheduleTitle"
         android:layout_width="match_parent"
@@ -15,24 +16,27 @@
         android:text="Session Title"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:textColor="@android:color/black"
-        android:paddingBottom="4dp" />
+        android:textColor="@android:color/white"
+        android:paddingBottom="4dp"
+        android:shadowColor="#000000"
+        android:shadowRadius="1" />
 
+    <!-- Session Date -->
     <TextView
         android:id="@+id/tvScheduleDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Date: YYYY-MM-DD"
         android:textSize="16sp"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="@android:color/white"
         android:paddingBottom="2dp" />
 
+    <!-- Session Time -->
     <TextView
         android:id="@+id/tvScheduleTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Time: HH:MM"
         android:textSize="16sp"
-        android:textColor="@android:color/darker_gray" />
-
+        android:textColor="@android:color/white" />
 </LinearLayout>

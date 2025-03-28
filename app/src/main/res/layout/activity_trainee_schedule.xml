@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@drawable/water_gradient_bg">
 
     <!-- Upcoming Sessions Title -->
     <TextView
@@ -12,6 +13,7 @@
         android:text="Upcoming Sessions (Next Week)"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:textColor="@color/white"
         android:layout_marginBottom="8dp" />
 
     <!-- RecyclerView for Upcoming Sessions -->
@@ -19,7 +21,8 @@
         android:id="@+id/rvUpcomingSessions"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/water_recycler_view_bg" />
 
     <!-- Pending Requests Title -->
     <TextView
@@ -28,6 +31,7 @@
         android:text="Pending Requests"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:textColor="@color/white"
         android:layout_marginBottom="8dp" />
 
     <!-- RecyclerView for Pending Requests -->
@@ -35,6 +39,7 @@
         android:id="@+id/rvPendingRequests"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/water_recycler_view_bg" />
 
 </LinearLayout>

@@ -3,17 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@drawable/water_gradient_bg">
 
+    <!-- My Sessions Title -->
     <TextView
         android:id="@+id/tvMySessions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:textColor="@color/black"
+        android:textColor="@android:color/white"
         android:layout_marginBottom="16dp"
-        android:text="My Sessions" />
+        android:text="My Sessions"
+        android:layout_gravity="center"/>
 
     <!-- RecyclerView for displaying trainer's sessions -->
     <androidx.recyclerview.widget.RecyclerView
@@ -22,7 +25,8 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:padding="8dp"
-        android:clipToPadding="false" />
+        android:clipToPadding="false"
+        android:background="@drawable/water_recycler_view_bg"/>
 
     <!-- Refresh Button -->
     <Button
@@ -30,6 +34,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Refresh My Sessions"
-        android:layout_gravity="center" />
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/button_blue"
+        android:layout_gravity="center"
+        android:textStyle="bold" />
 
 </LinearLayout>
