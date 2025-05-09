@@ -27,7 +27,7 @@ public class BasicExercisesActivity extends AppCompatActivity {
         rvExercises.setLayoutManager(new LinearLayoutManager(this));
         // Sample exercises
         exercisesList = new ArrayList<>();
-        exercisesList.add(new Exercise("Floating", "Learn how to float on water easily.", "https://youtu.be/jyA-Q7j2UOs?si=UZwLYix70Os__BD2"));
+        exercisesList.add(new Exercise("Floating", "Learn how to float on water.", "https://youtu.be/jyA-Q7j2UOs?si=UZwLYix70Os__BD2"));
         exercisesList.add(new Exercise("Freestyle Basics", "Improve your front crawl technique.", "https://youtu.be/y5LZKOy7qZ4?si=dnRIypPtese1xgxj"));
         exercisesList.add(new Exercise("Breathing Techniques", "Proper breathing while swimming.", "https://youtu.be/qMSP3cZzy-8?si=V0VsnsRsebMydXxr"));
 
