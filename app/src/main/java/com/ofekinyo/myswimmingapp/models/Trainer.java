@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Trainer extends User implements Serializable {
     private List<String> trainingTypes;  // List of training types (e.g., swimming, fitness)
-    private double price;   // Coaching price
-    private int experience; // Number of years of experience
+    private Double price;                // Coaching price - now nullable
+    private Integer experience;          // Years of experience - now nullable
 
     // No-argument constructor required by Firebase
     public Trainer() {
@@ -14,7 +14,7 @@ public class Trainer extends User implements Serializable {
     }
 
     // Constructor with all parameters
-    public Trainer(String id, String Fname, String Lname, String phone, String email, int age, String password, String gender, String city, String role, List<String> trainingTypes, int experience, double price) {
+    public Trainer(String id, String Fname, String Lname, String phone, String email, Integer age, String password, String gender, String city, String role, List<String> trainingTypes, Integer experience, Double price) {
         super(id, Fname, Lname, phone, email, age, gender, city, password, role);
         this.trainingTypes = trainingTypes;
         this.experience = experience;
@@ -30,19 +30,19 @@ public class Trainer extends User implements Serializable {
         this.trainingTypes = trainingTypes;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
-    public int getExperience() {
+    public Integer getExperience() {
         return experience;
     }
 
-    public void setExperience(int experience) {
+    public void setExperience(Integer experience) {
         this.experience = experience;
     }
 

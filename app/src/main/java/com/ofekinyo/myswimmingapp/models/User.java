@@ -4,11 +4,11 @@ import java.io.Serializable;
 
 public class User implements Serializable {
     protected String id, Fname, Lname, email, gender, city, role, phone;
-    protected int age;
+    protected Integer age; // Changed from int to Integer
     protected String password;
 
     // Constructor with all parameters
-    public User(String id, String Fname, String Lname, String phone, String email, int age, String gender, String city, String password, String role) {
+    public User(String id, String Fname, String Lname, String phone, String email, Integer age, String gender, String city, String password, String role) {
         this.id = id;
         this.Fname = Fname;
         this.Lname = Lname;
@@ -102,11 +102,11 @@ public class User implements Serializable {
         this.city = city;
     }
 
-    public int getAge() {
+    public Integer getAge() { // Changed from int to Integer
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) { // Changed from int to Integer
         this.age = age;
     }
 

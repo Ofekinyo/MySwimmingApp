@@ -32,7 +32,7 @@ public class Trainee extends User implements Serializable {
         this.weight = weight;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 

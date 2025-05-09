@@ -6,7 +6,6 @@ import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,7 +22,9 @@ import com.ofekinyo.myswimmingapp.adapters.TrainerAdapter;
 import com.ofekinyo.myswimmingapp.models.Trainer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TrainersList extends AppCompatActivity {
     private DatabaseReference trainersDatabaseRef;
@@ -31,6 +32,22 @@ public class TrainersList extends AppCompatActivity {
     private TrainerAdapter adapter;
     private EditText searchBar;
     private Spinner searchSpinner;
+
+    // Mapping from Hebrew labels to internal keys based on the new categories
+    private final Map<String, String> filterMap = new HashMap<String, String>() {{
+        put("שם", "fname");       // First name
+        put("עיר", "city");       // City
+        put("אימייל", "email");   // Email
+        put("ניסיון", "experience");  // Experience
+        put("שם משפחה", "lname");    // Last name
+        put("מין", "gender");     // Gender
+        put("תעודת זהות", "id");  // ID
+        put("סיסמא", "password"); // Password
+        put("טלפון", "phone");    // Phone number
+        put("מחיר", "price");     // Price
+        put("תפקיד", "role");    // Role
+        put("סוג שיעור", "trainingTypes");  // Training Types
+    }};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +58,10 @@ public class TrainersList extends AppCompatActivity {
         searchBar = findViewById(R.id.searchBar);
         searchSpinner = findViewById(R.id.searchSpinner);
 
-        // Set RecyclerView layout manager
         rvTrainers.setLayoutManager(new LinearLayoutManager(this));
 
-        // Set up the Spinner with options
-        String[] searchOptions = {"Name", "City", "Price", "Experience", "Gender", "Age", "Training Type"};
+        // Spinner options in Hebrew
+        String[] searchOptions = {"שם", "עיר", "אימייל", "ניסיון", "שם משפחה", "מין", "תעודת זהות", "סיסמא", "טלפון", "מחיר", "תפקיד", "סוג שיעור"};
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, searchOptions);
         searchSpinner.setAdapter(spinnerAdapter);
 
@@ -56,6 +72,7 @@ public class TrainersList extends AppCompatActivity {
         adapter = new TrainerAdapter(this, filteredTrainers);
         rvTrainers.setAdapter(adapter);
 
+        // Realtime updates (instead of one-time fetch)
         trainersDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -74,12 +91,14 @@ public class TrainersList extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {}
+            public void onCancelled(DatabaseError databaseError) {
+            }
         });
 
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -87,10 +106,10 @@ public class TrainersList extends AppCompatActivity {
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {}
+            public void afterTextChanged(Editable editable) {
+            }
         });
 
-        // Spinner Listener - Update filter when changing the selected category
         searchSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -98,7 +117,8 @@ public class TrainersList extends AppCompatActivity {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 
@@ -110,29 +130,46 @@ public class TrainersList extends AppCompatActivity {
             String selectedOption = searchSpinner.getSelectedItem().toString().toLowerCase();
             query = query.toLowerCase();
 
+            String key = filterMap.get(selectedOption); // Get internal key for selected option
+
             for (Trainer trainer : trainers) {
                 boolean matches = false;
-                switch (selectedOption) {
-                    case "name":
-                        matches = trainer.getName().toLowerCase().contains(query);
+                switch (key) {
+                    case "fname":
+                        matches = trainer.getFname() != null && trainer.getFname().toLowerCase().contains(query);
                         break;
                     case "city":
-                        matches = trainer.getCity().toLowerCase().contains(query);
+                        matches = trainer.getCity() != null && trainer.getCity().toLowerCase().contains(query);
                         break;
-                    case "price":
-                        matches = String.valueOf(trainer.getPrice()).contains(query);
+                    case "email":
+                        matches = trainer.getEmail() != null && trainer.getEmail().toLowerCase().contains(query);
                         break;
                     case "experience":
-                        matches = String.valueOf(trainer.getExperience()).contains(query);
+                        matches = trainer.getExperience() != null && String.valueOf(trainer.getExperience()).contains(query);
+                        break;
+                    case "lname":
+                        matches = trainer.getLname() != null && trainer.getLname().toLowerCase().contains(query);
                         break;
                     case "gender":
-                        matches = trainer.getGender().toLowerCase().contains(query);
+                        matches = trainer.getGender() != null && trainer.getGender().toLowerCase().contains(query);
                         break;
-                    case "age":
-                        matches = String.valueOf(trainer.getAge()).contains(query);
+                    case "id":
+                        matches = trainer.getId() != null && trainer.getId().toLowerCase().contains(query);
                         break;
-                    case "training type":
-                        matches = trainer.getTrainingTypes().toString().toLowerCase().contains(query);
+                    case "password":
+                        matches = trainer.getPassword() != null && trainer.getPassword().toLowerCase().contains(query);
+                        break;
+                    case "phone":
+                        matches = trainer.getPhone() != null && trainer.getPhone().toLowerCase().contains(query);
+                        break;
+                    case "price":
+                        matches = trainer.getPrice() != null && String.valueOf(trainer.getPrice()).contains(query);
+                        break;
+                    case "role":
+                        matches = trainer.getRole() != null && trainer.getRole().toLowerCase().contains(query);
+                        break;
+                    case "trainingTypes":
+                        matches = trainer.getTrainingTypes() != null && trainer.getTrainingTypes().toString().toLowerCase().contains(query);
                         break;
                 }
 

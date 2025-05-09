@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="@drawable/water_gradient_bg">
+    android:background="@drawable/water_gradient_bg"
+    android:layoutDirection="rtl">
 
     <!-- Logo -->
     <ImageView
@@ -12,28 +13,29 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:src="@drawable/cropped_image"
-        android:contentDescription="App Logo"
+        android:contentDescription="לוגו האפליקציה"
         android:layout_marginBottom="24dp"
         android:layout_gravity="center" />
 
-    <!-- Trainers List Title -->
+    <!-- Title -->
     <TextView
         android:id="@+id/tvTrainersList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Trainers List"
+        android:text="רשימת מדריכים"
         android:textSize="24sp"
         android:textStyle="bold"
         android:gravity="center"
         android:textColor="@color/blue1_font"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:layout_gravity="center_horizontal" />
 
     <!-- Search Bar -->
     <EditText
         android:id="@+id/searchBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Search trainers..."
+        android:hint="חפש מדריך..."
         android:padding="10dp"
         android:background="@android:drawable/editbox_background"
         android:backgroundTint="@android:color/darker_gray"
@@ -42,25 +44,23 @@
         android:drawablePadding="8dp"
         android:layout_marginBottom="10dp" />
 
-    <!-- Spinner for Filter -->
+    <!-- Spinner -->
     <Spinner
         android:id="@+id/searchSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginBottom="10dp" />
 
-    <!-- RecyclerView for Trainers List -->
+    <!-- RecyclerView -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="300dp"
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvTrainers"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:overScrollMode="never" />
     </LinearLayout>
-
 </LinearLayout>

@@ -22,48 +22,57 @@ public class TraineePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainee_page);
 
-        // Get button references
-        Button btnTrainersList = findViewById(R.id.btnTrainersList);
-        Button btnBasicExercises = findViewById(R.id.btnBasicExercises);  // Change button reference
-        Button btnAccount = findViewById(R.id.btnAccount);
-        Button btnTraineeSchedule = findViewById(R.id.btnTraineeSchedule);
-        Button btnLogout = findViewById(R.id.btnLogout);
-        Button btnAbout = findViewById(R.id.btnAbout);
+        // Log intent extras if any
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            for (String key : extras.keySet()) {
+                Object value = extras.get(key);
+                Log.d("IntentDebug", key + ": " + value);
+            }
+        }
 
-        // Set button click listeners
-        btnTrainersList.setOnClickListener(v -> {
-            Intent intent = new Intent(TraineePage.this, TrainersList.class);
-            startActivity(intent);
-        });
+            // Get button references
+            Button btnTrainersList = findViewById(R.id.btnTrainersList);
+            Button btnBasicExercises = findViewById(R.id.btnBasicExercises);  // Change button reference
+            Button btnAccount = findViewById(R.id.btnAccount);
+            Button btnTraineeSchedule = findViewById(R.id.btnTraineeSchedule);
+            Button btnLogout = findViewById(R.id.btnLogout);
+            Button btnAbout = findViewById(R.id.btnAbout);
 
-        btnBasicExercises.setOnClickListener(v -> {  // Change to navigate to BasicExercisesActivity
-            Intent intent = new Intent(TraineePage.this, BasicExercisesActivity.class);
-            startActivity(intent);
-        });
+            // Set button click listeners
+            btnTrainersList.setOnClickListener(v -> {
+                Intent intent = new Intent(TraineePage.this, TrainersList.class);
+                startActivity(intent);
+            });
 
-        btnAccount.setOnClickListener(v -> {
-            Intent intent = new Intent(TraineePage.this, Account.class);
-            startActivity(intent);
-        });
+            btnBasicExercises.setOnClickListener(v -> {  // Change to navigate to BasicExercisesActivity
+                Intent intent = new Intent(TraineePage.this, BasicExercisesActivity.class);
+                startActivity(intent);
+            });
 
-        btnTraineeSchedule.setOnClickListener(v -> {
-            Intent intent = new Intent(TraineePage.this, TraineeScheduleActivity.class);
-            startActivity(intent);
-        });
+            btnAccount.setOnClickListener(v -> {
+                Intent intent = new Intent(TraineePage.this, Account.class);
+                startActivity(intent);
+            });
 
-        btnLogout.setOnClickListener(v -> {
-            SharedPreferencesUtil.signOutUser(TraineePage.this);
-            FirebaseAuth.getInstance().signOut();
-            Intent intent = new Intent(TraineePage.this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
-        });
+            btnTraineeSchedule.setOnClickListener(v -> {
+                Intent intent = new Intent(TraineePage.this, TraineeScheduleActivity.class);
+                startActivity(intent);
+            });
 
-        btnAbout.setOnClickListener(v -> {
-            Intent intent = new Intent(TraineePage.this, About.class);
-            startActivity(intent);
-        });
+            btnLogout.setOnClickListener(v -> {
+                SharedPreferencesUtil.signOutUser(TraineePage.this);
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(TraineePage.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            });
 
+            btnAbout.setOnClickListener(v -> {
+                Intent intent = new Intent(TraineePage.this, About.class);
+                startActivity(intent);
+            });
+
+        }
     }
-}
