@@ -33,6 +33,8 @@ public class TrainersList extends AppCompatActivity {
     private EditText searchBar;
     private Spinner searchSpinner;
 
+    private String traineeId, traineeName;
+
     // Mapping from Hebrew labels to internal keys based on the new categories
     private final Map<String, String> filterMap = new HashMap<String, String>() {{
         put("שם", "fname");       // First name
@@ -54,6 +56,10 @@ public class TrainersList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainers_list);
 
+        // Retrieve trainee info from the Intent that started this activity
+        traineeId = getIntent().getStringExtra("traineeId");
+        traineeName = getIntent().getStringExtra("traineeName");
+
         RecyclerView rvTrainers = findViewById(R.id.rvTrainers);
         searchBar = findViewById(R.id.searchBar);
         searchSpinner = findViewById(R.id.searchSpinner);
@@ -69,7 +75,8 @@ public class TrainersList extends AppCompatActivity {
         trainers = new ArrayList<>();
         filteredTrainers = new ArrayList<>();
 
-        adapter = new TrainerAdapter(this, filteredTrainers);
+        // Pass traineeId and traineeName to the adapter constructor
+        adapter =new TrainerAdapter(this, filteredTrainers, traineeId, traineeName);
         rvTrainers.setAdapter(adapter);
 
         // Realtime updates (instead of one-time fetch)

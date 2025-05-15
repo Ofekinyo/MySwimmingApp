@@ -40,14 +40,16 @@ public class TrainerInfo extends AppCompatActivity {
         }
 
         // Fetch trainer details from Firebase based on the trainer's ID
-        DatabaseReference trainerRef = FirebaseDatabase.getInstance().getReference("Trainers").child(trainerId);
+        DatabaseReference trainerRef = FirebaseDatabase.getInstance().getReference("Users").child("Trainers").child(trainerId);
 
         trainerRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    // Log the entire data snapshot for debugging
-                    Log.d("TrainerInfo", "DataSnapshot: " + dataSnapshot.toString());
+                    Log.d("TrainerInfo", "DataSnapshot keys and values:");
+                    for (DataSnapshot child : dataSnapshot.getChildren()) {
+                        Log.d("TrainerInfo", child.getKey() + ": " + child.getValue());
+                    }
 
                     // Extract trainer details from the database
                     String firstName = dataSnapshot.child("fname").getValue(String.class);
@@ -88,8 +90,12 @@ public class TrainerInfo extends AppCompatActivity {
                     tvExperience.setText(experience != null ? String.valueOf(experience) : "Not available");
 
                     // Display trainingTypes as a comma-separated string
-                    ArrayList<String> trainingTypes = (ArrayList<String>) dataSnapshot.child("trainingTypes").getValue();
-                    if (trainingTypes != null) {
+                    ArrayList<String> trainingTypes = new ArrayList<>();
+                    for (DataSnapshot typeSnap : dataSnapshot.child("trainingTypes").getChildren()) {
+                        String type = typeSnap.getValue(String.class);
+                        if (type != null) trainingTypes.add(type);
+                    }
+                    if (!trainingTypes.isEmpty()) {
                         tvTrainingTypes.setText(String.join(", ", trainingTypes));
                     } else {
                         tvTrainingTypes.setText("Not available");

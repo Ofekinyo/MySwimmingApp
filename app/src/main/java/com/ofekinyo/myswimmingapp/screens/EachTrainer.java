@@ -72,6 +72,15 @@ public class EachTrainer extends AppCompatActivity {
                             Toast.makeText(EachTrainer.this, "Error: Missing trainer or trainee information", Toast.LENGTH_SHORT).show();
                         }
                     });
+
+                    // Handle More Info button click - move this here!
+                    btnMoreInfo.setOnClickListener(v -> {
+                        Intent moreInfoIntent = new Intent(EachTrainer.this, TrainerInfo.class);
+                        moreInfoIntent.putExtra("trainerId", trainerId); // Pass trainerId, NOT trainerName
+                        startActivity(moreInfoIntent);
+                    });
+
+
                 } else {
                     Log.e("EachTrainer", "Trainer not found in Firebase");
                     Toast.makeText(EachTrainer.this, "Error: Trainer not found", Toast.LENGTH_SHORT).show();
@@ -82,14 +91,6 @@ public class EachTrainer extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
                 Log.e("EachTrainer", "Failed to read trainer data", databaseError.toException());
             }
-        });
-
-        // Handle More Info button click
-        btnMoreInfo.setOnClickListener(v -> {
-            // Show more info about the trainer
-            Intent moreInfoIntent = new Intent(EachTrainer.this, TrainerInfo.class);
-            moreInfoIntent.putExtra("trainerName", trainerName); // Passing the name only
-            startActivity(moreInfoIntent);
         });
     }
 }

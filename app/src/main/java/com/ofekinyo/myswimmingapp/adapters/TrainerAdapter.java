@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,54 +13,69 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.models.Trainer;
-import com.ofekinyo.myswimmingapp.screens.EachTrainer;
+import com.ofekinyo.myswimmingapp.screens.SendRequest;
+import com.ofekinyo.myswimmingapp.screens.TrainerInfo;
 
 import java.util.List;
 
-public class TrainerAdapter extends RecyclerView.Adapter<TrainerAdapter.TrainerViewHolder> {
-
+public class TrainerAdapter extends RecyclerView.Adapter<TrainerAdapter.ViewHolder> {
     private Context context;
-    private List<Trainer> trainerList;
+    private List<Trainer> trainers;
+    private String traineeId, traineeName;
 
-    public TrainerAdapter(Context context, List<Trainer> trainerList) {
+    public TrainerAdapter(Context context, List<Trainer> trainers, String traineeId, String traineeName) {
         this.context = context;
-        this.trainerList = trainerList;
+        this.trainers = trainers;
+        this.traineeId = traineeId;
+        this.traineeName = traineeName;
     }
 
     @NonNull
     @Override
-    public TrainerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.activity_each_trainer, parent, false);
-        return new TrainerViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TrainerViewHolder holder, int position) {
-        Trainer trainer = trainerList.get(position);
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Trainer trainer = trainers.get(position);
+        holder.tvTrainerName.setText(trainer.getName());
 
-        // Set trainer's name
-        holder.tvTrainerName.setText(trainer.getName());  // Use the getName method to get the full name
+        // Example of setting experience, price, training types, etc. (keep your original code)
 
-        // On click, navigate to EachTrainer activity
-        holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, EachTrainer.class);
-            intent.putExtra("trainerName", trainer.getName());  // Pass trainer's name to the next activity
-            context.startActivity(intent);
+        // Handle Request Session button click directly here
+        holder.btnRequestSession.setOnClickListener(v -> {
+            Intent requestIntent = new Intent(context, SendRequest.class);
+            requestIntent.putExtra("trainerId", trainer.getId()); // assuming Trainer has getId()
+            requestIntent.putExtra("traineeId", traineeId);
+            requestIntent.putExtra("trainerName", trainer.getName());
+            requestIntent.putExtra("traineeName", traineeName);
+            context.startActivity(requestIntent);
+        });
+
+        // Handle More Info button click directly here
+        holder.btnMoreInfo.setOnClickListener(v -> {
+            Intent moreInfoIntent = new Intent(context, TrainerInfo.class);
+            moreInfoIntent.putExtra("trainerName", trainer.getName());
+            context.startActivity(moreInfoIntent);
         });
     }
 
     @Override
     public int getItemCount() {
-        return trainerList.size();
+        return trainers.size();
     }
 
-    public static class TrainerViewHolder extends RecyclerView.ViewHolder {
-
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvTrainerName;
+        Button btnRequestSession, btnMoreInfo;
 
-        public TrainerViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTrainerName = itemView.findViewById(R.id.tvTrainerName);
+            btnRequestSession = itemView.findViewById(R.id.btnRequestSession);
+            btnMoreInfo = itemView.findViewById(R.id.btnMoreInfo);
         }
     }
 }
