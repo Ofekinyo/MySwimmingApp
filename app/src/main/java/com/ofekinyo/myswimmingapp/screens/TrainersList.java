@@ -1,17 +1,24 @@
 package com.ofekinyo.myswimmingapp.screens;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,21 +41,22 @@ public class TrainersList extends AppCompatActivity {
     private Spinner searchSpinner;
 
     private String traineeId, traineeName;
+    private FirebaseAuth mAuth;
 
     // Mapping from Hebrew labels to internal keys based on the new categories
     private final Map<String, String> filterMap = new HashMap<String, String>() {{
-        put("שם", "fname");       // First name
-        put("עיר", "city");       // City
-        put("אימייל", "email");   // Email
-        put("ניסיון", "experience");  // Experience
-        put("שם משפחה", "lname");    // Last name
-        put("מין", "gender");     // Gender
-        put("תעודת זהות", "id");  // ID
-        put("סיסמא", "password"); // Password
-        put("טלפון", "phone");    // Phone number
-        put("מחיר", "price");     // Price
-        put("תפקיד", "role");    // Role
-        put("סוג שיעור", "trainingTypes");  // Training Types
+        put("שם", "fname");
+        put("עיר", "city");
+        put("אימייל", "email");
+        put("ניסיון", "experience");
+        put("שם משפחה", "lname");
+        put("מין", "gender");
+        put("תעודת זהות", "id");
+        put("סיסמא", "password");
+        put("טלפון", "phone");
+        put("מחיר", "price");
+        put("תפקיד", "role");
+        put("סוג שיעור", "trainingTypes");
     }};
 
     @Override
@@ -56,7 +64,8 @@ public class TrainersList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainers_list);
 
-        // Retrieve trainee info from the Intent that started this activity
+        mAuth = FirebaseAuth.getInstance();
+
         traineeId = getIntent().getStringExtra("traineeId");
         traineeName = getIntent().getStringExtra("traineeName");
 
@@ -66,7 +75,6 @@ public class TrainersList extends AppCompatActivity {
 
         rvTrainers.setLayoutManager(new LinearLayoutManager(this));
 
-        // Spinner options in Hebrew
         String[] searchOptions = {"שם", "עיר", "אימייל", "ניסיון", "שם משפחה", "מין", "תעודת זהות", "סיסמא", "טלפון", "מחיר", "תפקיד", "סוג שיעור"};
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, searchOptions);
         searchSpinner.setAdapter(spinnerAdapter);
@@ -75,11 +83,9 @@ public class TrainersList extends AppCompatActivity {
         trainers = new ArrayList<>();
         filteredTrainers = new ArrayList<>();
 
-        // Pass traineeId and traineeName to the adapter constructor
-        adapter =new TrainerAdapter(this, filteredTrainers, traineeId, traineeName);
+        adapter = new TrainerAdapter(this, filteredTrainers, traineeId, traineeName);
         rvTrainers.setAdapter(adapter);
 
-        // Realtime updates (instead of one-time fetch)
         trainersDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -103,28 +109,47 @@ public class TrainersList extends AppCompatActivity {
         });
 
         searchBar.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 filterTrainers(charSequence.toString());
             }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-            }
+            @Override public void afterTextChanged(Editable editable) {}
         });
 
         searchSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            @Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 filterTrainers(searchBar.getText().toString());
             }
+            @Override public void onNothingSelected(AdapterView<?> parent) {}
+        });
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+        setupBackButton();
+    }
+
+    private void setupBackButton() {
+        Button backButton = findViewById(R.id.btnBack);
+        backButton.setOnClickListener(v -> {
+            FirebaseUser currentUser = mAuth.getCurrentUser();
+            if (currentUser != null) {
+                String userId = currentUser.getUid();
+                DatabaseReference trainerRef = FirebaseDatabase.getInstance().getReference("Trainers").child(userId);
+
+                trainerRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            startActivity(new Intent(TrainersList.this, TrainerPage.class));
+                        } else {
+                            startActivity(new Intent(TrainersList.this, TraineePage.class));
+                        }
+                        finish();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(TrainersList.this, "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
@@ -134,10 +159,9 @@ public class TrainersList extends AppCompatActivity {
         if (query.isEmpty()) {
             filteredTrainers.addAll(trainers);
         } else {
-            String selectedOption = searchSpinner.getSelectedItem().toString().toLowerCase();
+            String selectedOption = searchSpinner.getSelectedItem().toString();
             query = query.toLowerCase();
-
-            String key = filterMap.get(selectedOption); // Get internal key for selected option
+            String key = filterMap.get(selectedOption);
 
             for (Trainer trainer : trainers) {
                 boolean matches = false;
@@ -179,7 +203,6 @@ public class TrainersList extends AppCompatActivity {
                         matches = trainer.getTrainingTypes() != null && trainer.getTrainingTypes().toString().toLowerCase().contains(query);
                         break;
                 }
-
                 if (matches) {
                     filteredTrainers.add(trainer);
                 }

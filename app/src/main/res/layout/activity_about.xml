@@ -64,13 +64,11 @@
     <!-- Back Button -->
     <Button
         android:id="@+id/btnBack"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Back"
-        android:textSize="16sp"
-        android:textColor="@color/white"
-        android:background="@drawable/rounded_button_red"
-        android:layout_marginBottom="16dp"
-        android:gravity="center" />
+        android:text="חזרה"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/blue1_font"
+        android:textColor="@android:color/white" />
 
 </LinearLayout>

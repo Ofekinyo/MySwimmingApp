@@ -1,8 +1,8 @@
 package com.ofekinyo.myswimmingapp.screens;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Button;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,13 +18,20 @@ public class BasicExercisesActivity extends AppCompatActivity {
     private RecyclerView rvExercises;
     private ExerciseAdapter adapter;
     private List<Exercise> exercisesList;
+    private Button btnBackToMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic_exercises);
+
         rvExercises = findViewById(R.id.rvExercises);
         rvExercises.setLayoutManager(new LinearLayoutManager(this));
+
+        // Initialize the back button
+        btnBackToMain = findViewById(R.id.btnBackToMain);
+        btnBackToMain.setOnClickListener(v -> finish()); // Goes back to the previous activity
+
         // Sample exercises
         exercisesList = new ArrayList<>();
         exercisesList.add(new Exercise("Floating", "Learn how to float on water.", "https://youtu.be/jyA-Q7j2UOs?si=UZwLYix70Os__BD2"));
