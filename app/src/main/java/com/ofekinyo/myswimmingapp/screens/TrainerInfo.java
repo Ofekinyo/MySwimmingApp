@@ -3,8 +3,11 @@ package com.ofekinyo.myswimmingapp.screens;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuHost;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -14,6 +17,8 @@ import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.models.Trainer;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.concurrent.Executor;
 
 public class TrainerInfo extends AppCompatActivity {
 
@@ -70,5 +75,12 @@ public class TrainerInfo extends AppCompatActivity {
 
 
         }
+    }
+
+    @Override
+    public boolean OnCreateOptionsMenu (Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.menutest, menu);
+        return true;
     }
 }
