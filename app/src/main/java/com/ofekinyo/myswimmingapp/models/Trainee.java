@@ -4,18 +4,31 @@ import java.io.Serializable;
 
 public class Trainee extends User implements Serializable {
     private double height, weight;
-    private int age;
-    private User myCoach;  // The trainer assigned to the trainee
+   // The trainer assigned to the trainee
 
     // Constructor with all parameters
-    public Trainee(String id, String Fname, String Lname, String phone, String email, int age, String gender, String city, String password, String role, double height, double weight, User myCoach) {
+
+
+    public Trainee(String id, String Fname, String Lname, String phone, String email, Integer age, String gender, String city, String password, String role, double height, double weight) {
         super(id, Fname, Lname, phone, email, age, gender, city, password, role);
         this.height = height;
         this.weight = weight;
-        this.myCoach = myCoach;
     }
 
-    // Getters and Setters
+    public Trainee(double height, double weight) {
+        this.height = height;
+        this.weight = weight;
+    }
+
+    public Trainee(User user, double height, double weight) {
+        super(user);
+        this.height = height;
+        this.weight = weight;
+    }
+
+    public Trainee() {
+    }
+
     public double getHeight() {
         return height;
     }
@@ -32,38 +45,21 @@ public class Trainee extends User implements Serializable {
         this.weight = weight;
     }
 
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public User getMyCoach() {
-        return myCoach;
-    }
-
-    public void setMyCoach(User myCoach) {
-        this.myCoach = myCoach;
-    }
-
     @Override
     public String toString() {
         return "Trainee{" +
                 "height=" + height +
                 ", weight=" + weight +
-                ", age=" + age +
-                ", myCoach=" + myCoach +
                 ", id='" + id + '\'' +
-                ", Fname='" + Fname + '\'' +
-                ", Lname='" + Lname + '\'' +
-                ", phone=" + phone +
+                ", fname='" + fname + '\'' +
+                ", lname='" + lname + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
                 ", gender='" + gender + '\'' +
                 ", city='" + city + '\'' +
                 ", role='" + role + '\'' +
+                ", phone='" + phone + '\'' +
+                ", age=" + age +
+                ", password='" + password + '\'' +
                 '}';
     }
 }

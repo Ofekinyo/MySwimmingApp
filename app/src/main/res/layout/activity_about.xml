@@ -22,7 +22,7 @@
         android:id="@+id/tvAppInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="App Information"
+        android:text="אודותינו"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@color/white"
@@ -33,7 +33,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to SwimLink! This app connects trainers and trainees for a seamless swimming experience. You can track schedules, goals, and progress! With a user-friendly interface and advanced features, it’s perfect for all levels of swimming enthusiasts."
+        android:text="ברוכים הבאים ל-SwimLink!
+האפליקציה מחברת בין מאמנים למתאמנים לחוויית שחייה חלקה ונוחה.
+תוכלו לעקוב אחרי לוחות זמנים, מטרות והתקדמות!
+עם ממשק ידידותי למשתמש ופיצ'רים מתקדמים, האפליקציה מושלמת עבור חובבי שחייה בכל הרמות.
+"
         android:textSize="16sp"
         android:textColor="@color/white"
         android:layout_marginBottom="16dp"
@@ -44,7 +48,8 @@
         android:id="@+id/tvMoreInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Features:\n- Link trainers and trainees\n- Manage swimming schedules\n- Recieve swimming tips \n\nBenefits:\n- Enhances learning experience\n- Connects users with experts\n- Promotes healthy living"
+        android:text="
+פיצ'רים:\n- קישור בין מאמנים למתאמנים\n- ניהול לוחות זמנים לאימוני שחייה\n- קבלת טיפים לשיפור השחייה\n\nיתרונות:\n- משפר את חוויית הלמידה\n- מחבר משתמשים עם מומחים\n- מעודד אורח חיים בריא"
         android:textSize="16sp"
         android:textColor="@color/white"
         android:layout_marginBottom="16dp"
@@ -55,7 +60,7 @@
         android:id="@+id/tvContactEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="For inquiries, contact us at: ofekah2903@gmail.com"
+        android:text="למידע נוסף, צרו איתנו קשר : ofekah2903@gmail.com"
         android:textSize="16sp"
         android:textColor="@color/white"
         android:layout_marginBottom="16dp"

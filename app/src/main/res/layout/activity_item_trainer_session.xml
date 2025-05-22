@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30sp"
-        android:text="My Session"
+        android:text="האימון שלי"
         android:textColor="@android:color/white"
         android:paddingBottom="8dp"
         android:textStyle="bold"
@@ -24,7 +24,7 @@
         android:id="@+id/tvTrainerId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Trainer: "
+        android:text="מאמן: "
         android:textSize="14sp"
         android:textColor="@android:color/white"/>
 
@@ -33,7 +33,7 @@
         android:id="@+id/tvTraineeId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Date: "
+        android:text="תאריך: "
         android:textSize="14sp"
         android:textColor="@android:color/white"/>
 
@@ -42,7 +42,7 @@
         android:id="@+id/lstRequests"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Time: "
+        android:text="שעה: "
         android:textSize="14sp"
         android:textColor="@android:color/white"/>
 
@@ -51,7 +51,7 @@
         android:id="@+id/tvSessionDuration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Duration: "
+        android:text="משך אימון: "
         android:textSize="14sp"
         android:textColor="@android:color/white"/>
 
@@ -60,7 +60,7 @@
         android:id="@+id/tvSessionLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Location: "
+        android:text="מיקום:  "
         android:textSize="14sp"
         android:textColor="@android:color/white"/>
 
@@ -69,7 +69,7 @@
         android:id="@+id/tvSessionGoals"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Goals: "
+        android:text="מטרות:  "
         android:textSize="14sp"
         android:textColor="@android:color/white"/>
 

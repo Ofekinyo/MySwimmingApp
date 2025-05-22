@@ -14,7 +14,7 @@
         android:textStyle="bold"
         android:textColor="@color/black"
         android:layout_marginBottom="16dp"
-        android:text="Your Schedule" />
+        android:text="מערכת השעות שלי" />
 
     <!-- RecyclerView for displaying sessions -->
     <androidx.recyclerview.widget.RecyclerView
@@ -30,7 +30,7 @@
         android:id="@+id/btnRefresh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Refresh Schedule"
+        android:text="רענון"
         android:layout_gravity="center" />
 
 </LinearLayout>

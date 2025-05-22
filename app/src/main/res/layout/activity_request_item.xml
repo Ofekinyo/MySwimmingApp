@@ -11,7 +11,7 @@
         android:id="@+id/tvSessionType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Session Type: "
+        android:text="סוג אימון: "
         android:textSize="16sp"
         android:layout_marginBottom="4dp" />
 
@@ -19,7 +19,7 @@
         android:id="@+id/tvDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Date: "
+        android:text="תאריך: "
         android:textSize="16sp"
         android:layout_marginBottom="4dp" />
 
@@ -27,7 +27,7 @@
         android:id="@+id/tvGoals"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Goals: "
+        android:text="מטרות: "
         android:textSize="16sp"
         android:layout_marginBottom="4dp" />
 
@@ -41,13 +41,13 @@
             android:id="@+id/btnApprove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Approve"
+            android:text="אישור"
             android:layout_marginEnd="8dp" />
 
         <Button
             android:id="@+id/btnDecline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Decline" />
+            android:text="דחייה" />
     </LinearLayout>
 </LinearLayout>

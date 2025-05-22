@@ -4,8 +4,8 @@ public class Admin extends User {
     private boolean isAdmin;
 
     // Constructor with all parameters
-    public Admin(String id, String Fname, String Lname, String phone, String email, int age, String gender, String city, String password, String role, boolean isAdmin) {
-        super(id, Fname, Lname, phone, email, age, gender, city, password, role);
+    public Admin(String id, String fname, String lname, String phone, String email, int age, String gender, String city, String password, String role, boolean isAdmin) {
+        super(id, fname, lname, phone, email, age, gender, city, password, role);
         this.isAdmin = isAdmin; // true if it's an admin
     }
 

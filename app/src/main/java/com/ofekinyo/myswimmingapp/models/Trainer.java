@@ -14,11 +14,20 @@ public class Trainer extends User implements Serializable {
     }
 
     // Constructor with all parameters
-    public Trainer(String id, String Fname, String Lname, String phone, String email, Integer age, String password, String gender, String city, String role, List<String> trainingTypes, Integer experience, Double price) {
-        super(id, Fname, Lname, phone, email, age, gender, city, password, role);
+    public Trainer(String id, String fname, String lname, String phone, String email, Integer age, String password, String gender, String city, String role, List<String> trainingTypes, Integer experience, Double price) {
+        super(id, fname, lname, phone, email, age, gender, city, password, role);
         this.trainingTypes = trainingTypes;
         this.experience = experience;
         this.price = price;
+    }
+
+    public Trainer(Trainer trainer) {
+        super(trainer.id, trainer.fname, trainer.lname, trainer.phone, trainer.email, trainer.age, trainer.gender, trainer.city, trainer.password, trainer.role);
+        this.trainingTypes = trainingTypes;
+        this.experience = experience;
+        this.price = price;
+
+
     }
 
     // Getters and Setters
@@ -48,7 +57,7 @@ public class Trainer extends User implements Serializable {
 
     // Method to get the full name of the Trainer
     public String getName() {
-        return Fname + " " + Lname;
+        return fname + " " + lname;
     }
 
     @Override
@@ -58,8 +67,8 @@ public class Trainer extends User implements Serializable {
                 ", price=" + price +
                 ", experience=" + experience +
                 ", id='" + id + '\'' +
-                ", Fname='" + Fname + '\'' +
-                ", Lname='" + Lname + '\'' +
+                ", fname='" + fname + '\'' +
+                ", lname='" + lname + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +

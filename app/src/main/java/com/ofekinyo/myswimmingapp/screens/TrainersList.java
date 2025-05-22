@@ -27,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.adapters.TrainerAdapter;
 import com.ofekinyo.myswimmingapp.models.Trainer;
+import com.ofekinyo.myswimmingapp.services.DatabaseService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,13 +36,15 @@ import java.util.Map;
 
 public class TrainersList extends AppCompatActivity {
     private DatabaseReference trainersDatabaseRef;
+    private FirebaseAuth mAuth;
     private List<Trainer> trainers, filteredTrainers;
     private TrainerAdapter adapter;
     private EditText searchBar;
     private Spinner searchSpinner;
 
     private String traineeId, traineeName;
-    private FirebaseAuth mAuth;
+    DatabaseService databaseService;
+    ArrayList<Trainer>trainers2=new ArrayList<>();
 
     // Mapping from Hebrew labels to internal keys based on the new categories
     private final Map<String, String> filterMap = new HashMap<String, String>() {{
@@ -63,8 +66,21 @@ public class TrainersList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainers_list);
+        databaseService=DatabaseService.getInstance();
 
-        mAuth = FirebaseAuth.getInstance();
+
+        databaseService.getAllTrainers(new DatabaseService.DatabaseCallback<List<Trainer>>() {
+            @Override
+            public void onCompleted(List<Trainer> object) {
+                trainers2.addAll(object);
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+
+            }
+        });
+
 
         traineeId = getIntent().getStringExtra("traineeId");
         traineeName = getIntent().getStringExtra("traineeName");
@@ -129,6 +145,7 @@ public class TrainersList extends AppCompatActivity {
     private void setupBackButton() {
         Button backButton = findViewById(R.id.btnBack);
         backButton.setOnClickListener(v -> {
+
             FirebaseUser currentUser = mAuth.getCurrentUser();
             if (currentUser != null) {
                 String userId = currentUser.getUid();

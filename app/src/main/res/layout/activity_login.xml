@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Login"
+        android:text="התחברות משתמש"
         android:textSize="28sp"
         android:textStyle="bold"
         android:textColor="@color/white"
@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Email"
+            android:hint="אימייל"
             android:inputType="textEmailAddress"
             android:padding="12dp"
             android:textSize="16sp"
@@ -52,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Password"
+            android:hint="סיסמה"
             android:inputType="textPassword"
             android:padding="12dp"
             android:textSize="16sp"
@@ -68,7 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:padding="12dp"
-        android:text="Login"
+        android:text="התחברות"
         android:background="@drawable/rounded_button_green"
         android:textColor="@color/white"
         android:textStyle="bold" />
@@ -78,7 +78,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Don't have an account yet?"
+        android:text="אין לכם עדיין משתמש?"
         android:textSize="16sp"
         android:textColor="@android:color/darker_gray" />
 
@@ -89,7 +89,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:padding="12dp"
-        android:text="Register Here"
+        android:text="הרשמו כאן"
         android:background="@drawable/rounded_button_red"
         android:textColor="@color/white"
         android:textStyle="bold" />

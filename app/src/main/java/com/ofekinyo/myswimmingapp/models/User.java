@@ -3,15 +3,15 @@ package com.ofekinyo.myswimmingapp.models;
 import java.io.Serializable;
 
 public class User implements Serializable {
-    protected String id, Fname, Lname, email, gender, city, role, phone;
+    protected String id, fname, lname, email, gender, city, role, phone;
     protected Integer age; // Changed from int to Integer
     protected String password;
 
     // Constructor with all parameters
-    public User(String id, String Fname, String Lname, String phone, String email, Integer age, String gender, String city, String password, String role) {
+    public User(String id, String fname, String lname, String phone, String email, Integer age, String gender, String city, String password, String role) {
         this.id = id;
-        this.Fname = Fname;
-        this.Lname = Lname;
+        this.fname = fname;
+        this.fname = lname;
         this.phone = phone;
         this.email = email;
         this.age = age;
@@ -27,8 +27,8 @@ public class User implements Serializable {
     // Copy constructor
     public User(User user) {
         this.id = user.id;
-        this.Fname = user.Fname;
-        this.Lname = user.Lname;
+        this.fname = user.fname;
+        this.lname = user.lname;
         this.phone = user.phone;
         this.email = user.email;
         this.age = user.age;
@@ -47,19 +47,19 @@ public class User implements Serializable {
     }
 
     public String getFname() {
-        return Fname;
+        return fname;
     }
 
     public void setFname(String fname) {
-        this.Fname = fname;
+        this.fname = fname;
     }
 
     public String getLname() {
-        return Lname;
+        return lname;
     }
 
     public void setLname(String lname) {
-        this.Lname = lname;
+        this.lname = lname;
     }
 
     public String getPhone() {
@@ -118,12 +118,14 @@ public class User implements Serializable {
         this.role = role;
     }
 
+
+
     @Override
     public String toString() {
         return "User{" +
                 "id='" + id + '\'' +
-                ", Fname='" + Fname + '\'' +
-                ", Lname='" + Lname + '\'' +
+                ", fname='" + fname + '\'' +
+                ", lname='" + lname + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 ", age=" + age +

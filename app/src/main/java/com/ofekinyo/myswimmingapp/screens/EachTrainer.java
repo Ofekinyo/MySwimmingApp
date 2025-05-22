@@ -62,7 +62,7 @@ public class EachTrainer extends AppCompatActivity {
                     // Handle Request Session button click
                     btnRequestSession.setOnClickListener(v -> {
                         if (trainerId != null && traineeId != null && trainerName != null && traineeName != null) {
-                            Intent requestIntent = new Intent(EachTrainer.this, SendRequest.class);
+                            Intent requestIntent = new Intent(EachTrainer.this, ContactTrainer.class);
                             requestIntent.putExtra("trainerId", trainerId);
                             requestIntent.putExtra("traineeId", traineeId);
                             requestIntent.putExtra("trainerName", trainerName);

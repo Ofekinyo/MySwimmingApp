@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.ofekinyo.myswimmingapp.models.Request;
 import com.ofekinyo.myswimmingapp.models.Trainee;
 import com.ofekinyo.myswimmingapp.models.Trainer;
 import com.ofekinyo.myswimmingapp.models.User;
@@ -138,13 +139,16 @@ public class DatabaseService {
         getData("Trainees/" + swimStudentId, Trainee.class, callback);
     }
 
-    public String generateTrainerId() {
-        return generateNewId("Trainers");
+
+
+    public void createNewRequest(@NotNull final Request request, @Nullable final DatabaseCallback<Void> callback) {
+        writeData("TraineeRequest/" + request.getTrainee().getId()+"/"+request.getTrainer().getId(), request, callback);
+        writeData("TrainerRequest/" + request.getTrainer().getId()+"/"+request.getTrainee().getId(), request, callback);
+
+
     }
 
-    public String generateTraineeId() {
-        return generateNewId("Trainees");
-    }
+
 
     public void getAllTrainers(@NotNull final DatabaseCallback<List<Trainer>> callback) {
         readData("Trainers").get().addOnCompleteListener(task -> {
@@ -154,8 +158,11 @@ public class DatabaseService {
                 return;
             }
             List<Trainer> trainers = new ArrayList<>();
+
             task.getResult().getChildren().forEach(dataSnapshot -> {
                 Trainer trainer = dataSnapshot.getValue(Trainer.class);
+
+                trainer=new Trainer(trainer);
                 trainers.add(trainer);
             });
             callback.onCompleted(trainers);
@@ -172,6 +179,7 @@ public class DatabaseService {
             List<Trainee> trainees = new ArrayList<>();
             task.getResult().getChildren().forEach(dataSnapshot -> {
                 Trainee trainee = dataSnapshot.getValue(Trainee.class);
+
                 trainees.add(trainee);
             });
             callback.onCompleted(trainees);
