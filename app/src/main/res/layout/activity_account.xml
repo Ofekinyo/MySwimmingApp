@@ -8,15 +8,6 @@
     android:background="@drawable/water_gradient_bg"
     tools:context=".screens.Account">
 
-    <!-- Toolbar -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
-
     <!-- Profile Image -->
     <ImageView
         android:id="@+id/ivProfile"

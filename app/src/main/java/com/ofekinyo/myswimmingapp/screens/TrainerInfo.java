@@ -50,16 +50,15 @@ public class TrainerInfo extends AppCompatActivity {
         if (trainer == null) {
             Log.e("TrainerInfo", "Trainer ID is null!");
             return;
-        }
-        else if (trainer != null) {
+        } else if (trainer != null) {
 
 
             // Display the trainer's details in the corresponding TextViews
             String name = trainer.getFname() + " " + trainer.getLname();  // Concatenate first and last name
             tvTrainerName.setText(name);
-          tvEmail.setText(trainer.getEmail());
+            tvEmail.setText(trainer.getEmail());
             tvPhone.setText(trainer.getPhone());
-           tvAge.setText((trainer.getAge())+"");
+            tvAge.setText((trainer.getAge()) + "");
             tvGender.setText(trainer.getGender());
             tvCity.setText(trainer.getCity());
             tvPrice.setText(trainer.getPrice() + "");
@@ -73,14 +72,6 @@ public class TrainerInfo extends AppCompatActivity {
                 tvTrainingTypes.setText("Not available");
             }
 
-
         }
-    }
-
-    @Override
-    public boolean OnCreateOptionsMenu (Menu menu)
-    {
-        getMenuInflater().inflate(R.menu.menutest, menu);
-        return true;
     }
 }

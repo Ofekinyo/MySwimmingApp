@@ -34,7 +34,6 @@ public class Account extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
         ivProfile = findViewById(R.id.ivProfile);
         tvFirstName = findViewById(R.id.tvFirstName);
         tvLastName = findViewById(R.id.tvLastName);
@@ -46,7 +45,6 @@ public class Account extends AppCompatActivity {
         btnEditDetails = findViewById(R.id.btnEditDetails);
         btnBack = findViewById(R.id.btnBack);
 
-        setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("My Account");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
