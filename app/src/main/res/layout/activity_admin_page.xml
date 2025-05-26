@@ -51,5 +51,14 @@
         android:textColor="@color/white"
         android:textStyle="bold"
         android:layout_marginBottom="16dp" />
-
+    <!-- Logout Button -->
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="100sp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/red"
+        android:text="התנתקות"
+        android:textColor="@android:color/white"
+        android:enabled="true" />
 </LinearLayout>

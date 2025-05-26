@@ -131,5 +131,4 @@
         android:background="@drawable/rounded_button_green"
         android:textColor="@color/white"
         android:textStyle="bold" />
-
 </LinearLayout>
