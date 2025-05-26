@@ -1,15 +1,7 @@
 package com.ofekinyo.myswimmingapp.screens;
 
-import android.app.AlertDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,11 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.adapters.UserAdapter;
 import com.ofekinyo.myswimmingapp.models.User;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 import com.ofekinyo.myswimmingapp.services.DatabaseService;
 
 import java.util.ArrayList;
@@ -40,31 +27,33 @@ public class UsersList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_users_list);
+        setContentView(R.layout.activity_users_list);  // ✅ This layout must match the modern one we wrote earlier
 
+        // Initialize Firebase service and RecyclerView
         databaseService = DatabaseService.getInstance();
-
         recyclerView = findViewById(R.id.recyclerViewUsers);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
 
         users = new ArrayList<>();
 
+        // Fetch users from Firebase
         databaseService.getUserList(new DatabaseService.DatabaseCallback<List<User>>() {
             @Override
             public void onCompleted(List<User> us) {
                 Log.d(TAG, "onCompleted: successfully received users");
                 users = us;
-                adapter = new UserAdapter(UsersList.this, users);
+                adapter = new UserAdapter(UsersList.this, users);  // ✅ Uses modern card layout (user_item.xml)
                 recyclerView.setAdapter(adapter);
 
-                for(User u : users){
-                    Log.d(TAG, u.getFname() + " SIGMAAAAAAAAA");
+                for (User u : users) {
+                    Log.d(TAG, u.getFname() + " loaded");
                 }
             }
 
             @Override
             public void onFailed(Exception e) {
-                Log.e(TAG, "onFailed: failed to receive users");
+                Log.e(TAG, "onFailed: failed to receive users", e);
             }
         });
     }

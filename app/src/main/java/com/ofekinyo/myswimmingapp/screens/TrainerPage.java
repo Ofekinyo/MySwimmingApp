@@ -40,11 +40,11 @@ public class TrainerPage extends AppCompatActivity {
             startActivity(intent);
         });
 
-        //btnSessionRequests.setOnClickListener(v -> {
-            // When the trainer clicks "Session Requests", navigate to SessionRequestsActivity
-            //Intent intent = new Intent(TrainerPage.this, SessionRequests.class);
-            //startActivity(intent);
-        //});
+        btnSessionRequests.setOnClickListener(v -> {
+             //When the trainer clicks "Session Requests", navigate to SessionRequestsActivity
+            Intent intent = new Intent(TrainerPage.this, SessionRequests.class);
+            startActivity(intent);
+        });
 
         btnLogout.setOnClickListener(v -> {
             SharedPreferencesUtil.signOutUser(TrainerPage.this);

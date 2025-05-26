@@ -26,9 +26,6 @@ public class TraineePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainee_page);
-        Toolbar toolbar = findViewById(R.id.my_toolbar);
-        setSupportActionBar(toolbar);
-
         // Log intent extras if any
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -83,9 +80,8 @@ public class TraineePage extends AppCompatActivity {
                 startActivity(intent);
             });
 
-            btnBack.setOnClickListener(v -> finish());
     }
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menutest, menu);
         return true;
@@ -115,7 +111,7 @@ public class TraineePage extends AppCompatActivity {
             return super.onOptionsItemSelected(item);
         }
     }
-
+*/
 
 }
 

@@ -39,19 +39,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         User user = userList.get(position);
-        holder.fname.setText("First Name: " + user.getFname());
-        holder.lname.setText("Last Name: " + user.getLname());
-        holder.phone.setText("Phone Number: " + user.getPhone());
-        holder.age.setText("Age: " + user.getAge());
-        holder.gender.setText("Gender: " + user.getGender());
-        holder.city.setText("City: " + user.getCity());
-        holder.role.setText("Role: " + user.getRole());
+        holder.textViewName.setText("שם פרטי: " + user.getFname());
+        holder.textViewRole.setText("תפקיד: " + user.getRole());
 
-        // Display email, but don't allow editing
-        holder.email.setText("Email: " + user.getEmail());
-
-        // Set up the edit button
-        holder.editButton.setOnClickListener(v -> showEditDialog(user));
+        holder.buttonEditUser.setOnClickListener(v -> showEditDialog(user));
     }
 
     @Override
@@ -60,20 +51,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        TextView fname, lname, phone, age, gender, city, role, email;
-        Button editButton;
+        TextView textViewName, textViewRole;
+        Button buttonEditUser;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            fname = itemView.findViewById(R.id.editTextFname);
-            lname = itemView.findViewById(R.id.editTextLname);
-            phone = itemView.findViewById(R.id.editTextPhone);
-            age = itemView.findViewById(R.id.editTextAge);
-            gender = itemView.findViewById(R.id.editTextGender);
-            city = itemView.findViewById(R.id.editTextCity);
-            role = itemView.findViewById(R.id.textViewRole);
-            email = itemView.findViewById(R.id.textViewEmail); // Email TextView
-            editButton = itemView.findViewById(R.id.buttonSaveUser);
+            textViewName = itemView.findViewById(R.id.textViewName);
+            textViewRole = itemView.findViewById(R.id.textViewRole);
+            buttonEditUser = itemView.findViewById(R.id.buttonEditUser);
         }
     }
 

@@ -15,31 +15,47 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/textViewName"
+            android:id="@+id/textView_trainee_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="שם פרטי: "
+            android:text="שם השחיין"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="#000000" />
 
         <TextView
-            android:id="@+id/textViewRole"
+            android:id="@+id/textView_request_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="תפקיד: "
+            android:text="תאריך: 01/01/2025, שעה: 10:00, מקום: בריכה עירונית"
             android:textSize="14sp"
             android:textColor="#555555"
             android:layout_marginTop="4dp" />
 
-        <Button
-            android:id="@+id/buttonEditUser"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ערוך"
+            android:orientation="horizontal"
             android:layout_marginTop="12dp"
-            android:backgroundTint="#2196F3"
-            android:textColor="#FFFFFF" />
+            android:gravity="end">
+
+            <Button
+                android:id="@+id/button_accept"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="אשר"
+                android:backgroundTint="#4CAF50"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/button_reject"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="דחה"
+                android:layout_marginStart="8dp"
+                android:backgroundTint="#F44336"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
 
     </LinearLayout>
 
