@@ -3,23 +3,23 @@ package com.ofekinyo.myswimmingapp.models;
 import java.util.List;
 
 public class Request {
-    private String id;
-    private String trainerId;
-    private String traineeId;
+    private String requestId;
+    private String trainerId;    // מדריך
+    private String traineeId;    // שחיין
     private List<String> goals;
     private String otherGoal;
     private String date;
     private String time;
     private String location;
     private String notes;
-    private String status;  // <-- status field
+    private String status;
 
-    public Request() {
+    public Request(String requestId, String trainerId, String traineeId, String date, String time, String location, String goals, String notes, String pending) {
     }
 
-    // Constructor including status
-    public Request(String id, String trainerId, String traineeId, List<String> goals, String otherGoal, String date, String time, String location, String notes, String status) {
-        this.id = id;
+    public Request(String id, String trainerId, String traineeId, List<String> goals, String otherGoal,
+                          String date, String time, String location, String notes, String status) {
+        this.requestId = id;
         this.trainerId = trainerId;
         this.traineeId = traineeId;
         this.goals = goals;
@@ -34,11 +34,11 @@ public class Request {
     // Getters and setters
 
     public String getId() {
-        return id;
+        return requestId;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.requestId = id;
     }
 
     public String getTrainerId() {
@@ -115,8 +115,8 @@ public class Request {
 
     @Override
     public String toString() {
-        return "Request{" +
-                "id='" + id + '\'' +
+        return "SessionRequest{" +
+                "id='" + requestId + '\'' +
                 ", trainerId='" + trainerId + '\'' +
                 ", traineeId='" + traineeId + '\'' +
                 ", goals=" + goals +

@@ -39,7 +39,7 @@
             android:id="@+id/tvWelcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ברוך הבא מאמן!"
+            android:text="ברוך הבא מדריך!"
             android:textSize="26sp"
             android:textStyle="bold"
             android:textColor="@color/blue1_font"

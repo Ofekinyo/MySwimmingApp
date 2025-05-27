@@ -2,7 +2,6 @@ package com.ofekinyo.myswimmingapp.screens;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -51,12 +50,12 @@ public class About extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()) {
                             // User is a trainer
-                            Intent intent = new Intent(About.this, TrainerPage.class);
+                            Intent intent = new Intent(About.this, TutorPage.class);
                             startActivity(intent);
                             finish(); // Optional: if you want to close the current activity
                         } else {
                             // User is not a trainer, assume trainee
-                            Intent intent = new Intent(About.this, TraineePage.class);
+                            Intent intent = new Intent(About.this, SwimmerPage.class);
                             startActivity(intent);
                             finish();
                         }

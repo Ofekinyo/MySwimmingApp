@@ -140,7 +140,7 @@
             android:id="@+id/radioTrainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Trainer"
+            android:text="Tutor"
             android:checked="false"
             android:textColor="@color/white"
             android:layout_marginEnd="16dp" />
@@ -149,7 +149,7 @@
             android:id="@+id/radioTrainee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Trainee"
+            android:text="Swimmer"
             android:checked="false"
             android:textColor="@color/white" />
     </RadioGroup>

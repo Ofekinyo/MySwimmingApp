@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
-    android:padding="16dp"
-    android:background="@drawable/water_gradient_bg">
+    android:background="@drawable/water_gradient_bg"
+    android:padding="16dp">
 
+    <!-- Toolbar pinned to the top -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/blue1_font"
         android:elevation="4dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:titleTextColor="@android:color/white" />
-    
+
+    <!-- Space between toolbar and image -->
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="24dp" />
+
+    <!-- Logo -->
     <ImageView
         android:id="@+id/ivLogo"
         android:layout_width="120dp"
@@ -27,23 +32,25 @@
         android:contentDescription="App Logo"
         android:src="@drawable/cropped_image" />
 
+    <!-- Welcome Text -->
     <TextView
         android:id="@+id/tvWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ברוך הבא מתאמן!"
+        android:text="ברוך הבא שחיין!"
         android:textSize="26sp"
         android:textStyle="bold"
         android:textColor="@color/blue1_font"
         android:gravity="center"
+        android:layout_gravity="center"
         android:layout_marginBottom="32dp" />
 
-    <!-- Trainers List Button -->
+    <!-- Tutors List Button -->
     <Button
-        android:id="@+id/btnTrainersList"
+        android:id="@+id/btnTutorsList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="רשימת מאמנים זמינים"
+        android:text="רשימת מדריכים"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:elevation="4dp"
@@ -62,18 +69,16 @@
         android:layout_marginBottom="16dp"
         android:background="@drawable/rounded_button_blue"/>
 
-
-    <!-- Session Details Button -->
+    <!-- Schedule for swimmers-->
     <Button
-        android:id="@+id/btnTraineeSchedule"
+        android:id="@+id/btnSwimmerSchedule"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="האימונים שלי"
+        android:text="השיעורים שלי"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:elevation="4dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/rounded_button_blue"/>
-
 
 </LinearLayout>

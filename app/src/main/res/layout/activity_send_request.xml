@@ -9,17 +9,16 @@
     android:padding="20dp"
     android:background="@drawable/water_gradient_bg"
     android:gravity="center"
-    tools:context=".screens.ContactTrainer">
+    android:layoutDirection="rtl"
+    tools:context=".screens.SendRequest">
 
-    <!-- Toolbar goes here if needed -->
-
-    <!-- Header -->
+    <!-- כותרת -->
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/textViewHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="צור קשר"
+        android:text="פרטי הבקשה"
         android:textSize="28sp"
         android:textStyle="bold"
         android:textColor="@color/white"
@@ -27,9 +26,9 @@
         android:shadowColor="#000000"
         android:shadowRadius="4" />
 
-    <!-- Trainer Name -->
+    <!-- שם המדריך -->
     <TextView
-        android:id="@+id/tvTrainerNameC"
+        android:id="@+id/tvTrainerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -37,9 +36,9 @@
         android:textSize="18sp"
         android:textColor="@color/white" />
 
-    <!-- Container for goals -->
+    <!-- מטרות -->
     <LinearLayout
-        android:id="@+id/llGoalsCContainer"
+        android:id="@+id/llGoalsContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -49,7 +48,7 @@
         android:elevation="6dp">
 
         <TextView
-            android:id="@+id/tvGoalsC"
+            android:id="@+id/tvGoals"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="מטרות"
@@ -58,42 +57,42 @@
             android:textStyle="bold" />
 
         <LinearLayout
-            android:id="@+id/llGoalsC"
+            android:id="@+id/llGoals"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginTop="8dp">
 
             <CheckBox
-                android:id="@+id/cbGoal1C"
+                android:id="@+id/cbGoal1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="שיפור טכניקה"
                 android:textColor="@color/white" />
 
             <CheckBox
-                android:id="@+id/cbGoal2C"
+                android:id="@+id/cbGoal2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="הגברת סיבולת"
                 android:textColor="@color/white" />
 
             <CheckBox
-                android:id="@+id/cbGoal3C"
+                android:id="@+id/cbGoal3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="הגברת מהירות"
                 android:textColor="@color/white" />
 
             <CheckBox
-                android:id="@+id/cbOtherC"
+                android:id="@+id/cbOther"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="מטרה נוספת"
                 android:textColor="@color/white" />
 
             <EditText
-                android:id="@+id/etOtherGoalC"
+                android:id="@+id/etOtherGoal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="פרט"
@@ -106,33 +105,34 @@
         </LinearLayout>
     </LinearLayout>
 
+    <!-- תאריך -->
     <EditText
-        android:id="@+id/etDateC"
+        android:id="@+id/etDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="false"
         android:clickable="true"
         android:hint="בחר תאריך" />
 
+    <!-- שעה -->
     <EditText
-        android:id="@+id/etTimeC"
+        android:id="@+id/etTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="false"
         android:clickable="true"
         android:hint="בחר שעה" />
 
-
+    <!-- מיקום -->
     <EditText
-        android:id="@+id/etLocationC"
+        android:id="@+id/etLocation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:focusable="true"
-        android:clickable="true"
         android:hint="מיקום" />
 
+    <!-- הערות נוספות -->
     <EditText
-        android:id="@+id/etDetailsC"
+        android:id="@+id/etNotes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -146,15 +146,16 @@
         android:textColor="@color/white"
         android:textColorHint="@color/white" />
 
-    <!-- Submit Button -->
+    <!-- כפתור שליחה -->
     <Button
-        android:id="@+id/btnSubmitContact"
+        android:id="@+id/btnSubmit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:padding="12dp"
-        android:text="שליחת בקשה"
+        android:text="שלח בקשה"
         android:background="@drawable/rounded_button_green"
         android:textColor="@color/white"
         android:textStyle="bold" />
+
 </LinearLayout>

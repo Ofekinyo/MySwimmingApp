@@ -18,7 +18,7 @@ import com.ofekinyo.myswimmingapp.models.Schedule;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScheduleActivity extends AppCompatActivity {
+public class TutorScheduleActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ScheduleAdapter adapter;
     private List<Schedule> scheduleList;
@@ -28,7 +28,7 @@ public class ScheduleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schedule);
+        setContentView(R.layout.activity_tutor_schedule);
 
         recyclerView = findViewById(R.id.recycler_view);
         btnRefresh = findViewById(R.id.btnRefresh);

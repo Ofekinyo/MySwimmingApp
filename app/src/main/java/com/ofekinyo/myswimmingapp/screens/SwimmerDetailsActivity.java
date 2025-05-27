@@ -17,7 +17,7 @@ import com.ofekinyo.myswimmingapp.R;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TraineeDetailsActivity extends AppCompatActivity {
+public class SwimmerDetailsActivity extends AppCompatActivity {
 
     private EditText etHeight, etWeight, etGoal; // Add the new input field for goal
     private Button btnSaveTraineeDetails;
@@ -28,7 +28,7 @@ public class TraineeDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trainee_details);
+        setContentView(R.layout.activity_swimmer_details);
 
         mAuth = FirebaseAuth.getInstance();
         userId = mAuth.getCurrentUser().getUid();
@@ -70,17 +70,17 @@ public class TraineeDetailsActivity extends AppCompatActivity {
 
         traineeDatabaseRef.updateChildren(traineeDetails).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                Toast.makeText(TraineeDetailsActivity.this, "פרטי השחיין נשמרו בהצלחה!", Toast.LENGTH_LONG).show();
+                Toast.makeText(SwimmerDetailsActivity.this, "פרטי השחיין נשמרו בהצלחה!", Toast.LENGTH_LONG).show();
                 navigateToPage(); // Navigate to the appropriate page after saving
             } else {
-                Toast.makeText(TraineeDetailsActivity.this, "שגיאה בשמירת הנתונים", Toast.LENGTH_LONG).show();
+                Toast.makeText(SwimmerDetailsActivity.this, "שגיאה בשמירת הנתונים", Toast.LENGTH_LONG).show();
             }
         });
     }
 
     // Method to navigate to TraineePage after saving details
     private void navigateToPage() {
-        Intent intent = new Intent(TraineeDetailsActivity.this, TraineePage.class);
+        Intent intent = new Intent(SwimmerDetailsActivity.this, SwimmerPage.class);
         startActivity(intent);
         finish(); // Close current activity
     }

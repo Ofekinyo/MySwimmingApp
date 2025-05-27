@@ -2,10 +2,8 @@ package com.ofekinyo.myswimmingapp.screens;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -67,7 +65,7 @@ public class Login extends AppCompatActivity {
         rootRef.child("Trainers").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Intent intent = snapshot.exists() ? new Intent(Login.this, TrainerPage.class) : new Intent(Login.this, TraineePage.class);
+                Intent intent = snapshot.exists() ? new Intent(Login.this, TutorPage.class) : new Intent(Login.this, SwimmerPage.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();

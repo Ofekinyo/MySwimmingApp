@@ -5,27 +5,24 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.ofekinyo.myswimmingapp.R;
-import com.ofekinyo.myswimmingapp.models.Trainee;
 import com.ofekinyo.myswimmingapp.utils.SharedPreferencesUtil;
 
-public class TraineePage extends AppCompatActivity {
+public class SwimmerPage extends AppCompatActivity {
 
-    private Button btnBack, btnTrainersList, btnBasicExercises, btnAccount,btnTraineeSchedule, btnLogout, btnAbout;
+    private Button btnBack, btnTutorsList, btnBasicExercises, btnAccount,btnSwimmerSchedule, btnLogout, btnAbout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trainee_page);
+        setContentView(R.layout.activity_swimmer_page);
         // Log intent extras if any
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -38,25 +35,25 @@ public class TraineePage extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // Get button references
-            btnTrainersList = findViewById(R.id.btnTrainersList);
+            btnTutorsList = findViewById(R.id.btnTutorsList);
             btnBasicExercises = findViewById(R.id.btnBasicExercises);  // Change button reference
-            btnTraineeSchedule = findViewById(R.id.btnTraineeSchedule);
+            btnSwimmerSchedule = findViewById(R.id.btnSwimmerSchedule);
 
 
 
             // Set button click listeners
-            btnTrainersList.setOnClickListener(v -> {
-                Intent intent = new Intent(TraineePage.this, TrainersList.class);
+            btnTutorsList.setOnClickListener(v -> {
+                Intent intent = new Intent(SwimmerPage.this, TutorsList.class);
                 startActivity(intent);
             });
 
             btnBasicExercises.setOnClickListener(v -> {  // Change to navigate to BasicExercisesActivity
-                Intent intent = new Intent(TraineePage.this, BasicExercisesActivity.class);
+                Intent intent = new Intent(SwimmerPage.this, BasicExercisesActivity.class);
                 startActivity(intent);
             });
 
-            btnTraineeSchedule.setOnClickListener(v -> {
-                Intent intent = new Intent(TraineePage.this, TraineeScheduleActivity.class);
+            btnSwimmerSchedule.setOnClickListener(v -> {
+                Intent intent = new Intent(SwimmerPage.this, SwimmerScheduleActivity.class);
                 startActivity(intent);
             });
 

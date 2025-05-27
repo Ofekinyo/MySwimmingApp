@@ -14,7 +14,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ofekinyo.myswimmingapp.R;
 
-public class EachTrainer extends AppCompatActivity {
+public class EachTutor extends AppCompatActivity {
 
     private TextView tvTrainerName;
     private Button btnRequestSession, btnMoreInfo;
@@ -24,7 +24,7 @@ public class EachTrainer extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_each_trainer);
+        setContentView(R.layout.activity_each_tutor);
 
         // Initialize UI components
         tvTrainerName = findViewById(R.id.tvTrainerName);
@@ -62,20 +62,20 @@ public class EachTrainer extends AppCompatActivity {
                     // Handle Request Session button click
                     btnRequestSession.setOnClickListener(v -> {
                         if (trainerId != null && traineeId != null && trainerName != null && traineeName != null) {
-                            Intent requestIntent = new Intent(EachTrainer.this, ContactTrainer.class);
+                            Intent requestIntent = new Intent(EachTutor.this, SendRequest.class);
                             requestIntent.putExtra("trainerId", trainerId);
                             requestIntent.putExtra("traineeId", traineeId);
                             requestIntent.putExtra("trainerName", trainerName);
                             requestIntent.putExtra("traineeName", traineeName);
                             startActivity(requestIntent);
                         } else {
-                            Toast.makeText(EachTrainer.this, "Error: Missing trainer or trainee information", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EachTutor.this, "Error: Missing trainer or trainee information", Toast.LENGTH_SHORT).show();
                         }
                     });
 
                     // Handle More Info button click - move this here!
                     btnMoreInfo.setOnClickListener(v -> {
-                        Intent moreInfoIntent = new Intent(EachTrainer.this, TrainerInfo.class);
+                        Intent moreInfoIntent = new Intent(EachTutor.this, TutorInfo.class);
                         moreInfoIntent.putExtra("trainerId", trainerId); // Pass trainerId, NOT trainerName
                         startActivity(moreInfoIntent);
                     });
@@ -83,7 +83,7 @@ public class EachTrainer extends AppCompatActivity {
 
                 } else {
                     Log.e("EachTrainer", "Trainer not found in Firebase");
-                    Toast.makeText(EachTrainer.this, "Error: Trainer not found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EachTutor.this, "Error: Trainer not found", Toast.LENGTH_SHORT).show();
                 }
             }
 

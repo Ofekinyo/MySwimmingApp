@@ -1,0 +1,182 @@
+package com.ofekinyo.myswimmingapp.screens;
+
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.*;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.ofekinyo.myswimmingapp.R;
+import com.ofekinyo.myswimmingapp.models.Request;
+import com.ofekinyo.myswimmingapp.services.AuthenticationService;
+
+import java.util.Calendar;
+
+public class SendRequest extends AppCompatActivity {
+
+    private TextView tvTrainerName;
+    private EditText etDate, etTime, etLocation, etNotes, etOtherGoal;
+    private CheckBox cbGoal1, cbGoal2, cbGoal3, cbOther;
+    private Button btnSubmit;
+
+    private String trainerId;
+    private String trainerName;
+    private String traineeId;
+    private String traineeName;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_send_request);
+
+        // UI References
+        tvTrainerName = findViewById(R.id.tvTrainerName);
+        etDate = findViewById(R.id.etDate);
+        etTime = findViewById(R.id.etTime);
+        etLocation = findViewById(R.id.etLocation);
+        etNotes = findViewById(R.id.etNotes);
+        etOtherGoal = findViewById(R.id.etOtherGoal);
+        cbGoal1 = findViewById(R.id.cbGoal1);
+        cbGoal2 = findViewById(R.id.cbGoal2);
+        cbGoal3 = findViewById(R.id.cbGoal3);
+        cbOther = findViewById(R.id.cbOther);
+        btnSubmit = findViewById(R.id.btnSubmit);
+
+        // Toggle other goal visibility
+        cbOther.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            etOtherGoal.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+        });
+
+        // Get trainer info from Intent
+        trainerId = getIntent().getStringExtra("trainerId");
+        trainerName = getIntent().getStringExtra("trainerName");
+
+        // Display trainer name
+        tvTrainerName.setText(trainerName);
+
+        // Get trainee ID from auth service
+        traineeId = AuthenticationService.getInstance().getCurrentUserId();
+
+        // Load trainee name
+        fetchTraineeName();
+
+        // Pickers
+        etDate.setOnClickListener(v -> showDatePicker());
+        etTime.setOnClickListener(v -> showTimePicker());
+
+        // Submit request
+        btnSubmit.setOnClickListener(v -> submitRequest());
+    }
+
+    private void fetchTraineeName() {
+        FirebaseDatabase.getInstance().getReference("Trainees")
+                .child(traineeId)
+                .child("fname") // assuming name is under fname + lname
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        String fname = snapshot.getValue(String.class);
+                        FirebaseDatabase.getInstance().getReference("Trainees")
+                                .child(traineeId)
+                                .child("lname")
+                                .addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot snapshot) {
+                                        String lname = snapshot.getValue(String.class);
+                                        traineeName = fname + " " + lname;
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError error) {
+                                        Toast.makeText(SendRequest.this, "שגיאה בטעינת שם המשתמש", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        Toast.makeText(SendRequest.this, "שגיאה בטעינת שם המשתמש", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void showDatePicker() {
+        Calendar calendar = Calendar.getInstance();
+        new DatePickerDialog(this,
+                (view, year, month, dayOfMonth) -> etDate.setText(dayOfMonth + "/" + (month + 1) + "/" + year),
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)).show();
+    }
+
+    private void showTimePicker() {
+        Calendar calendar = Calendar.getInstance();
+        new TimePickerDialog(this,
+                (view, hourOfDay, minute) -> etTime.setText(String.format("%02d:%02d", hourOfDay, minute)),
+                calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE),
+                true).show();
+    }
+
+    private void submitRequest() {
+        String date = etDate.getText().toString();
+        String time = etTime.getText().toString();
+        String location = etLocation.getText().toString();
+        String notes = etNotes.getText().toString();
+
+        if (TextUtils.isEmpty(date) || TextUtils.isEmpty(time) || TextUtils.isEmpty(location)) {
+            Toast.makeText(this, "אנא מלא את כל השדות החיוניים", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        StringBuilder goalsBuilder = new StringBuilder();
+        if (cbGoal1.isChecked()) goalsBuilder.append("שיפור טכניקה, ");
+        if (cbGoal2.isChecked()) goalsBuilder.append("הגברת סיבולת, ");
+        if (cbGoal3.isChecked()) goalsBuilder.append("הגברת מהירות, ");
+        if (cbOther.isChecked()) {
+            String other = etOtherGoal.getText().toString();
+            if (!TextUtils.isEmpty(other)) goalsBuilder.append(other).append(", ");
+        }
+
+        String goals = goalsBuilder.length() > 0 ? goalsBuilder.substring(0, goalsBuilder.length() - 2) : "";
+
+        // Get reference and generate a unique ID
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        String requestId = db.getReference("SessionRequests").push().getKey();
+
+        if (requestId == null) {
+            Toast.makeText(this, "שגיאה ביצירת מזהה הבקשה", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Request request = new Request(
+                requestId,
+                trainerId,
+                traineeId,
+                date,
+                time,
+                location,
+                goals,
+                notes,
+                "pending"
+        );
+
+        db.getReference("SessionRequests")
+                .child(requestId)
+                .setValue(request)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(this, "הבקשה נשלחה בהצלחה", Toast.LENGTH_SHORT).show();
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "שגיאה בשליחת הבקשה", Toast.LENGTH_SHORT).show();
+                });
+    }
+
+}

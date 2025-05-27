@@ -30,13 +30,8 @@ public class AdminPage extends AppCompatActivity {
 
         // Delete User Button functionality
         deleteUserButton.setOnClickListener(v -> {
-            Toast.makeText(AdminPage.this, "Delete User clicked", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(AdminPage.this, DeleteUser.class);
+            startActivity(intent);
         });
-
-        // Add New User Button functionality
-        addUserButton.setOnClickListener(v -> {
-            Toast.makeText(AdminPage.this, "Add New User clicked", Toast.LENGTH_SHORT).show();
-        });
-
     }
 }

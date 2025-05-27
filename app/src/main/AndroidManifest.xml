@@ -13,6 +13,9 @@
         android:theme="@style/Theme.MySwimmingApp"
         tools:targetApi="31">
         <activity
+            android:name=".screens.DeleteUser"
+            android:exported="false" />
+        <activity
             android:name=".screens.SessionRequests"
             android:exported="false" />
         <activity
@@ -22,13 +25,13 @@
             android:name=".screens.EditAccount"
             android:exported="false" />
         <activity
-            android:name=".screens.ContactTrainer"
+            android:name=".screens.SendRequest"
             android:exported="false" />
         <activity
-            android:name=".screens.TraineeScheduleActivity"
+            android:name=".screens.SwimmerScheduleActivity"
             android:exported="false" />
         <activity
-            android:name=".screens.ScheduleActivity"
+            android:name=".screens.TutorScheduleActivity"
             android:exported="false" />
         <activity
             android:name=".screens.AdminLoginActivity"
@@ -49,19 +52,19 @@
             android:name=".adapters.ScheduleAdapter"
             android:exported="false" />
         <activity
-            android:name=".screens.TrainerInfo"
+            android:name=".screens.TutorInfo"
             android:exported="false" />
         <activity
-            android:name=".screens.EachTrainer"
+            android:name=".screens.EachTutor"
             android:exported="false" />
         <activity
-            android:name=".screens.TrainersList"
+            android:name=".screens.TutorsList"
             android:exported="false" />
         <activity
-            android:name=".screens.TrainerPage"
+            android:name=".screens.TutorPage"
             android:exported="false" />
         <activity
-            android:name=".screens.TraineePage"
+            android:name=".screens.SwimmerPage"
             android:exported="false" />
         <activity
             android:name=".screens.Account"
@@ -76,10 +79,10 @@
             android:name=".models.Schedule"
             android:exported="false" />
         <activity
-            android:name=".screens.TraineeDetailsActivity"
+            android:name=".screens.SwimmerDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".screens.TrainerDetailsActivity"
+            android:name=".screens.TutorDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".screens.Register"

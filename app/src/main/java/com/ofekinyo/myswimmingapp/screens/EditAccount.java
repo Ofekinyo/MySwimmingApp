@@ -13,8 +13,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ofekinyo.myswimmingapp.R;
-import com.ofekinyo.myswimmingapp.models.Trainee;
-import com.ofekinyo.myswimmingapp.models.Trainer;
+import com.ofekinyo.myswimmingapp.models.Swimmer;
+import com.ofekinyo.myswimmingapp.models.Turor;
 import com.ofekinyo.myswimmingapp.models.User;
 
 import java.util.*;
@@ -69,17 +69,17 @@ public class EditAccount extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (role.equals("Trainer")) {
-                    Trainer trainer = snapshot.getValue(Trainer.class);
-                    if (trainer != null) fillCommonFields(trainer);
-                    etExperience.setText(String.valueOf(trainer.getExperience()));
-                    etPrice.setText(String.valueOf(trainer.getPrice()));
-                    etTrainingTypes.setText(String.join(", ", trainer.getTrainingTypes()));
+                    Turor turor = snapshot.getValue(Turor.class);
+                    if (turor != null) fillCommonFields(turor);
+                    etExperience.setText(String.valueOf(turor.getExperience()));
+                    etPrice.setText(String.valueOf(turor.getPrice()));
+                    etTrainingTypes.setText(String.join(", ", turor.getTrainingTypes()));
                     setTrainerVisibility(true);
                 } else if (role.equals("Trainee")) {
-                    Trainee trainee = snapshot.getValue(Trainee.class);
-                    if (trainee != null) fillCommonFields(trainee);
-                    etHeight.setText(String.valueOf(trainee.getHeight()));
-                    etWeight.setText(String.valueOf(trainee.getWeight()));
+                    Swimmer swimmer = snapshot.getValue(Swimmer.class);
+                    if (swimmer != null) fillCommonFields(swimmer);
+                    etHeight.setText(String.valueOf(swimmer.getHeight()));
+                    etWeight.setText(String.valueOf(swimmer.getWeight()));
                     setTrainerVisibility(false);
                 }
             }
@@ -116,40 +116,40 @@ public class EditAccount extends AppCompatActivity {
         user.setRole(role);
 
         if (role.equals("Trainer")) {
-            Trainer trainer = new Trainer();
-            trainer.setId(user.getId());
-            trainer.setFname(user.getFname());
-            trainer.setLname(user.getLname());
-            trainer.setPhone(user.getPhone());
-            trainer.setEmail(user.getEmail());
-            trainer.setAge(user.getAge());
-            trainer.setGender(user.getGender());
-            trainer.setCity(user.getCity());
-            trainer.setPassword(user.getPassword());
-            trainer.setRole(user.getRole());
-            trainer.setExperience(Integer.parseInt(etExperience.getText().toString()));
-            trainer.setPrice(Double.parseDouble(etPrice.getText().toString()));
-            trainer.setTrainingTypes(Arrays.asList(etTrainingTypes.getText().toString().split(",\\s*")));
+            Turor turor = new Turor();
+            turor.setId(user.getId());
+            turor.setFname(user.getFname());
+            turor.setLname(user.getLname());
+            turor.setPhone(user.getPhone());
+            turor.setEmail(user.getEmail());
+            turor.setAge(user.getAge());
+            turor.setGender(user.getGender());
+            turor.setCity(user.getCity());
+            turor.setPassword(user.getPassword());
+            turor.setRole(user.getRole());
+            turor.setExperience(Integer.parseInt(etExperience.getText().toString()));
+            turor.setPrice(Double.parseDouble(etPrice.getText().toString()));
+            turor.setTrainingTypes(Arrays.asList(etTrainingTypes.getText().toString().split(",\\s*")));
 
 
-            userRef.setValue(trainer);
+            userRef.setValue(turor);
 
         } else if (role.equals("Trainee")) {
-            Trainee trainee = new Trainee();
-            trainee.setId(user.getId());
-            trainee.setFname(user.getFname());
-            trainee.setLname(user.getLname());
-            trainee.setPhone(user.getPhone());
-            trainee.setEmail(user.getEmail());
-            trainee.setAge(user.getAge());
-            trainee.setGender(user.getGender());
-            trainee.setCity(user.getCity());
-            trainee.setPassword(user.getPassword());
-            trainee.setRole(user.getRole());
-            trainee.setHeight(Double.parseDouble(etHeight.getText().toString()));
-            trainee.setWeight(Double.parseDouble(etWeight.getText().toString()));
+            Swimmer swimmer = new Swimmer();
+            swimmer.setId(user.getId());
+            swimmer.setFname(user.getFname());
+            swimmer.setLname(user.getLname());
+            swimmer.setPhone(user.getPhone());
+            swimmer.setEmail(user.getEmail());
+            swimmer.setAge(user.getAge());
+            swimmer.setGender(user.getGender());
+            swimmer.setCity(user.getCity());
+            swimmer.setPassword(user.getPassword());
+            swimmer.setRole(user.getRole());
+            swimmer.setHeight(Double.parseDouble(etHeight.getText().toString()));
+            swimmer.setWeight(Double.parseDouble(etWeight.getText().toString()));
 
-            userRef.setValue(trainee);
+            userRef.setValue(swimmer);
         }
 
         Toast.makeText(this, "Account updated successfully", Toast.LENGTH_SHORT).show();

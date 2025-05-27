@@ -12,20 +12,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ofekinyo.myswimmingapp.R;
-import com.ofekinyo.myswimmingapp.models.Trainer;
-import com.ofekinyo.myswimmingapp.screens.ContactTrainer;
-import com.ofekinyo.myswimmingapp.screens.TrainerInfo;
+import com.ofekinyo.myswimmingapp.models.Turor;
+import com.ofekinyo.myswimmingapp.screens.SendRequest;
+import com.ofekinyo.myswimmingapp.screens.TutorInfo;
 
 import java.util.List;
 
-public class TrainerAdapter extends RecyclerView.Adapter<TrainerAdapter.ViewHolder> {
+public class TutorAdapter extends RecyclerView.Adapter<TutorAdapter.ViewHolder> {
     private Context context;
-    private List<Trainer> trainers;
+    private List<Turor> turors;
     //private String traineeId, traineeName;
 
-    public TrainerAdapter(Context context, List<Trainer> trainers, String traineeId, String traineeName) {
+    public TutorAdapter(Context context, List<Turor> turors, String traineeId, String traineeName) {
         this.context = context;
-        this.trainers = trainers;
+        this.turors = turors;
        //this.traineeId = traineeId;
         //this.traineeName = traineeName;
     }
@@ -33,22 +33,22 @@ public class TrainerAdapter extends RecyclerView.Adapter<TrainerAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.activity_each_trainer, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.activity_each_tutor, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Trainer trainer = trainers.get(position);
-        holder.tvTrainerName.setText(trainer.getName());
+        Turor turor = turors.get(position);
+        holder.tvTrainerName.setText(turor.getName());
 
         // Example of setting experience, price, training types, etc. (keep your original code)
 
         // Handle Request Session button click directly here
         holder.btnRequestSession.setOnClickListener(v -> {
-            Intent requestIntent = new Intent(context, ContactTrainer.class);
+            Intent requestIntent = new Intent(context, SendRequest.class);
 
-            requestIntent.putExtra("trainer", trainer);
+            requestIntent.putExtra("trainer", turor);
 
           //  requestIntent.putExtra("traineeName", traineeName);
             context.startActivity(requestIntent);
@@ -56,15 +56,15 @@ public class TrainerAdapter extends RecyclerView.Adapter<TrainerAdapter.ViewHold
 
         // Handle More Info button click directly here
         holder.btnMoreInfo.setOnClickListener(v -> {
-            Intent moreInfoIntent = new Intent(context, TrainerInfo.class);
-            moreInfoIntent.putExtra("trainer", trainer);
+            Intent moreInfoIntent = new Intent(context, TutorInfo.class);
+            moreInfoIntent.putExtra("trainer", turor);
             context.startActivity(moreInfoIntent);
         });
     }
 
     @Override
     public int getItemCount() {
-        return trainers.size();
+        return turors.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

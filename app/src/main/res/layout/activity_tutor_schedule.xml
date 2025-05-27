@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_tutor_schedule"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center_horizontal"
+    android:background="@drawable/water_gradient_bg">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
+    <!-- Title -->
+    <TextView
+        android:id="@+id/tvSchedule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="מערכת השיעורים שלי"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_marginBottom="8dp"
+        />
+
+    <!-- RecyclerView displaying the tutor's schedule -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/water_recycler_view_bg"
+        android:layout_marginBottom="16dp"
+        android:clipToPadding="false"
+        android:padding="8dp" />
+
+    <!-- Refresh Button -->
+    <Button
+        android:id="@+id/btnRefresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="רענון"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:padding="8dp"
+        android:layout_marginTop="8dp"
+        android:elevation="4dp"
+        android:background="@drawable/rounded_button_white" />
+
+</LinearLayout>

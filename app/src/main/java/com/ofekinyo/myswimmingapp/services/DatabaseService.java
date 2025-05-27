@@ -8,8 +8,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.ofekinyo.myswimmingapp.models.Request;
-import com.ofekinyo.myswimmingapp.models.Trainee;
-import com.ofekinyo.myswimmingapp.models.Trainer;
+import com.ofekinyo.myswimmingapp.models.Swimmer;
+import com.ofekinyo.myswimmingapp.models.Turor;
 import com.ofekinyo.myswimmingapp.models.User;
 
 import org.jetbrains.annotations.NotNull;
@@ -123,20 +123,20 @@ public class DatabaseService {
         return databaseReference.child(path).push().getKey();
     }
 
-    public void createNewTrainer(@NotNull final Trainer trainer, @Nullable final DatabaseCallback<Void> callback) {
-        writeData("Trainers/" + trainer.getId(), trainer, callback);
+    public void createNewTrainer(@NotNull final Turor turor, @Nullable final DatabaseCallback<Void> callback) {
+        writeData("Trainers/" + turor.getId(), turor, callback);
     }
 
-    public void createNewTrainee(@NotNull final Trainee swimStudent, @Nullable final DatabaseCallback<Void> callback) {
+    public void createNewTrainee(@NotNull final Swimmer swimStudent, @Nullable final DatabaseCallback<Void> callback) {
         writeData("Trainees/" + swimStudent.getId(), swimStudent, callback);
     }
 
-    public void getTrainer(@NotNull final String trainerId, @NotNull final DatabaseCallback<Trainer> callback) {
-        getData("Trainers/" + trainerId, Trainer.class, callback);
+    public void getTrainer(@NotNull final String trainerId, @NotNull final DatabaseCallback<Turor> callback) {
+        getData("Trainers/" + trainerId, Turor.class, callback);
     }
 
-    public void getTrainee(@NotNull final String swimStudentId, @NotNull final DatabaseCallback<Trainee> callback) {
-        getData("Trainees/" + swimStudentId, Trainee.class, callback);
+    public void getTrainee(@NotNull final String swimStudentId, @NotNull final DatabaseCallback<Swimmer> callback) {
+        getData("Trainees/" + swimStudentId, Swimmer.class, callback);
     }
 
 
@@ -151,39 +151,39 @@ public class DatabaseService {
 
 
 
-    public void getAllTrainers(@NotNull final DatabaseCallback<List<Trainer>> callback) {
+    public void getAllTrainers(@NotNull final DatabaseCallback<List<Turor>> callback) {
         readData("Trainers").get().addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
                 Log.e(TAG, "Error getting trainers", task.getException());
                 callback.onFailed(task.getException());
                 return;
             }
-            List<Trainer> trainers = new ArrayList<>();
+            List<Turor> turors = new ArrayList<>();
 
             task.getResult().getChildren().forEach(dataSnapshot -> {
-                Trainer trainer = dataSnapshot.getValue(Trainer.class);
+                Turor turor = dataSnapshot.getValue(Turor.class);
 
-                trainer=new Trainer(trainer);
-                trainers.add(trainer);
+                turor =new Turor(turor);
+                turors.add(turor);
             });
-            callback.onCompleted(trainers);
+            callback.onCompleted(turors);
         });
     }
 
-    public void getAllTrainees(@NotNull final DatabaseCallback<List<Trainee>> callback) {
+    public void getAllTrainees(@NotNull final DatabaseCallback<List<Swimmer>> callback) {
         readData("Trainees").get().addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
                 Log.e(TAG, "Error getting trainees", task.getException());
                 callback.onFailed(task.getException());
                 return;
             }
-            List<Trainee> trainees = new ArrayList<>();
+            List<Swimmer> swimmers = new ArrayList<>();
             task.getResult().getChildren().forEach(dataSnapshot -> {
-                Trainee trainee = dataSnapshot.getValue(Trainee.class);
+                Swimmer swimmer = dataSnapshot.getValue(Swimmer.class);
 
-                trainees.add(trainee);
+                swimmers.add(swimmer);
             });
-            callback.onCompleted(trainees);
+            callback.onCompleted(swimmers);
         });
     }
 }

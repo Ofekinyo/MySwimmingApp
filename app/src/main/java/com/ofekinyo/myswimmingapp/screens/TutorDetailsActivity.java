@@ -3,7 +3,6 @@ package com.ofekinyo.myswimmingapp.screens;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -21,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TrainerDetailsActivity extends AppCompatActivity {
+public class TutorDetailsActivity extends AppCompatActivity {
 
     private EditText etExperience, etPrice;
     private CheckBox cbBeginner, cbAdvanced, cbCompetitive, cbSafety, cbRehab, cbInfants;
@@ -33,7 +32,7 @@ public class TrainerDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trainer_details);
+        setContentView(R.layout.activity_tutor_details);
 
         mAuth = FirebaseAuth.getInstance();
         userId = mAuth.getCurrentUser().getUid();
@@ -87,12 +86,12 @@ public class TrainerDetailsActivity extends AppCompatActivity {
 
         trainerDatabaseRef.updateChildren(trainerDetails).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                Toast.makeText(TrainerDetailsActivity.this, "פרטי המדריך נשמרו בהצלחה!", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(TrainerDetailsActivity.this, TrainerPage.class);
+                Toast.makeText(TutorDetailsActivity.this, "פרטי המדריך נשמרו בהצלחה!", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(TutorDetailsActivity.this, TutorPage.class);
                 startActivity(intent);
                 finish();
             } else {
-                Toast.makeText(TrainerDetailsActivity.this, "שגיאה בשמירת הנתונים", Toast.LENGTH_LONG).show();
+                Toast.makeText(TutorDetailsActivity.this, "שגיאה בשמירת הנתונים", Toast.LENGTH_LONG).show();
             }
         });
     }

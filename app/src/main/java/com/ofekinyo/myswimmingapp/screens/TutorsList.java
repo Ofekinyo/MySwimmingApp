@@ -25,8 +25,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ofekinyo.myswimmingapp.R;
-import com.ofekinyo.myswimmingapp.adapters.TrainerAdapter;
-import com.ofekinyo.myswimmingapp.models.Trainer;
+import com.ofekinyo.myswimmingapp.adapters.TutorAdapter;
+import com.ofekinyo.myswimmingapp.models.Turor;
 import com.ofekinyo.myswimmingapp.services.DatabaseService;
 
 import java.util.ArrayList;
@@ -34,17 +34,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TrainersList extends AppCompatActivity {
+public class TutorsList extends AppCompatActivity {
     private DatabaseReference trainersDatabaseRef;
     private FirebaseAuth mAuth;
-    private List<Trainer> trainers, filteredTrainers;
-    private TrainerAdapter adapter;
+    private List<Turor> turors, filteredTurors;
+    private TutorAdapter adapter;
     private EditText searchBar;
     private Spinner searchSpinner;
 
     private String traineeId, traineeName;
     DatabaseService databaseService;
-    ArrayList<Trainer>trainers2=new ArrayList<>();
+    ArrayList<Turor>trainers2=new ArrayList<>();
 
     // Mapping from Hebrew labels to internal keys based on the new categories
     private final Map<String, String> filterMap = new HashMap<String, String>() {{
@@ -65,13 +65,13 @@ public class TrainersList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trainers_list);
+        setContentView(R.layout.activity_tutors_list);
         databaseService=DatabaseService.getInstance();
 
 
-        databaseService.getAllTrainers(new DatabaseService.DatabaseCallback<List<Trainer>>() {
+        databaseService.getAllTrainers(new DatabaseService.DatabaseCallback<List<Turor>>() {
             @Override
-            public void onCompleted(List<Trainer> object) {
+            public void onCompleted(List<Turor> object) {
                 trainers2.addAll(object);
             }
 
@@ -96,26 +96,26 @@ public class TrainersList extends AppCompatActivity {
         searchSpinner.setAdapter(spinnerAdapter);
 
         trainersDatabaseRef = FirebaseDatabase.getInstance().getReference("Trainers");
-        trainers = new ArrayList<>();
-        filteredTrainers = new ArrayList<>();
+        turors = new ArrayList<>();
+        filteredTurors = new ArrayList<>();
 
-        adapter = new TrainerAdapter(this, filteredTrainers, traineeId, traineeName);
+        adapter = new TutorAdapter(this, filteredTurors, traineeId, traineeName);
         rvTrainers.setAdapter(adapter);
 
         trainersDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                trainers.clear();
-                filteredTrainers.clear();
+                turors.clear();
+                filteredTurors.clear();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Trainer trainer = snapshot.getValue(Trainer.class);
-                    if (trainer != null) {
-                        trainers.add(trainer);
+                    Turor turor = snapshot.getValue(Turor.class);
+                    if (turor != null) {
+                        turors.add(turor);
                     }
                 }
 
-                filteredTrainers.addAll(trainers);
+                filteredTurors.addAll(turors);
                 adapter.notifyDataSetChanged();
             }
 
@@ -155,16 +155,16 @@ public class TrainersList extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()) {
-                            startActivity(new Intent(TrainersList.this, TrainerPage.class));
+                            startActivity(new Intent(TutorsList.this, TutorPage.class));
                         } else {
-                            startActivity(new Intent(TrainersList.this, TraineePage.class));
+                            startActivity(new Intent(TutorsList.this, SwimmerPage.class));
                         }
                         finish();
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(TrainersList.this, "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(TutorsList.this, "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -172,56 +172,56 @@ public class TrainersList extends AppCompatActivity {
     }
 
     private void filterTrainers(String query) {
-        filteredTrainers.clear();
+        filteredTurors.clear();
         if (query.isEmpty()) {
-            filteredTrainers.addAll(trainers);
+            filteredTurors.addAll(turors);
         } else {
             String selectedOption = searchSpinner.getSelectedItem().toString();
             query = query.toLowerCase();
             String key = filterMap.get(selectedOption);
 
-            for (Trainer trainer : trainers) {
+            for (Turor turor : turors) {
                 boolean matches = false;
                 switch (key) {
                     case "fname":
-                        matches = trainer.getFname() != null && trainer.getFname().toLowerCase().contains(query);
+                        matches = turor.getFname() != null && turor.getFname().toLowerCase().contains(query);
                         break;
                     case "city":
-                        matches = trainer.getCity() != null && trainer.getCity().toLowerCase().contains(query);
+                        matches = turor.getCity() != null && turor.getCity().toLowerCase().contains(query);
                         break;
                     case "email":
-                        matches = trainer.getEmail() != null && trainer.getEmail().toLowerCase().contains(query);
+                        matches = turor.getEmail() != null && turor.getEmail().toLowerCase().contains(query);
                         break;
                     case "experience":
-                        matches = trainer.getExperience() != null && String.valueOf(trainer.getExperience()).contains(query);
+                        matches = turor.getExperience() != null && String.valueOf(turor.getExperience()).contains(query);
                         break;
                     case "lname":
-                        matches = trainer.getLname() != null && trainer.getLname().toLowerCase().contains(query);
+                        matches = turor.getLname() != null && turor.getLname().toLowerCase().contains(query);
                         break;
                     case "gender":
-                        matches = trainer.getGender() != null && trainer.getGender().toLowerCase().contains(query);
+                        matches = turor.getGender() != null && turor.getGender().toLowerCase().contains(query);
                         break;
                     case "id":
-                        matches = trainer.getId() != null && trainer.getId().toLowerCase().contains(query);
+                        matches = turor.getId() != null && turor.getId().toLowerCase().contains(query);
                         break;
                     case "password":
-                        matches = trainer.getPassword() != null && trainer.getPassword().toLowerCase().contains(query);
+                        matches = turor.getPassword() != null && turor.getPassword().toLowerCase().contains(query);
                         break;
                     case "phone":
-                        matches = trainer.getPhone() != null && trainer.getPhone().toLowerCase().contains(query);
+                        matches = turor.getPhone() != null && turor.getPhone().toLowerCase().contains(query);
                         break;
                     case "price":
-                        matches = trainer.getPrice() != null && String.valueOf(trainer.getPrice()).contains(query);
+                        matches = turor.getPrice() != null && String.valueOf(turor.getPrice()).contains(query);
                         break;
                     case "role":
-                        matches = trainer.getRole() != null && trainer.getRole().toLowerCase().contains(query);
+                        matches = turor.getRole() != null && turor.getRole().toLowerCase().contains(query);
                         break;
                     case "trainingTypes":
-                        matches = trainer.getTrainingTypes() != null && trainer.getTrainingTypes().toString().toLowerCase().contains(query);
+                        matches = turor.getTrainingTypes() != null && turor.getTrainingTypes().toString().toLowerCase().contains(query);
                         break;
                 }
                 if (matches) {
-                    filteredTrainers.add(trainer);
+                    filteredTurors.add(turor);
                 }
             }
         }

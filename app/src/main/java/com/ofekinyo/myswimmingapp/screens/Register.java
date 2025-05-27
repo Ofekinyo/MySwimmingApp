@@ -1,18 +1,14 @@
 package com.ofekinyo.myswimmingapp.screens;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -132,7 +128,7 @@ public class Register extends AppCompatActivity {
                         .addOnCompleteListener(dbTask -> {
                             if (dbTask.isSuccessful()) {
                                 Toast.makeText(Register.this, "הרשמה בוצעה בהצלחה!", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(Register.this, role.equals("Trainer") ? TrainerDetailsActivity.class : TraineeDetailsActivity.class);
+                                Intent intent = new Intent(Register.this, role.equals("Trainer") ? TutorDetailsActivity.class : SwimmerDetailsActivity.class);
                                 startActivity(intent);
                                 finish();
                             } else {
