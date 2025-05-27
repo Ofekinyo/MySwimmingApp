@@ -1,78 +1,118 @@
 package com.ofekinyo.myswimmingapp.models;
 
-import java.util.Date;
+import java.util.List;
 
 public class Request {
-    Trainee trainee;
-    Trainer trainer;
-
-
-    Date date;
-    String goals;
-    String details;
-
-    String status;
-
-
-    public Request(Trainee trainee, Trainer trainer, Date date, String goals, String details, String status) {
-        this.trainee = trainee;
-        this.trainer = trainer;
-        this.date = date;
-        this.goals = goals;
-        this.details = details;
-        this.status = status;
-    }
-    public Request(Trainee trainee, Trainer trainer, Date date, String goals, String details) {
-        this.trainee = trainee;
-        this.trainer = trainer;
-        this.date = date;
-        this.goals = goals;
-        this.details = details;
-        this.status = "new";
-    }
-
+    private String id;
+    private String trainerId;
+    private String traineeId;
+    private String trainerName;
+    private List<String> goals;
+    private String otherGoal;
+    private String date;
+    private String time;
+    private String location;
+    private String notes;
+    private String status;  // <-- status field
 
     public Request() {
     }
 
-    public Trainee getTrainee() {
-        return trainee;
-    }
-
-    public void setTrainee(Trainee trainee) {
-        this.trainee = trainee;
-    }
-
-    public Trainer getTrainer() {
-        return trainer;
-    }
-
-    public void setTrainer(Trainer trainer) {
-        this.trainer = trainer;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
+    // Constructor including status
+    public Request(String id, String trainerId, String trainerName, String traineeId, List<String> goals, String otherGoal, String date, String time, String location, String notes, String status) {
+        this.id = id;
+        this.trainerId = trainerId;
+        this.traineeId = traineeId;
+        this.trainerName = trainerName;
+        this.goals = goals;
+        this.otherGoal = otherGoal;
         this.date = date;
+        this.time = time;
+        this.location = location;
+        this.notes = notes;
+        this.status = status;
     }
 
-    public String getDetails() {
-        return details;
+    // Getters and setters
+
+    public String getId() {
+        return id;
     }
 
-    public void setDetails(String details) {
-        this.details = details;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getGoals() {
+    public String getTrainerId() {
+        return trainerId;
+    }
+
+    public void setTrainerId(String trainerId) {
+        this.trainerId = trainerId;
+    }
+
+    public String getTraineeId() {
+        return traineeId;
+    }
+
+    public void setTraineeId(String traineeId) {
+        this.traineeId = traineeId;
+    }
+
+    public String getTrainerName() {
+        return trainerName;
+    }
+
+    public void setTrainerName(String trainerName) {
+        this.trainerName = trainerName;
+    }
+
+    public List<String> getGoals() {
         return goals;
     }
 
-    public void setGoals(String goals) {
+    public void setGoals(List<String> goals) {
         this.goals = goals;
+    }
+
+    public String getOtherGoal() {
+        return otherGoal;
+    }
+
+    public void setOtherGoal(String otherGoal) {
+        this.otherGoal = otherGoal;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     public String getStatus() {
@@ -86,11 +126,16 @@ public class Request {
     @Override
     public String toString() {
         return "Request{" +
-                "trainee=" + trainee +
-                ", trainer=" + trainer +
-                ", date=" + date +
-                ", goals='" + goals + '\'' +
-                ", details='" + details + '\'' +
+                "id='" + id + '\'' +
+                ", trainerId='" + trainerId + '\'' +
+                ", traineeId='" + traineeId + '\'' +
+                ", trainerName='" + trainerName + '\'' +
+                ", goals=" + goals +
+                ", otherGoal='" + otherGoal + '\'' +
+                ", date='" + date + '\'' +
+                ", time='" + time + '\'' +
+                ", location='" + location + '\'' +
+                ", notes='" + notes + '\'' +
                 ", status='" + status + '\'' +
                 '}';
     }

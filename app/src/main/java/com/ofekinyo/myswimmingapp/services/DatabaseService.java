@@ -142,10 +142,11 @@ public class DatabaseService {
 
 
     public void createNewRequest(@NotNull final Request request, @Nullable final DatabaseCallback<Void> callback) {
-        writeData("TraineeRequest/" + request.getTrainee().getId()+"/"+request.getTrainer().getId(), request, callback);
-        writeData("TrainerRequest/" + request.getTrainer().getId()+"/"+request.getTrainee().getId(), request, callback);
+        String traineeId = request.getTraineeId();
+        String trainerId = request.getTrainerId();
 
-
+        writeData("TraineeRequest/" + traineeId + "/" + trainerId, request, callback);
+        writeData("TrainerRequest/" + trainerId + "/" + traineeId, request, callback);
     }
 
 

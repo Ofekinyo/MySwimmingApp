@@ -3,11 +3,14 @@ package com.ofekinyo.myswimmingapp.screens;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,19 +27,12 @@ public class TrainerPage extends AppCompatActivity {
 
         // Get button references
         Button btnSchedule = findViewById(R.id.btnSchedule);
-        Button btnAccount = findViewById(R.id.btnAccount);
         Button btnSessionRequests = findViewById(R.id.btnSessionRequests); // Updated button ID
-        Button btnLogout = findViewById(R.id.btnLogout);
-        Button btnAbout = findViewById(R.id.btnAbout);
-
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         // Set button click listeners
         btnSchedule.setOnClickListener(v -> {
             Intent intent = new Intent(TrainerPage.this, ScheduleActivity.class);
-            startActivity(intent);
-        });
-
-        btnAccount.setOnClickListener(v -> {
-            Intent intent = new Intent(TrainerPage.this, Account.class);
             startActivity(intent);
         });
 
@@ -45,19 +41,37 @@ public class TrainerPage extends AppCompatActivity {
             Intent intent = new Intent(TrainerPage.this, SessionRequests.class);
             startActivity(intent);
         });
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
 
-        btnLogout.setOnClickListener(v -> {
-            SharedPreferencesUtil.signOutUser(TrainerPage.this);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.menu_profile) {
+            Intent intent = new Intent(this, Account.class);
+            startActivity(intent);
+            return true;
+
+        } else if (id == R.id.menu_about) {
+            Intent intent = new Intent(this, About.class);
+            startActivity(intent);
+            return true;
+
+        } else if (id == R.id.menu_logout) {
+            SharedPreferencesUtil.signOutUser(this);
             FirebaseAuth.getInstance().signOut();
-            Intent intent = new Intent(TrainerPage.this, MainActivity.class);
+            Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
-        });
+            return true;
+        }
 
-        btnAbout.setOnClickListener(v -> {
-            Intent intent = new Intent(TrainerPage.this, About.class);
-            startActivity(intent);
-        });
+        return super.onOptionsItemSelected(item);
     }
 }

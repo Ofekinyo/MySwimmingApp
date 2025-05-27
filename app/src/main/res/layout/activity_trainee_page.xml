@@ -7,17 +7,30 @@
     android:padding="16dp"
     android:background="@drawable/water_gradient_bg">
 
+    <!-- Toolbar -->
     <!-- Logo -->
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/blue1_font"
+        android:elevation="4dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:titleTextColor="@android:color/white" />
+
+    <!-- Welcome Message -->
     <ImageView
         android:id="@+id/ivLogo"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:src="@drawable/cropped_image"
-        android:contentDescription="App Logo"
+        android:layout_gravity="center"
         android:layout_marginBottom="24dp"
-        android:layout_gravity="center" />
+        android:contentDescription="App Logo"
+        android:src="@drawable/cropped_image" />
 
-    <!-- Welcome Message -->
     <TextView
         android:id="@+id/tvWelcome"
         android:layout_width="wrap_content"
@@ -53,51 +66,18 @@
         android:layout_marginBottom="16dp"
         android:background="@drawable/rounded_button_blue"/>
 
-    <!-- Account Button -->
-    <Button
-        android:id="@+id/btnAccount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="משתמש"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:elevation="4dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/rounded_button_blue"/>
 
     <!-- Session Details Button -->
     <Button
         android:id="@+id/btnTraineeSchedule"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="מערכת שעות"
+        android:text="האימונים שלי"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:elevation="4dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/rounded_button_blue"/>
 
-    <!-- About Button -->
-    <Button
-        android:id="@+id/btnAbout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="אודות"
-        android:textSize="14sp"
-        android:padding="10dp"
-        android:layout_marginTop="16dp"
-        android:layout_gravity="center"
-        android:background="@drawable/rounded_button_blue"/>
-
-    <!-- Logout Button -->
-    <Button
-        android:id="@+id/btnLogout"
-        android:layout_width="100sp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="@color/red"
-        android:text="התנתקות"
-        android:textColor="@android:color/white"
-        android:enabled="true" />
 
 </LinearLayout>

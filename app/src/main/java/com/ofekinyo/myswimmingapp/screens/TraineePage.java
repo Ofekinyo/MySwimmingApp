@@ -34,14 +34,13 @@ public class TraineePage extends AppCompatActivity {
                 Log.d("IntentDebug", key + ": " + value);
             }
         }
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-            // Get button references
+        // Get button references
             btnTrainersList = findViewById(R.id.btnTrainersList);
             btnBasicExercises = findViewById(R.id.btnBasicExercises);  // Change button reference
-            btnAccount = findViewById(R.id.btnAccount);
             btnTraineeSchedule = findViewById(R.id.btnTraineeSchedule);
-            btnLogout = findViewById(R.id.btnLogout);
-            btnAbout = findViewById(R.id.btnAbout);
 
 
 
@@ -56,34 +55,15 @@ public class TraineePage extends AppCompatActivity {
                 startActivity(intent);
             });
 
-            btnAccount.setOnClickListener(v -> {
-                Intent intent = new Intent(TraineePage.this, Account.class);
-                startActivity(intent);
-            });
-
             btnTraineeSchedule.setOnClickListener(v -> {
                 Intent intent = new Intent(TraineePage.this, TraineeScheduleActivity.class);
                 startActivity(intent);
             });
 
-            btnLogout.setOnClickListener(v -> {
-                SharedPreferencesUtil.signOutUser(TraineePage.this);
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(TraineePage.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
-            });
-
-            btnAbout.setOnClickListener(v -> {
-                Intent intent = new Intent(TraineePage.this, About.class);
-                startActivity(intent);
-            });
-
     }
-    /*@Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menutest, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
 
@@ -92,26 +72,27 @@ public class TraineePage extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.menu_profile) {
-            Toast.makeText(this, "Profile clicked", Toast.LENGTH_SHORT).show();
-            btnBack = findViewById(R.id.btnBack);
+            Intent intent = new Intent(this, Account.class);
+            startActivity(intent);
             return true;
+
         } else if (id == R.id.menu_about) {
-            Toast.makeText(this, "About clicked", Toast.LENGTH_SHORT).show();
-            // Add navigation code here
+            Intent intent = new Intent(this, About.class);
+            startActivity(intent);
             return true;
-        } else if (id == R.id.menu_back) {
-            Toast.makeText(this, "Returned", Toast.LENGTH_SHORT).show();
-            // Add back navigation logic here
-            return true;
+
         } else if (id == R.id.menu_logout) {
-            Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
-            // Add logout logic here
+            SharedPreferencesUtil.signOutUser(this);
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
             return true;
-        } else {
-            return super.onOptionsItemSelected(item);
         }
+
+        return super.onOptionsItemSelected(item);
     }
-*/
 
 }
 

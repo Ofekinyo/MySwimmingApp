@@ -7,85 +7,70 @@
     android:padding="16dp"
     android:background="@drawable/water_gradient_bg">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/blue1_font"
+        android:elevation="4dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:titleTextColor="@android:color/white" />
     <!-- Logo -->
-    <ImageView
-        android:id="@+id/ivLogo"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:src="@drawable/cropped_image"
-        android:contentDescription="App Logo"
-        android:layout_marginBottom="24dp"
-        android:layout_gravity="center" />
-
-    <!-- Welcome Message -->
-    <TextView
-        android:id="@+id/tvWelcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ברוך הבא מאמן!"
-        android:textSize="26sp"
-        android:textStyle="bold"
-        android:textColor="@color/blue1_font"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         android:gravity="center"
-        android:layout_marginBottom="32dp" />
+        android:padding="16dp"
+        android:background="@drawable/water_gradient_bg">
+        <ImageView
+            android:id="@+id/ivLogo"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/cropped_image"
+            android:contentDescription="App Logo"
+            android:layout_marginBottom="24dp"
+            android:layout_gravity="center" />
+
+        <!-- Welcome Message -->
+        <TextView
+            android:id="@+id/tvWelcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ברוך הבא מאמן!"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="@color/blue1_font"
+            android:gravity="center"
+            android:layout_marginBottom="32dp" />
 
     <!-- Schedule Button -->
-    <Button
-        android:id="@+id/btnSchedule"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="מערכת שעות"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:elevation="4dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/rounded_button_blue"/>
-
-    <!-- Account Button -->
-    <Button
-        android:id="@+id/btnAccount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="משתמש"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:elevation="4dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/rounded_button_blue"/>
-
+        <Button
+            android:id="@+id/btnSchedule"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="מערכת שעות"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:elevation="4dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/rounded_button_blue"/>
+    
     <!-- Session Requests Button -->
-    <Button
-        android:id="@+id/btnSessionRequests"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="בקשות ממתאמנים"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:elevation="4dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/rounded_button_blue"/>
+        <Button
+            android:id="@+id/btnSessionRequests"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="בקשות ממתאמנים"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:elevation="4dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/rounded_button_blue"/>
 
-    <!-- About Button -->
-    <Button
-        android:id="@+id/btnAbout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="אודות"
-        android:textSize="14sp"
-        android:textColor="@color/black"
-        android:layout_marginTop="16dp"
-        android:layout_gravity="center"
-        android:background="@drawable/rounded_button_blue"/>
 
-    <!-- Logout Button -->
-    <Button
-        android:id="@+id/btnLogout"
-        android:layout_width="100sp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="@color/red"
-        android:text="התנתקות"
-        android:textColor="@android:color/white"
-        android:enabled="true" />
 
+    </LinearLayout>
 </LinearLayout>
