@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Trainer extends User implements Serializable {
-    private List<String> trainingTypes;  // List of training types (e.g., swimming, fitness)
+    private List<String> trainingTypes;
     private Double price;                // Coaching price - now nullable
     private Integer experience;          // Years of experience - now nullable
 

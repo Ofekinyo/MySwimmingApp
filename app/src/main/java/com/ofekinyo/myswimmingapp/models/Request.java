@@ -6,7 +6,6 @@ public class Request {
     private String id;
     private String trainerId;
     private String traineeId;
-    private String trainerName;
     private List<String> goals;
     private String otherGoal;
     private String date;
@@ -19,11 +18,10 @@ public class Request {
     }
 
     // Constructor including status
-    public Request(String id, String trainerId, String trainerName, String traineeId, List<String> goals, String otherGoal, String date, String time, String location, String notes, String status) {
+    public Request(String id, String trainerId, String traineeId, List<String> goals, String otherGoal, String date, String time, String location, String notes, String status) {
         this.id = id;
         this.trainerId = trainerId;
         this.traineeId = traineeId;
-        this.trainerName = trainerName;
         this.goals = goals;
         this.otherGoal = otherGoal;
         this.date = date;
@@ -57,14 +55,6 @@ public class Request {
 
     public void setTraineeId(String traineeId) {
         this.traineeId = traineeId;
-    }
-
-    public String getTrainerName() {
-        return trainerName;
-    }
-
-    public void setTrainerName(String trainerName) {
-        this.trainerName = trainerName;
     }
 
     public List<String> getGoals() {
@@ -129,7 +119,6 @@ public class Request {
                 "id='" + id + '\'' +
                 ", trainerId='" + trainerId + '\'' +
                 ", traineeId='" + traineeId + '\'' +
-                ", trainerName='" + trainerName + '\'' +
                 ", goals=" + goals +
                 ", otherGoal='" + otherGoal + '\'' +
                 ", date='" + date + '\'' +

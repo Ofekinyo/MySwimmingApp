@@ -34,7 +34,7 @@ public class ContactTrainer extends AppCompatActivity {
 
     private String trainerId = "EXAMPLE_TRAINER_ID";
     private String traineeId;
-    private String trainerName = "שם המדריך";
+    private String trainerName = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,7 +142,6 @@ public class ContactTrainer extends AppCompatActivity {
                 requestId,
                 trainerId,
                 traineeId,
-                trainerName,
                 goals,
                 otherGoal,
                 date,
