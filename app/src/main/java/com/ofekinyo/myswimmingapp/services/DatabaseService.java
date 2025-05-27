@@ -43,7 +43,7 @@ public class DatabaseService {
         return instance;
     }
 
-    private void writeData(@NotNull final String path, @NotNull final Object data, final @Nullable DatabaseCallback<Void> callback) {
+    public void writeData(@NotNull final String path, @NotNull final Object data, final @Nullable DatabaseCallback<Void> callback) {
         databaseReference.child(path).setValue(data).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 if (callback == null) return;
@@ -119,7 +119,7 @@ public class DatabaseService {
         });
     }
 
-    private String generateNewId(@NotNull final String path) {
+    public String generateNewId(@NotNull final String path) {
         return databaseReference.child(path).push().getKey();
     }
 
