@@ -217,7 +217,7 @@ public class TutorsList extends AppCompatActivity {
                         matches = tutor.getRole() != null && tutor.getRole().toLowerCase().contains(query);
                         break;
                     case "trainingTypes":
-                        matches = tutor.getTrainingTypes() != null && tutor.getTrainingTypes().toString().toLowerCase().contains(query);
+                        matches = tutor.getSessionTypes() != null && tutor.getSessionTypes().toString().toLowerCase().contains(query);
                         break;
                 }
                 if (matches) {

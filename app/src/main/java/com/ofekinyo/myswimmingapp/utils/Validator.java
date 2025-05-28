@@ -22,7 +22,6 @@ public class Validator {
     /// @param password password to validate
     /// @return true if the password is valid, false otherwise
     public static boolean isPasswordValid(@Nullable String password) {
-    public static boolean isPasswordValid(@Nullable String password) {
         return password != null && password.length() >= 6;
     }
 

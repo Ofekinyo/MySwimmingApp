@@ -164,7 +164,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp" />
         <TextView
-            android:id="@+id/tvTrainingTypes"
+            android:id="@+id/tvSessionTypes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Training Types"

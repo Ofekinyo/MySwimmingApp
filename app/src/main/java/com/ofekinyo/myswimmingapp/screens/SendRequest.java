@@ -27,8 +27,8 @@ public class SendRequest extends AppCompatActivity {
 
     private String tutorId;
     private String tutorName;
-    private String traineeId;
-    private String traineeName;
+    private String swimmerId;
+    private String swimmerName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -30,7 +30,7 @@ public class TutorInfo extends AppCompatActivity {
         tvCity = findViewById(R.id.tvCity);
         tvPrice = findViewById(R.id.tvPrice);
         tvExperience = findViewById(R.id.tvExperience);
-        tvTrainingTypes = findViewById(R.id.tvTrainingTypes);
+        tvTrainingTypes = findViewById(R.id.tvSessionTypes);
         takeit = getIntent();
 
         // Get the tutor's ID passed from the previous activity
@@ -55,8 +55,8 @@ public class TutorInfo extends AppCompatActivity {
 
 //             Display trainingTypes as a comma-separated string
 
-            if (tutor.getTrainingTypes().size() >= 0) {
-                tvTrainingTypes.setText(String.join(", ", tutor.getTrainingTypes()));
+            if (tutor.getSessionTypes().size() >= 0) {
+                tvTrainingTypes.setText(String.join(", ", tutor.getSessionTypes()));
             } else {
                 tvTrainingTypes.setText("Not available");
             }
