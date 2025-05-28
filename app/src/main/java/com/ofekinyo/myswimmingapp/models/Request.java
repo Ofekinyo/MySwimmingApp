@@ -4,8 +4,8 @@ import java.util.List;
 
 public class Request {
     private String requestId;
-    private String trainerId;    // מדריך
-    private String traineeId;    // שחיין
+    private String tutorId;    // מדריך
+    private String swimmerId;    // שחיין
     private List<String> goals;
     private String otherGoal;
     private String date;
@@ -14,14 +14,14 @@ public class Request {
     private String notes;
     private String status;
 
-    public Request(String requestId, String trainerId, String traineeId, String date, String time, String location, String goals, String notes, String status) {
+    public Request(String requestId, String tutorId, String swimmerId, String date, String time, String location, String goals, String notes, String status) {
     }
 
-    public Request(String id, String trainerId, String traineeId, List<String> goals, String otherGoal,
+    public Request(String id, String tutorId, String swimmerId, List<String> goals, String otherGoal,
                           String date, String time, String location, String notes, String status) {
         this.requestId = id;
-        this.trainerId = trainerId;
-        this.traineeId = traineeId;
+        this.tutorId = tutorId;
+        this.swimmerId = swimmerId;
         this.goals = goals;
         this.otherGoal = otherGoal;
         this.date = date;
@@ -41,20 +41,20 @@ public class Request {
         this.requestId = id;
     }
 
-    public String getTrainerId() {
-        return trainerId;
+    public String getTutorId() {
+        return tutorId;
     }
 
-    public void setTrainerId(String trainerId) {
-        this.trainerId = trainerId;
+    public void setTutorId(String tutorId) {
+        this.tutorId = tutorId;
     }
 
-    public String getTraineeId() {
-        return traineeId;
+    public String getSwimmerId() {
+        return swimmerId;
     }
 
-    public void setTraineeId(String traineeId) {
-        this.traineeId = traineeId;
+    public void setSwimmerId(String traineeId) {
+        this.swimmerId = traineeId;
     }
 
     public List<String> getGoals() {
@@ -117,8 +117,8 @@ public class Request {
     public String toString() {
         return "SessionRequest{" +
                 "id='" + requestId + '\'' +
-                ", trainerId='" + trainerId + '\'' +
-                ", traineeId='" + traineeId + '\'' +
+                ", tutorId='" + tutorId + '\'' +
+                ", swimmerId='" + swimmerId + '\'' +
                 ", goals=" + goals +
                 ", otherGoal='" + otherGoal + '\'' +
                 ", date='" + date + '\'' +

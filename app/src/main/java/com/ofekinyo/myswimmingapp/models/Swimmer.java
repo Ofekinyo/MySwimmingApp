@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Swimmer extends User implements Serializable {
     private double height, weight;
-   // The trainer assigned to the trainee
+   // The tutor assigned to the swimmer
 
     // Constructor with all parameters
 
@@ -47,7 +47,7 @@ public class Swimmer extends User implements Serializable {
 
     @Override
     public String toString() {
-        return "Trainee{" +
+        return "Swimmer{" +
                 "height=" + height +
                 ", weight=" + weight +
                 ", id='" + id + '\'' +

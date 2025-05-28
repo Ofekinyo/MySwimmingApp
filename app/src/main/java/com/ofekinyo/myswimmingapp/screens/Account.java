@@ -72,18 +72,18 @@ public class Account extends AppCompatActivity {
     private void getUserType(String uid) {
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
 
-        rootRef.child("Trainers").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+        rootRef.child("Tutors").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     userType = "Trainers";
                     fetchUserData(uid, userType);
                 } else {
-                    rootRef.child("Trainees").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                    rootRef.child("Swimmers").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if (snapshot.exists()) {
-                                userType = "Trainees";
+                                userType = "Swimmers";
                                 fetchUserData(uid, userType);
                             } else {
                                 Toast.makeText(Account.this, "User data not found", Toast.LENGTH_SHORT).show();

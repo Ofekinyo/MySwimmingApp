@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Tutor extends User implements Serializable {
-    private List<String> trainingTypes;
+    private List<String> sessionTypes;
     private Double price;                // Coaching price - now nullable
     private Integer experience;          // Years of experience - now nullable
 
@@ -14,16 +14,16 @@ public class Tutor extends User implements Serializable {
     }
 
     // Constructor with all parameters
-    public Tutor(String id, String fname, String lname, String phone, String email, Integer age, String password, String gender, String city, String role, List<String> trainingTypes, Integer experience, Double price) {
+    public Tutor(String id, String fname, String lname, String phone, String email, Integer age, String password, String gender, String city, String role, List<String> sessionTypes, Integer experience, Double price) {
         super(id, fname, lname, phone, email, age, gender, city, password, role);
-        this.trainingTypes = trainingTypes;
+        this.sessionTypes = sessionTypes;
         this.experience = experience;
         this.price = price;
     }
 
     public Tutor(Tutor tutor) {
         super(tutor.id, tutor.fname, tutor.lname, tutor.phone, tutor.email, tutor.age, tutor.gender, tutor.city, tutor.password, tutor.role);
-        this.trainingTypes = trainingTypes;
+        this.sessionTypes = sessionTypes;
         this.experience = experience;
         this.price = price;
 
@@ -31,12 +31,12 @@ public class Tutor extends User implements Serializable {
     }
 
     // Getters and Setters
-    public List<String> getTrainingTypes() {
-        return trainingTypes;
+    public List<String> getSessionTypes() {
+        return sessionTypes;
     }
 
-    public void setTrainingTypes(List<String> trainingTypes) {
-        this.trainingTypes = trainingTypes;
+    public void setSessionTypes(List<String> sessionTypes) {
+        this.sessionTypes = sessionTypes;
     }
 
     public Double getPrice() {
@@ -55,15 +55,15 @@ public class Tutor extends User implements Serializable {
         this.experience = experience;
     }
 
-    // Method to get the full name of the Trainer
+    // Method to get the full name of the Tutor
     public String getName() {
         return fname + " " + lname;
     }
 
     @Override
     public String toString() {
-        return "Trainer{" +
-                "trainingTypes=" + trainingTypes +
+        return "Tutor{" +
+                "sessionTypes=" + sessionTypes +
                 ", price=" + price +
                 ", experience=" + experience +
                 ", id='" + id + '\'' +

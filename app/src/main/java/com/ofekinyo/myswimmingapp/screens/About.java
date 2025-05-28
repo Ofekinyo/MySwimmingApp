@@ -43,18 +43,18 @@ public class About extends AppCompatActivity {
             String userId = currentUser.getUid();
 
             backButton.setOnClickListener(v -> {
-                DatabaseReference trainerRef = FirebaseDatabase.getInstance().getReference("Trainers").child(userId);
+                DatabaseReference tutorRef = FirebaseDatabase.getInstance().getReference("Tutors").child(userId);
 
-                trainerRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                tutorRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()) {
-                            // User is a trainer
+                            // User is a tutor
                             Intent intent = new Intent(About.this, TutorPage.class);
                             startActivity(intent);
                             finish(); // Optional: if you want to close the current activity
                         } else {
-                            // User is not a trainer, assume trainee
+                            // User is not a tutor, assume swimmer
                             Intent intent = new Intent(About.this, SwimmerPage.class);
                             startActivity(intent);
                             finish();
@@ -71,8 +71,8 @@ public class About extends AppCompatActivity {
     }
 
     private String getUserType(String userId) {
-        // Your logic to check the user type (trainer or trainee)
+        // Your logic to check the user type (tutor or swimmer)
         // This could be a database lookup in Firebase or some other method.
-        return "trainer"; // Placeholder - replace with actual implementation
+        return "tutor"; // Placeholder - replace with actual implementation
     }
 }

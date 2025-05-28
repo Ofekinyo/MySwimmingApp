@@ -22,6 +22,7 @@ public class Validator {
     /// @param password password to validate
     /// @return true if the password is valid, false otherwise
     public static boolean isPasswordValid(@Nullable String password) {
+    public static boolean isPasswordValid(@Nullable String password) {
         return password != null && password.length() >= 6;
     }
 
@@ -40,10 +41,10 @@ public class Validator {
         return name != null && name.length() >= 3;
     }
 
-    /// Check if the role is valid (Trainer or Trainee)
+    /// Check if the role is valid (Tutor or Swimmer)
     /// @param role role to validate
-    /// @return true if the role is either "Trainer" or "Trainee", false otherwise
+    /// @return true if the role is either "Tutor" or "Swimmer", false otherwise
     public static boolean isRoleValid(@Nullable String role) {
-        return role != null && (role.equals("Trainer") || role.equals("Trainee"));
+        return role != null && (role.equals("Tutor") || role.equals("Swimmer"));
     }
 }

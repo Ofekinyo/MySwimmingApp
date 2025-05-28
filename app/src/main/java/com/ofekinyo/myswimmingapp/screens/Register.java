@@ -29,7 +29,7 @@ public class Register extends AppCompatActivity {
     private EditText etFName, etLName, etEmail, etPhone, etPassword, etGender, etAge;
     private Button btnRegister;
     private Spinner spCity;
-    private RadioButton radioTrainer, radioTrainee;
+    private RadioButton radioTutor, radioSwimmer;
 
     private FirebaseAuth mAuth;
 
@@ -57,7 +57,7 @@ public class Register extends AppCompatActivity {
                 return;
             }
 
-            String role = radioTrainer.isChecked() ? "Trainer" : radioTrainee.isChecked() ? "Trainee" : "";
+            String role = radioTutor.isChecked() ? "Tutor" : radioSwimmer.isChecked() ? "Swimmer" : "";
             if (role.isEmpty()) {
                 Toast.makeText(Register.this, "יש לבחור תפקיד", Toast.LENGTH_SHORT).show();
                 return;
@@ -78,8 +78,8 @@ public class Register extends AppCompatActivity {
         etGender = findViewById(R.id.etGender);
         etAge = findViewById(R.id.etAge);
         btnRegister = findViewById(R.id.btnRegister);
-        radioTrainer = findViewById(R.id.radioTrainer);
-        radioTrainee = findViewById(R.id.radioTrainee);
+        radioTutor = findViewById(R.id.radioTutor);
+        radioSwimmer = findViewById(R.id.radioSwimmer);
     }
 
     private void setupCitySpinner() {
@@ -119,7 +119,7 @@ public class Register extends AppCompatActivity {
             .addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     String userId = mAuth.getCurrentUser().getUid();
-                    String userPath = role.equals("Trainer") ? "Trainers" : "Trainees";
+                    String userPath = role.equals("Tutor") ? "Tutors" : "Swimmers";
                     DatabaseReference roleDatabaseRef = FirebaseDatabase.getInstance().getReference(userPath);
 
                     User user = new User(userId, fname, lname,  phone+"", email, age, gender, city,password,role);
@@ -128,7 +128,7 @@ public class Register extends AppCompatActivity {
                         .addOnCompleteListener(dbTask -> {
                             if (dbTask.isSuccessful()) {
                                 Toast.makeText(Register.this, "הרשמה בוצעה בהצלחה!", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(Register.this, role.equals("Trainer") ? TutorDetailsActivity.class : SwimmerDetailsActivity.class);
+                                Intent intent = new Intent(Register.this, role.equals("Tutor") ? TutorDetailsActivity.class : SwimmerDetailsActivity.class);
                                 startActivity(intent);
                                 finish();
                             } else {

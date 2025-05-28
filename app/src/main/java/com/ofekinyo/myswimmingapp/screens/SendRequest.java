@@ -20,13 +20,13 @@ import java.util.Calendar;
 
 public class SendRequest extends AppCompatActivity {
 
-    private TextView tvTrainerName;
+    private TextView tvTutorName;
     private EditText etDate, etTime, etLocation, etNotes, etOtherGoal;
     private CheckBox cbGoal1, cbGoal2, cbGoal3, cbOther;
     private Button btnSubmit;
 
-    private String trainerId;
-    private String trainerName;
+    private String tutorId;
+    private String tutorName;
     private String traineeId;
     private String traineeName;
 
@@ -36,7 +36,7 @@ public class SendRequest extends AppCompatActivity {
         setContentView(R.layout.activity_send_request);
 
         // UI References
-        tvTrainerName = findViewById(R.id.tvTrainerName);
+        tvTutorName = findViewById(R.id.tvTutorName);
         etDate = findViewById(R.id.etDate);
         etTime = findViewById(R.id.etTime);
         etLocation = findViewById(R.id.etLocation);
@@ -53,18 +53,18 @@ public class SendRequest extends AppCompatActivity {
             etOtherGoal.setVisibility(isChecked ? View.VISIBLE : View.GONE);
         });
 
-        // Get trainer info from Intent
-        trainerId = getIntent().getStringExtra("trainerId");
-        trainerName = getIntent().getStringExtra("trainerName");
+        // Get tutor info from Intent
+        tutorId = getIntent().getStringExtra("tutorId");
+        tutorName = getIntent().getStringExtra("tutorName");
 
-        // Display trainer name
-        tvTrainerName.setText(trainerName);
+        // Display tutor name
+        tvTutorName.setText(tutorName);
 
-        // Get trainee ID from auth service
-        traineeId = AuthenticationService.getInstance().getCurrentUserId();
+        // Get swimmer ID from auth service
+        swimmerId = AuthenticationService.getInstance().getCurrentUserId();
 
-        // Load trainee name
-        fetchTraineeName();
+        // Load swimmer name
+        fetchSwimmerName();
 
         // Pickers
         etDate.setOnClickListener(v -> showDatePicker());
@@ -74,22 +74,22 @@ public class SendRequest extends AppCompatActivity {
         btnSubmit.setOnClickListener(v -> submitRequest());
     }
 
-    private void fetchTraineeName() {
-        FirebaseDatabase.getInstance().getReference("Trainees")
-                .child(traineeId)
+    private void fetchSwimmerName() {
+        FirebaseDatabase.getInstance().getReference("Swimmers")
+                .child(swimmerId)
                 .child("fname") // assuming name is under fname + lname
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
                         String fname = snapshot.getValue(String.class);
-                        FirebaseDatabase.getInstance().getReference("Trainees")
-                                .child(traineeId)
+                        FirebaseDatabase.getInstance().getReference("Swimmers")
+                                .child(swimmerId)
                                 .child("lname")
                                 .addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot snapshot) {
                                         String lname = snapshot.getValue(String.class);
-                                        traineeName = fname + " " + lname;
+                                        swimmerName = fname + " " + lname;
                                     }
 
                                     @Override
@@ -157,8 +157,8 @@ public class SendRequest extends AppCompatActivity {
 
         Request request = new Request(
                 requestId,
-                trainerId,
-                traineeId,
+                tutorId,
+                swimmerId,
                 date,
                 time,
                 location,

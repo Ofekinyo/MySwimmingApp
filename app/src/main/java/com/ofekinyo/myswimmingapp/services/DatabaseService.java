@@ -123,38 +123,38 @@ public class DatabaseService {
         return databaseReference.child(path).push().getKey();
     }
 
-    public void createNewTrainer(@NotNull final Tutor tutor, @Nullable final DatabaseCallback<Void> callback) {
-        writeData("Trainers/" + tutor.getId(), tutor, callback);
+    public void createNewTutor(@NotNull final Tutor tutor, @Nullable final DatabaseCallback<Void> callback) {
+        writeData("Tutors/" + tutor.getId(), tutor, callback);
     }
 
-    public void createNewTrainee(@NotNull final Swimmer swimStudent, @Nullable final DatabaseCallback<Void> callback) {
-        writeData("Trainees/" + swimStudent.getId(), swimStudent, callback);
+    public void createNewSwimmer(@NotNull final Swimmer swimStudent, @Nullable final DatabaseCallback<Void> callback) {
+        writeData("Swimmers/" + swimStudent.getId(), swimStudent, callback);
     }
 
-    public void getTrainer(@NotNull final String trainerId, @NotNull final DatabaseCallback<Tutor> callback) {
-        getData("Trainers/" + trainerId, Tutor.class, callback);
+    public void getTutor(@NotNull final String tutorId, @NotNull final DatabaseCallback<Tutor> callback) {
+        getData("Tutors/" + tutorId, Tutor.class, callback);
     }
 
-    public void getTrainee(@NotNull final String swimStudentId, @NotNull final DatabaseCallback<Swimmer> callback) {
-        getData("Trainees/" + swimStudentId, Swimmer.class, callback);
+    public void getSwimmer(@NotNull final String swimStudentId, @NotNull final DatabaseCallback<Swimmer> callback) {
+        getData("Swimmers/" + swimStudentId, Swimmer.class, callback);
     }
 
 
 
     public void createNewRequest(@NotNull final Request request, @Nullable final DatabaseCallback<Void> callback) {
-        String traineeId = request.getTraineeId();
-        String trainerId = request.getTrainerId();
+        String swimmerId = request.getSwimmerId();
+        String tutorId = request.getTutorId();
 
-        writeData("TraineeRequest/" + traineeId + "/" + trainerId, request, callback);
-        writeData("TrainerRequest/" + trainerId + "/" + traineeId, request, callback);
+        writeData("SwimmerRequest/" + swimmerId + "/" + tutorId, request, callback);
+        writeData("TutorRequest/" + tutorId + "/" + swimmerId, request, callback);
     }
 
 
 
-    public void getAllTrainers(@NotNull final DatabaseCallback<List<Tutor>> callback) {
-        readData("Trainers").get().addOnCompleteListener(task -> {
+    public void getAllTutors(@NotNull final DatabaseCallback<List<Tutor>> callback) {
+        readData("Tutors").get().addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
-                Log.e(TAG, "Error getting trainers", task.getException());
+                Log.e(TAG, "Error getting tutors", task.getException());
                 callback.onFailed(task.getException());
                 return;
             }
@@ -170,10 +170,10 @@ public class DatabaseService {
         });
     }
 
-    public void getAllTrainees(@NotNull final DatabaseCallback<List<Swimmer>> callback) {
-        readData("Trainees").get().addOnCompleteListener(task -> {
+    public void getAllSwimmers(@NotNull final DatabaseCallback<List<Swimmer>> callback) {
+        readData("Swimmers").get().addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
-                Log.e(TAG, "Error getting trainees", task.getException());
+                Log.e(TAG, "Error getting swimmers", task.getException());
                 callback.onFailed(task.getException());
                 return;
             }

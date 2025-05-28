@@ -21,7 +21,7 @@ public class SharedPreferencesUtil {
         editor.putString("age", String.valueOf(user.getAge()));      // Store as String
         editor.putString("city", user.getCity());
         editor.putString("gender", user.getGender());
-        editor.putString("role", user.getRole());  // Save role (Trainee or Trainer)
+        editor.putString("role", user.getRole());  // Save role (Swimmer or Tutor)
         editor.apply();
     }
 

@@ -20,7 +20,7 @@
 
     <!-- Title -->
     <TextView
-        android:id="@+id/tvTrainersList"
+        android:id="@+id/tvTutorsList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="רשימת מדריכים"
@@ -54,7 +54,7 @@
 
     <!-- RecyclerView (scrollable list) -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvTrainers"
+        android:id="@+id/rvTutors"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

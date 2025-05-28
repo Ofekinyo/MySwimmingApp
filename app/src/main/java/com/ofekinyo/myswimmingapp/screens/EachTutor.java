@@ -16,9 +16,9 @@ import com.ofekinyo.myswimmingapp.R;
 
 public class EachTutor extends AppCompatActivity {
 
-    private TextView tvTrainerName;
+    private TextView tvTutorName;
     private Button btnRequestSession, btnMoreInfo;
-    private String trainerId, traineeId, trainerName, traineeName;
+    private String tutorId, swimmerId, tutorName, swimmerName;
     private DatabaseReference usersRef;
 
     @Override
@@ -27,69 +27,69 @@ public class EachTutor extends AppCompatActivity {
         setContentView(R.layout.activity_each_tutor);
 
         // Initialize UI components
-        tvTrainerName = findViewById(R.id.tvTrainerName);
+        tvTutorName = findViewById(R.id.tvTutorName);
         btnRequestSession = findViewById(R.id.btnRequestSession);
         btnMoreInfo = findViewById(R.id.btnMoreInfo);
 
-        // Retrieve trainer and trainee data from Intent
+        // Retrieve tutor and swimmer data from Intent
         Intent intent = getIntent();
-        trainerId = intent.getStringExtra("trainerId");
-        traineeId = intent.getStringExtra("traineeId");
-        traineeName = intent.getStringExtra("traineeName");
+        tutorId = intent.getStringExtra("tutorId");
+        swimmerId = intent.getStringExtra("swimmerId");
+        swimmerName = intent.getStringExtra("swimmerName");
 
-        Log.d("EachTrainer", "Trainer ID: " + trainerId);
-        Log.d("EachTrainer", "Trainee ID: " + traineeId);
+        Log.d("EachTutor", "Tutor ID: " + tutorId);
+        Log.d("EachTutor", "Swimmer ID: " + swimmerId);
 
-        // Check if the trainerId and traineeId are null
-        if (trainerId == null || traineeId == null) {
-            Log.e("EachTrainer", "Error: Trainer ID or Trainee ID is null");
-            Toast.makeText(this, "Error: Missing trainer or trainee data", Toast.LENGTH_SHORT).show();
+        // Check if the tutorId and swimmerId are null
+        if (tutorId == null || swimmerId == null) {
+            Log.e("EachTutor", "Error: Tutor ID or Swimmer ID is null");
+            Toast.makeText(this, "Error: Missing tutor or swimmer data", Toast.LENGTH_SHORT).show();
             return; // Stop execution if any of these IDs are null
         }
 
         // Initialize Firebase reference
         usersRef = FirebaseDatabase.getInstance().getReference("Users");
 
-        // Retrieve trainer data from Firebase
-        usersRef.child("Trainers").child(trainerId).addListenerForSingleValueEvent(new ValueEventListener() {
+        // Retrieve tutor data from Firebase
+        usersRef.child("Tutors").child(tutorId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    trainerName = dataSnapshot.child("name").getValue(String.class);
-                    tvTrainerName.setText(trainerName);
-                    Log.d("EachTrainer", "Trainer name: " + trainerName);
+                    tutorName = dataSnapshot.child("name").getValue(String.class);
+                    tvTutorName.setText(tutorName);
+                    Log.d("EachTutor", "Tutor name: " + tutorName);
 
                     // Handle Request Session button click
                     btnRequestSession.setOnClickListener(v -> {
-                        if (trainerId != null && traineeId != null && trainerName != null && traineeName != null) {
+                        if (tutorId != null && swimmerId != null && tutorName != null && swimmerName != null) {
                             Intent requestIntent = new Intent(EachTutor.this, SendRequest.class);
-                            requestIntent.putExtra("trainerId", trainerId);
-                            requestIntent.putExtra("traineeId", traineeId);
-                            requestIntent.putExtra("trainerName", trainerName);
-                            requestIntent.putExtra("traineeName", traineeName);
+                            requestIntent.putExtra("tutorId", tutorId);
+                            requestIntent.putExtra("swimmerId", swimmerId);
+                            requestIntent.putExtra("tutorName", tutorName);
+                            requestIntent.putExtra("swimmerName", swimmerName);
                             startActivity(requestIntent);
                         } else {
-                            Toast.makeText(EachTutor.this, "Error: Missing trainer or trainee information", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EachTutor.this, "Error: Missing tutor or swimmer information", Toast.LENGTH_SHORT).show();
                         }
                     });
 
                     // Handle More Info button click - move this here!
                     btnMoreInfo.setOnClickListener(v -> {
                         Intent moreInfoIntent = new Intent(EachTutor.this, TutorInfo.class);
-                        moreInfoIntent.putExtra("trainerId", trainerId); // Pass trainerId, NOT trainerName
+                        moreInfoIntent.putExtra("tutorId", tutorId); // Pass tutorId, NOT tutorName
                         startActivity(moreInfoIntent);
                     });
 
 
                 } else {
-                    Log.e("EachTrainer", "Trainer not found in Firebase");
-                    Toast.makeText(EachTutor.this, "Error: Trainer not found", Toast.LENGTH_SHORT).show();
+                    Log.e("EachTutor", "Tutor not found in Firebase");
+                    Toast.makeText(EachTutor.this, "Error: Tutor not found", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.e("EachTrainer", "Failed to read trainer data", databaseError.toException());
+                Log.e("EachTutor", "Failed to read tutor data", databaseError.toException());
             }
         });
     }

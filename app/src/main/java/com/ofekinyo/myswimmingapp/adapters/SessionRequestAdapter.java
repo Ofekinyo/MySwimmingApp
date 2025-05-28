@@ -20,11 +20,11 @@ public class SessionRequestAdapter extends RecyclerView.Adapter<SessionRequestAd
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTraineeId, tvDateTime, tvLocation, tvGoals, tvNotes;
+        TextView tvSwimmerId, tvDateTime, tvLocation, tvGoals, tvNotes;
 
         public ViewHolder(View view) {
             super(view);
-            tvTraineeId = view.findViewById(R.id.tvTraineeId);
+            tvSwimmerId = view.findViewById(R.id.tvSwimmerId);
             tvDateTime = view.findViewById(R.id.tvDateTime);
             tvLocation = view.findViewById(R.id.tvLocation);
             tvGoals = view.findViewById(R.id.tvGoals);
@@ -43,7 +43,7 @@ public class SessionRequestAdapter extends RecyclerView.Adapter<SessionRequestAd
     @Override
     public void onBindViewHolder(@NonNull SessionRequestAdapter.ViewHolder holder, int position) {
         Request request = requestList.get(position);
-        holder.tvTraineeId.setText("שחיין: " + request.getTraineeId());
+        holder.tvSwimmerId.setText("שחיין: " + request.getSwimmerId());
         holder.tvDateTime.setText("תאריך: " + request.getDate() + " שעה: " + request.getTime());
         holder.tvLocation.setText("מיקום: " + request.getLocation());
         holder.tvGoals.setText("מטרות: " + String.join(", ", request.getGoals()));

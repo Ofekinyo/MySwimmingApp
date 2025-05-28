@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 public class TutorsList extends AppCompatActivity {
-    private DatabaseReference trainersDatabaseRef;
+    private DatabaseReference tutorsDatabaseRef;
     private FirebaseAuth mAuth;
     private List<Tutor> tutors, filteredTutors;
     private TutorAdapter adapter;
@@ -44,7 +44,7 @@ public class TutorsList extends AppCompatActivity {
 
     private String traineeId, traineeName;
     DatabaseService databaseService;
-    ArrayList<Tutor>trainers2=new ArrayList<>();
+    ArrayList<Tutor>tutors2=new ArrayList<>();
 
     // Mapping from Hebrew labels to internal keys based on the new categories
     private final Map<String, String> filterMap = new HashMap<String, String>() {{
@@ -69,10 +69,10 @@ public class TutorsList extends AppCompatActivity {
         databaseService=DatabaseService.getInstance();
 
 
-        databaseService.getAllTrainers(new DatabaseService.DatabaseCallback<List<Tutor>>() {
+        databaseService.getAllTutors(new DatabaseService.DatabaseCallback<List<Tutor>>() {
             @Override
             public void onCompleted(List<Tutor> object) {
-                trainers2.addAll(object);
+                tutors2.addAll(object);
             }
 
             @Override
@@ -85,24 +85,24 @@ public class TutorsList extends AppCompatActivity {
         traineeId = getIntent().getStringExtra("traineeId");
         traineeName = getIntent().getStringExtra("traineeName");
 
-        RecyclerView rvTrainers = findViewById(R.id.rvTrainers);
+        RecyclerView rvTutors = findViewById(R.id.rvTutors);
         searchBar = findViewById(R.id.searchBar);
         searchSpinner = findViewById(R.id.searchSpinner);
 
-        rvTrainers.setLayoutManager(new LinearLayoutManager(this));
+        rvTutors.setLayoutManager(new LinearLayoutManager(this));
 
         String[] searchOptions = {"שם", "עיר", "אימייל", "ניסיון", "שם משפחה", "מין", "תעודת זהות", "סיסמא", "טלפון", "מחיר", "תפקיד", "סוג שיעור"};
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, searchOptions);
         searchSpinner.setAdapter(spinnerAdapter);
 
-        trainersDatabaseRef = FirebaseDatabase.getInstance().getReference("Trainers");
+        tutorsDatabaseRef = FirebaseDatabase.getInstance().getReference("Tutors");
         tutors = new ArrayList<>();
         filteredTutors = new ArrayList<>();
 
         adapter = new TutorAdapter(this, filteredTutors, traineeId, traineeName);
-        rvTrainers.setAdapter(adapter);
+        rvTutors.setAdapter(adapter);
 
-        trainersDatabaseRef.addValueEventListener(new ValueEventListener() {
+        tutorsDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 tutors.clear();
@@ -127,14 +127,14 @@ public class TutorsList extends AppCompatActivity {
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
             @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                filterTrainers(charSequence.toString());
+                filterTutors(charSequence.toString());
             }
             @Override public void afterTextChanged(Editable editable) {}
         });
 
         searchSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                filterTrainers(searchBar.getText().toString());
+                filterTutors(searchBar.getText().toString());
             }
             @Override public void onNothingSelected(AdapterView<?> parent) {}
         });
@@ -149,9 +149,9 @@ public class TutorsList extends AppCompatActivity {
             FirebaseUser currentUser = mAuth.getCurrentUser();
             if (currentUser != null) {
                 String userId = currentUser.getUid();
-                DatabaseReference trainerRef = FirebaseDatabase.getInstance().getReference("Trainers").child(userId);
+                DatabaseReference tutorRef = FirebaseDatabase.getInstance().getReference("Tutors").child(userId);
 
-                trainerRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                tutorRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()) {
@@ -171,7 +171,7 @@ public class TutorsList extends AppCompatActivity {
         });
     }
 
-    private void filterTrainers(String query) {
+    private void filterTutors(String query) {
         filteredTutors.clear();
         if (query.isEmpty()) {
             filteredTutors.addAll(tutors);

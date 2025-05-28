@@ -24,8 +24,8 @@ public class TutorDetailsActivity extends AppCompatActivity {
 
     private EditText etExperience, etPrice;
     private CheckBox cbBeginner, cbAdvanced, cbCompetitive, cbSafety, cbRehab, cbInfants;
-    private Button btnSaveTrainerDetails;
-    private DatabaseReference trainerDatabaseRef;
+    private Button btnSaveTutorDetails;
+    private DatabaseReference tutorDatabaseRef;
     private FirebaseAuth mAuth;
     private String userId;
 
@@ -36,7 +36,7 @@ public class TutorDetailsActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         userId = mAuth.getCurrentUser().getUid();
-        trainerDatabaseRef = FirebaseDatabase.getInstance().getReference("Trainers").child(userId);
+        tutorDatabaseRef = FirebaseDatabase.getInstance().getReference("Tutors").child(userId);
 
         etExperience = findViewById(R.id.etExperience);
         etPrice = findViewById(R.id.etPrice);
@@ -46,12 +46,12 @@ public class TutorDetailsActivity extends AppCompatActivity {
         cbSafety = findViewById(R.id.cbSafety);
         cbRehab = findViewById(R.id.cbRehab);
         cbInfants = findViewById(R.id.cbInfants);
-        btnSaveTrainerDetails = findViewById(R.id.btnSaveTrainerDetails);
+        btnSaveTutorDetails = findViewById(R.id.btnSaveTutorDetails);
 
-        btnSaveTrainerDetails.setOnClickListener(v -> saveTrainerDetails());
+        btnSaveTutorDetails.setOnClickListener(v -> saveTutorDetails());
     }
 
-    private void saveTrainerDetails() {
+    private void saveTutorDetails() {
         String experience = etExperience.getText().toString().trim();
         String priceStr = etPrice.getText().toString().trim();
 
@@ -79,12 +79,12 @@ public class TutorDetailsActivity extends AppCompatActivity {
             return;
         }
 
-        Map<String, Object> trainerDetails = new HashMap<>();
-        trainerDetails.put("experience", Integer.parseInt(experience));
-        trainerDetails.put("trainingTypes", selectedTrainingTypes);
-        trainerDetails.put("price", price);
+        Map<String, Object> tutorDetails = new HashMap<>();
+        tutorDetails.put("experience", Integer.parseInt(experience));
+        tutorDetails.put("trainingTypes", selectedTrainingTypes);
+        tutorDetails.put("price", price);
 
-        trainerDatabaseRef.updateChildren(trainerDetails).addOnCompleteListener(task -> {
+        tutorDatabaseRef.updateChildren(tutorDetails).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Toast.makeText(TutorDetailsActivity.this, "פרטי המדריך נשמרו בהצלחה!", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(TutorDetailsActivity.this, TutorPage.class);

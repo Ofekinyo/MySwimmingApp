@@ -11,9 +11,9 @@
         android:orientation="vertical"
         android:padding="8dp">
 
-        <!-- Title: Trainer Info -->
+        <!-- Title: Tutor Info -->
         <TextView
-            android:id="@+id/tvTrainerInfoTitle"
+            android:id="@+id/tvTutorInfoTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="פרטי מדריך"
@@ -24,12 +24,12 @@
             android:paddingBottom="20dp"
             android:background="@drawable/rounded_title_background" />
 
-        <!-- Trainer Name -->
+        <!-- Tutor Name -->
         <TextView
-            android:id="@+id/tvTrainerName"
+            android:id="@+id/tvTutorName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Trainer Name"
+            android:text="Tutor Name"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@color/white"

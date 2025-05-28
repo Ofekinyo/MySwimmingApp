@@ -20,8 +20,8 @@ import java.util.Map;
 public class SwimmerDetailsActivity extends AppCompatActivity {
 
     private EditText etHeight, etWeight, etGoal; // Add the new input field for goal
-    private Button btnSaveTraineeDetails;
-    private DatabaseReference traineeDatabaseRef;
+    private Button btnSaveSwimmerDetails;
+    private DatabaseReference swimmerDatabaseRef;
     private FirebaseAuth mAuth;
     private String userId;
 
@@ -32,17 +32,17 @@ public class SwimmerDetailsActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         userId = mAuth.getCurrentUser().getUid();
-        traineeDatabaseRef = FirebaseDatabase.getInstance().getReference("Trainees").child(userId);
+        swimmerDatabaseRef = FirebaseDatabase.getInstance().getReference("Swimmers").child(userId);
 
         etHeight = findViewById(R.id.etHeight);
         etWeight = findViewById(R.id.etWeight);
         etGoal = findViewById(R.id.etGoal); // Initialize the new input field
-        btnSaveTraineeDetails = findViewById(R.id.btnSaveTraineeDetails);
+        btnSaveSwimmerDetails = findViewById(R.id.btnSaveSwimmerDetails);
 
-        btnSaveTraineeDetails.setOnClickListener(v -> saveTraineeDetails());
+        btnSaveSwimmerDetails.setOnClickListener(v -> saveSwimmerDetails());
     }
 
-    private void saveTraineeDetails() {
+    private void saveSwimmerDetails() {
         String heightStr = etHeight.getText().toString().trim();
         String weightStr = etWeight.getText().toString().trim();
         String goal = etGoal.getText().toString().trim(); // Get the value of the new field
@@ -63,12 +63,12 @@ public class SwimmerDetailsActivity extends AppCompatActivity {
         double height = Double.parseDouble(heightStr);
         double weight = Double.parseDouble(weightStr);
 
-        Map<String, Object> traineeDetails = new HashMap<>();
-        traineeDetails.put("height", height);
-        traineeDetails.put("weight", weight);
-        traineeDetails.put("goal", goal); // Add the goal to the data
+        Map<String, Object> swimmerDetails = new HashMap<>();
+        swimmerDetails.put("height", height);
+        swimmerDetails.put("weight", weight);
+        swimmerDetails.put("goal", goal); // Add the goal to the data
 
-        traineeDatabaseRef.updateChildren(traineeDetails).addOnCompleteListener(task -> {
+        swimmerDatabaseRef.updateChildren(swimmerDetails).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Toast.makeText(SwimmerDetailsActivity.this, "פרטי השחיין נשמרו בהצלחה!", Toast.LENGTH_LONG).show();
                 navigateToPage(); // Navigate to the appropriate page after saving
@@ -78,7 +78,7 @@ public class SwimmerDetailsActivity extends AppCompatActivity {
         });
     }
 
-    // Method to navigate to TraineePage after saving details
+    // Method to navigate to SwimmerPage after saving details
     private void navigateToPage() {
         Intent intent = new Intent(SwimmerDetailsActivity.this, SwimmerPage.class);
         startActivity(intent);

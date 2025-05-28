@@ -62,11 +62,11 @@ public class AuthenticationService {
     }
 
     private void saveUserRoleToDatabase(String userId, String role) {
-        // Store the user's information under the appropriate node based on their role (Trainer or Trainee)
-        if ("Trainer".equals(role)) {
-            mDatabase.getReference("Trainers").child(userId).setValue(true);  // Add any relevant user data as needed
-        } else if ("Trainee".equals(role)) {
-            mDatabase.getReference("Trainees").child(userId).setValue(true);  // Add any relevant user data as needed
+        // Store the user's information under the appropriate node based on their role (Tutor or Swimmer)
+        if ("Tutor".equals(role)) {
+            mDatabase.getReference("Tutors").child(userId).setValue(true);  // Add any relevant user data as needed
+        } else if ("Swimmer".equals(role)) {
+            mDatabase.getReference("Swimmers").child(userId).setValue(true);  // Add any relevant user data as needed
         }
     }
 

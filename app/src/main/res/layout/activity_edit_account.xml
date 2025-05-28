@@ -148,9 +148,9 @@
 
         </LinearLayout>
 
-        <!-- Trainer-specific fields container -->
+        <!-- Tutor-specific fields container -->
         <LinearLayout
-            android:id="@+id/trainerFieldsContainer"
+            android:id="@+id/tutorFieldsContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -188,9 +188,9 @@
                 android:textColorHint="@color/white"
                 android:layout_marginBottom="12dp" />
 
-            <!-- Training Types -->
+            <!-- Session Types -->
             <EditText
-                android:id="@+id/etTrainingTypes"
+                android:id="@+id/etSessionTypes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="סוגי אימון (מופרדים בפסיק)"
@@ -203,9 +203,9 @@
 
         </LinearLayout>
 
-        <!-- Trainee-specific fields container -->
+        <!-- Swimmer-specific fields container -->
         <LinearLayout
-            android:id="@+id/traineeFieldsContainer"
+            android:id="@+id/swimmerFieldsContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"

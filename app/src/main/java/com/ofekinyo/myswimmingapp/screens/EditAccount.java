@@ -22,9 +22,9 @@ import java.util.*;
 public class EditAccount extends AppCompatActivity {
 
     private EditText etFname, etLname, etPhone, etEmail, etAge, etGender, etCity, etPassword;
-    private EditText etHeight, etWeight; // for Trainee
-    private EditText etExperience, etPrice; // for Trainer
-    private EditText etTrainingTypes; // comma-separated for Trainer
+    private EditText etHeight, etWeight; // for Swimmer
+    private EditText etExperience, etPrice; // for Tutor
+    private EditText etSessionTypes; // comma-separated for Tutor
     private Button btnSave;
 
     private DatabaseReference userRef;
@@ -49,7 +49,7 @@ public class EditAccount extends AppCompatActivity {
         etWeight = findViewById(R.id.etWeight);
         etExperience = findViewById(R.id.etExperience);
         etPrice = findViewById(R.id.etPrice);
-        etTrainingTypes = findViewById(R.id.etTrainingTypes);
+        etSessionTypes = findViewById(R.id.etSessionTypes);
 
         btnSave = findViewById(R.id.btnSave);
 
@@ -68,19 +68,19 @@ public class EditAccount extends AppCompatActivity {
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (role.equals("Trainer")) {
+                if (role.equals("Tutor")) {
                     Tutor tutor = snapshot.getValue(Tutor.class);
                     if (tutor != null) fillCommonFields(tutor);
                     etExperience.setText(String.valueOf(tutor.getExperience()));
                     etPrice.setText(String.valueOf(tutor.getPrice()));
-                    etTrainingTypes.setText(String.join(", ", tutor.getTrainingTypes()));
-                    setTrainerVisibility(true);
-                } else if (role.equals("Trainee")) {
+                    etSessionTypes.setText(String.join(", ", tutor.getSessionTypes()));
+                    setTutorVisibility(true);
+                } else if (role.equals("Swimmer")) {
                     Swimmer swimmer = snapshot.getValue(Swimmer.class);
                     if (swimmer != null) fillCommonFields(swimmer);
                     etHeight.setText(String.valueOf(swimmer.getHeight()));
                     etWeight.setText(String.valueOf(swimmer.getWeight()));
-                    setTrainerVisibility(false);
+                    setTutorVisibility(false);
                 }
             }
 
@@ -115,7 +115,7 @@ public class EditAccount extends AppCompatActivity {
         user.setPassword(etPassword.getText().toString());
         user.setRole(role);
 
-        if (role.equals("Trainer")) {
+        if (role.equals("Tutor")) {
             Tutor tutor = new Tutor();
             tutor.setId(user.getId());
             tutor.setFname(user.getFname());
@@ -129,12 +129,12 @@ public class EditAccount extends AppCompatActivity {
             tutor.setRole(user.getRole());
             tutor.setExperience(Integer.parseInt(etExperience.getText().toString()));
             tutor.setPrice(Double.parseDouble(etPrice.getText().toString()));
-            tutor.setTrainingTypes(Arrays.asList(etTrainingTypes.getText().toString().split(",\\s*")));
+            tutor.setSessionTypes(Arrays.asList(etSessionTypes.getText().toString().split(",\\s*")));
 
 
             userRef.setValue(tutor);
 
-        } else if (role.equals("Trainee")) {
+        } else if (role.equals("Swimmer")) {
             Swimmer swimmer = new Swimmer();
             swimmer.setId(user.getId());
             swimmer.setFname(user.getFname());
@@ -155,12 +155,12 @@ public class EditAccount extends AppCompatActivity {
         Toast.makeText(this, "Account updated successfully", Toast.LENGTH_SHORT).show();
     }
 
-    private void setTrainerVisibility(boolean isTrainer) {
-        etExperience.setVisibility(isTrainer ? View.VISIBLE : View.GONE);
-        etPrice.setVisibility(isTrainer ? View.VISIBLE : View.GONE);
-        etTrainingTypes.setVisibility(isTrainer ? View.VISIBLE : View.GONE);
+    private void setTutorVisibility(boolean isTutor) {
+        etExperience.setVisibility(isTutor ? View.VISIBLE : View.GONE);
+        etPrice.setVisibility(isTutor ? View.VISIBLE : View.GONE);
+        etSessionTypes.setVisibility(isTutor ? View.VISIBLE : View.GONE);
 
-        etHeight.setVisibility(isTrainer ? View.GONE : View.VISIBLE);
-        etWeight.setVisibility(isTrainer ? View.GONE : View.VISIBLE);
+        etHeight.setVisibility(isTutor ? View.GONE : View.VISIBLE);
+        etWeight.setVisibility(isTutor ? View.GONE : View.VISIBLE);
     }
 }

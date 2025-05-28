@@ -32,7 +32,7 @@ public class TutorPage extends AppCompatActivity {
         });
 
         btnSessionRequests.setOnClickListener(v -> {
-             //When the trainer clicks "Session Requests", navigate to SessionRequestsActivity
+             //When the tutor clicks "Session Requests", navigate to SessionRequestsActivity
             Intent intent = new Intent(TutorPage.this, SessionRequests.class);
             startActivity(intent);
         });

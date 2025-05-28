@@ -11,7 +11,7 @@ import com.ofekinyo.myswimmingapp.models.Tutor;
 
 public class TutorInfo extends AppCompatActivity {
 
-    private TextView tvTrainerName, tvEmail, tvPhone, tvAge, tvGender, tvCity, tvPrice, tvExperience, tvTrainingTypes;
+    private TextView tvTutorName, tvEmail, tvPhone, tvAge, tvGender, tvCity, tvPrice, tvExperience, tvTrainingTypes;
 
 
     Intent takeit;
@@ -22,7 +22,7 @@ public class TutorInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutor_info);
 
-        tvTrainerName = findViewById(R.id.tvTrainerName);
+        tvTutorName = findViewById(R.id.tvTutorName);
         tvEmail = findViewById(R.id.tvEmail);
         tvPhone = findViewById(R.id.tvPhone);
         tvAge = findViewById(R.id.tvAge);
@@ -33,18 +33,18 @@ public class TutorInfo extends AppCompatActivity {
         tvTrainingTypes = findViewById(R.id.tvTrainingTypes);
         takeit = getIntent();
 
-        // Get the trainer's ID passed from the previous activity
-        tutor = (Tutor) takeit.getSerializableExtra("trainer");
+        // Get the tutor's ID passed from the previous activity
+        tutor = (Tutor) takeit.getSerializableExtra("tutor");
 
         if (tutor == null) {
-            Log.e("TrainerInfo", "Trainer ID is null!");
+            Log.e("TutorInfo", "Tutor ID is null!");
             return;
         } else if (tutor != null) {
 
 
-            // Display the trainer's details in the corresponding TextViews
+            // Display the tutor's details in the corresponding TextViews
             String name = tutor.getFname() + " " + tutor.getLname();  // Concatenate first and last name
-            tvTrainerName.setText(name);
+            tvTutorName.setText(name);
             tvEmail.setText(tutor.getEmail());
             tvPhone.setText(tutor.getPhone());
             tvAge.setText((tutor.getAge()) + "");

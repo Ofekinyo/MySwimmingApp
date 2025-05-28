@@ -62,7 +62,7 @@ public class Login extends AppCompatActivity {
     private void checkUserType(String uid) {
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
 
-        rootRef.child("Trainers").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+        rootRef.child("Tutors").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Intent intent = snapshot.exists() ? new Intent(Login.this, TutorPage.class) : new Intent(Login.this, SwimmerPage.class);

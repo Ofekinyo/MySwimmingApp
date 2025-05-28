@@ -7,9 +7,9 @@
     android:layout_marginBottom="8dp"
     android:background="@drawable/water_card_bg">
 
-    <!-- Trainer Name Text -->
+    <!-- Tutor Name Text -->
     <TextView
-        android:id="@+id/tvTrainerName"
+        android:id="@+id/tvTutorName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="שם מדריך"

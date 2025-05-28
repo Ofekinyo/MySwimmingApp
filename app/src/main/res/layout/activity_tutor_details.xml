@@ -96,7 +96,7 @@
 
         <!-- Save Button -->
         <Button
-            android:id="@+id/btnSaveTrainerDetails"
+            android:id="@+id/btnSaveTutorDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="שמור פרטים"
