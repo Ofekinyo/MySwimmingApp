@@ -7,7 +7,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ofekinyo.myswimmingapp.R;
-import com.ofekinyo.myswimmingapp.models.Turor;
+import com.ofekinyo.myswimmingapp.models.Tutor;
 
 public class TutorInfo extends AppCompatActivity {
 
@@ -16,7 +16,7 @@ public class TutorInfo extends AppCompatActivity {
 
     Intent takeit;
 
-    Turor turor =null;
+    Tutor tutor =null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,29 +34,29 @@ public class TutorInfo extends AppCompatActivity {
         takeit = getIntent();
 
         // Get the trainer's ID passed from the previous activity
-        turor = (Turor) takeit.getSerializableExtra("trainer");
+        tutor = (Tutor) takeit.getSerializableExtra("trainer");
 
-        if (turor == null) {
+        if (tutor == null) {
             Log.e("TrainerInfo", "Trainer ID is null!");
             return;
-        } else if (turor != null) {
+        } else if (tutor != null) {
 
 
             // Display the trainer's details in the corresponding TextViews
-            String name = turor.getFname() + " " + turor.getLname();  // Concatenate first and last name
+            String name = tutor.getFname() + " " + tutor.getLname();  // Concatenate first and last name
             tvTrainerName.setText(name);
-            tvEmail.setText(turor.getEmail());
-            tvPhone.setText(turor.getPhone());
-            tvAge.setText((turor.getAge()) + "");
-            tvGender.setText(turor.getGender());
-            tvCity.setText(turor.getCity());
-            tvPrice.setText(turor.getPrice() + "");
-            tvExperience.setText(turor.getExperience() + "");
+            tvEmail.setText(tutor.getEmail());
+            tvPhone.setText(tutor.getPhone());
+            tvAge.setText((tutor.getAge()) + "");
+            tvGender.setText(tutor.getGender());
+            tvCity.setText(tutor.getCity());
+            tvPrice.setText(tutor.getPrice() + "");
+            tvExperience.setText(tutor.getExperience() + "");
 
 //             Display trainingTypes as a comma-separated string
 
-            if (turor.getTrainingTypes().size() >= 0) {
-                tvTrainingTypes.setText(String.join(", ", turor.getTrainingTypes()));
+            if (tutor.getTrainingTypes().size() >= 0) {
+                tvTrainingTypes.setText(String.join(", ", tutor.getTrainingTypes()));
             } else {
                 tvTrainingTypes.setText("Not available");
             }

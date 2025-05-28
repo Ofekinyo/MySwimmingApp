@@ -14,7 +14,7 @@ public class Request {
     private String notes;
     private String status;
 
-    public Request(String requestId, String trainerId, String traineeId, String date, String time, String location, String goals, String notes, String pending) {
+    public Request(String requestId, String trainerId, String traineeId, String date, String time, String location, String goals, String notes, String status) {
     }
 
     public Request(String id, String trainerId, String traineeId, List<String> goals, String otherGoal,

@@ -9,7 +9,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.ofekinyo.myswimmingapp.models.Request;
 import com.ofekinyo.myswimmingapp.models.Swimmer;
-import com.ofekinyo.myswimmingapp.models.Turor;
+import com.ofekinyo.myswimmingapp.models.Tutor;
 import com.ofekinyo.myswimmingapp.models.User;
 
 import org.jetbrains.annotations.NotNull;
@@ -123,16 +123,16 @@ public class DatabaseService {
         return databaseReference.child(path).push().getKey();
     }
 
-    public void createNewTrainer(@NotNull final Turor turor, @Nullable final DatabaseCallback<Void> callback) {
-        writeData("Trainers/" + turor.getId(), turor, callback);
+    public void createNewTrainer(@NotNull final Tutor tutor, @Nullable final DatabaseCallback<Void> callback) {
+        writeData("Trainers/" + tutor.getId(), tutor, callback);
     }
 
     public void createNewTrainee(@NotNull final Swimmer swimStudent, @Nullable final DatabaseCallback<Void> callback) {
         writeData("Trainees/" + swimStudent.getId(), swimStudent, callback);
     }
 
-    public void getTrainer(@NotNull final String trainerId, @NotNull final DatabaseCallback<Turor> callback) {
-        getData("Trainers/" + trainerId, Turor.class, callback);
+    public void getTrainer(@NotNull final String trainerId, @NotNull final DatabaseCallback<Tutor> callback) {
+        getData("Trainers/" + trainerId, Tutor.class, callback);
     }
 
     public void getTrainee(@NotNull final String swimStudentId, @NotNull final DatabaseCallback<Swimmer> callback) {
@@ -151,22 +151,22 @@ public class DatabaseService {
 
 
 
-    public void getAllTrainers(@NotNull final DatabaseCallback<List<Turor>> callback) {
+    public void getAllTrainers(@NotNull final DatabaseCallback<List<Tutor>> callback) {
         readData("Trainers").get().addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
                 Log.e(TAG, "Error getting trainers", task.getException());
                 callback.onFailed(task.getException());
                 return;
             }
-            List<Turor> turors = new ArrayList<>();
+            List<Tutor> tutors = new ArrayList<>();
 
             task.getResult().getChildren().forEach(dataSnapshot -> {
-                Turor turor = dataSnapshot.getValue(Turor.class);
+                Tutor tutor = dataSnapshot.getValue(Tutor.class);
 
-                turor =new Turor(turor);
-                turors.add(turor);
+                tutor =new Tutor(tutor);
+                tutors.add(tutor);
             });
-            callback.onCompleted(turors);
+            callback.onCompleted(tutors);
         });
     }
 

@@ -14,7 +14,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.models.Swimmer;
-import com.ofekinyo.myswimmingapp.models.Turor;
+import com.ofekinyo.myswimmingapp.models.Tutor;
 import com.ofekinyo.myswimmingapp.models.User;
 
 import java.util.*;
@@ -69,11 +69,11 @@ public class EditAccount extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (role.equals("Trainer")) {
-                    Turor turor = snapshot.getValue(Turor.class);
-                    if (turor != null) fillCommonFields(turor);
-                    etExperience.setText(String.valueOf(turor.getExperience()));
-                    etPrice.setText(String.valueOf(turor.getPrice()));
-                    etTrainingTypes.setText(String.join(", ", turor.getTrainingTypes()));
+                    Tutor tutor = snapshot.getValue(Tutor.class);
+                    if (tutor != null) fillCommonFields(tutor);
+                    etExperience.setText(String.valueOf(tutor.getExperience()));
+                    etPrice.setText(String.valueOf(tutor.getPrice()));
+                    etTrainingTypes.setText(String.join(", ", tutor.getTrainingTypes()));
                     setTrainerVisibility(true);
                 } else if (role.equals("Trainee")) {
                     Swimmer swimmer = snapshot.getValue(Swimmer.class);
@@ -116,23 +116,23 @@ public class EditAccount extends AppCompatActivity {
         user.setRole(role);
 
         if (role.equals("Trainer")) {
-            Turor turor = new Turor();
-            turor.setId(user.getId());
-            turor.setFname(user.getFname());
-            turor.setLname(user.getLname());
-            turor.setPhone(user.getPhone());
-            turor.setEmail(user.getEmail());
-            turor.setAge(user.getAge());
-            turor.setGender(user.getGender());
-            turor.setCity(user.getCity());
-            turor.setPassword(user.getPassword());
-            turor.setRole(user.getRole());
-            turor.setExperience(Integer.parseInt(etExperience.getText().toString()));
-            turor.setPrice(Double.parseDouble(etPrice.getText().toString()));
-            turor.setTrainingTypes(Arrays.asList(etTrainingTypes.getText().toString().split(",\\s*")));
+            Tutor tutor = new Tutor();
+            tutor.setId(user.getId());
+            tutor.setFname(user.getFname());
+            tutor.setLname(user.getLname());
+            tutor.setPhone(user.getPhone());
+            tutor.setEmail(user.getEmail());
+            tutor.setAge(user.getAge());
+            tutor.setGender(user.getGender());
+            tutor.setCity(user.getCity());
+            tutor.setPassword(user.getPassword());
+            tutor.setRole(user.getRole());
+            tutor.setExperience(Integer.parseInt(etExperience.getText().toString()));
+            tutor.setPrice(Double.parseDouble(etPrice.getText().toString()));
+            tutor.setTrainingTypes(Arrays.asList(etTrainingTypes.getText().toString().split(",\\s*")));
 
 
-            userRef.setValue(turor);
+            userRef.setValue(tutor);
 
         } else if (role.equals("Trainee")) {
             Swimmer swimmer = new Swimmer();

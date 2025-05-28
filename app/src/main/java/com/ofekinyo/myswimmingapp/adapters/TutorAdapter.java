@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ofekinyo.myswimmingapp.R;
-import com.ofekinyo.myswimmingapp.models.Turor;
+import com.ofekinyo.myswimmingapp.models.Tutor;
 import com.ofekinyo.myswimmingapp.screens.SendRequest;
 import com.ofekinyo.myswimmingapp.screens.TutorInfo;
 
@@ -20,12 +20,12 @@ import java.util.List;
 
 public class TutorAdapter extends RecyclerView.Adapter<TutorAdapter.ViewHolder> {
     private Context context;
-    private List<Turor> turors;
+    private List<Tutor> tutors;
     //private String traineeId, traineeName;
 
-    public TutorAdapter(Context context, List<Turor> turors, String traineeId, String traineeName) {
+    public TutorAdapter(Context context, List<Tutor> tutors, String traineeId, String traineeName) {
         this.context = context;
-        this.turors = turors;
+        this.tutors = tutors;
        //this.traineeId = traineeId;
         //this.traineeName = traineeName;
     }
@@ -39,8 +39,8 @@ public class TutorAdapter extends RecyclerView.Adapter<TutorAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Turor turor = turors.get(position);
-        holder.tvTrainerName.setText(turor.getName());
+        Tutor tutor = tutors.get(position);
+        holder.tvTrainerName.setText(tutor.getName());
 
         // Example of setting experience, price, training types, etc. (keep your original code)
 
@@ -48,7 +48,7 @@ public class TutorAdapter extends RecyclerView.Adapter<TutorAdapter.ViewHolder> 
         holder.btnRequestSession.setOnClickListener(v -> {
             Intent requestIntent = new Intent(context, SendRequest.class);
 
-            requestIntent.putExtra("trainer", turor);
+            requestIntent.putExtra("trainer", tutor);
 
           //  requestIntent.putExtra("traineeName", traineeName);
             context.startActivity(requestIntent);
@@ -57,14 +57,14 @@ public class TutorAdapter extends RecyclerView.Adapter<TutorAdapter.ViewHolder> 
         // Handle More Info button click directly here
         holder.btnMoreInfo.setOnClickListener(v -> {
             Intent moreInfoIntent = new Intent(context, TutorInfo.class);
-            moreInfoIntent.putExtra("trainer", turor);
+            moreInfoIntent.putExtra("trainer", tutor);
             context.startActivity(moreInfoIntent);
         });
     }
 
     @Override
     public int getItemCount() {
-        return turors.size();
+        return tutors.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

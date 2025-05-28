@@ -1,6 +1,7 @@
 package com.ofekinyo.myswimmingapp.models;
 
 public class Exercise {
+
     private String title;
     private String description;
     private String videoUrl;
@@ -19,7 +20,29 @@ public class Exercise {
         return description;
     }
 
+
     public String getVideoUrl() {
         return videoUrl;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
+    @Override
+    public String toString() {
+        return "Exercise{" +
+                "title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", videoUrl='" + videoUrl + '\'' +
+                '}';
     }
 }
