@@ -33,6 +33,7 @@ public class SwimmerPage extends AppCompatActivity {
         }
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("SwimLink");
 
         // Get button references
             btnTutorsList = findViewById(R.id.btnTutorsList);

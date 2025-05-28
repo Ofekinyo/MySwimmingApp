@@ -7,6 +7,16 @@
     android:gravity="center"
     android:background="@drawable/water_gradient_bg">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/toolbar_gradient"
+        android:elevation="0dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:title="SwimLink"
+        android:titleTextColor="@android:color/white" />
+
     <TextView
         android:id="@+id/tvAdminWelcome"
         android:layout_width="wrap_content"

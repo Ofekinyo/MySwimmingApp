@@ -12,9 +12,10 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/blue1_font"
-        android:elevation="4dp"
+        android:background="@drawable/toolbar_gradient"
+        android:elevation="0dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:title="SwimLink"
         android:titleTextColor="@android:color/white" />
 
     <!-- Space between toolbar and image -->

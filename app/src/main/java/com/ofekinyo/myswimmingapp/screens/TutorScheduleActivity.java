@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.database.DataSnapshot;
@@ -33,6 +34,9 @@ public class TutorScheduleActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
         btnRefresh = findViewById(R.id.btnRefresh);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("SwimLink");
 
         scheduleList = new ArrayList<>();
         adapter = new ScheduleAdapter(scheduleList);

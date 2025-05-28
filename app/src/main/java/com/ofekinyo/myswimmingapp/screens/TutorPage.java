@@ -25,6 +25,7 @@ public class TutorPage extends AppCompatActivity {
         Button btnSessionRequests = findViewById(R.id.btnSessionRequests); // Updated button ID
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("SwimLink");
         // Set button click listeners
         btnSchedule.setOnClickListener(v -> {
             Intent intent = new Intent(TutorPage.this, TutorScheduleActivity.class);

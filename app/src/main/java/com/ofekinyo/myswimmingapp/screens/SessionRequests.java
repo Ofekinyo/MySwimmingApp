@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.database.*;
@@ -29,6 +30,9 @@ public class SessionRequests extends AppCompatActivity {
         requestList = new ArrayList<>();
         adapter = new SessionRequestAdapter(requestList);
         recyclerView.setAdapter(adapter);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("SwimLink");
 
         fetchPendingRequests();
     }
