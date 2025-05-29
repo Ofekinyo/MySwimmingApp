@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -135,18 +137,20 @@ public class SendRequest extends AppCompatActivity {
             return;
         }
 
-        StringBuilder goalsBuilder = new StringBuilder();
-        if (cbGoal1.isChecked()) goalsBuilder.append("שיפור טכניקה, ");
-        if (cbGoal2.isChecked()) goalsBuilder.append("הגברת סיבולת, ");
-        if (cbGoal3.isChecked()) goalsBuilder.append("הגברת מהירות, ");
+        ArrayList<String> selectedGoals = new ArrayList<>();
+        String otherGoal = "";
+
+        if (cbGoal1.isChecked()) selectedGoals.add("שיפור טכניקה");
+        if (cbGoal2.isChecked()) selectedGoals.add("הגברת סיבולת");
+        if (cbGoal3.isChecked()) selectedGoals.add("הגברת מהירות");
+
         if (cbOther.isChecked()) {
-            String other = etOtherGoal.getText().toString();
-            if (!TextUtils.isEmpty(other)) goalsBuilder.append(other).append(", ");
+            otherGoal = etOtherGoal.getText().toString().trim();
+            if (!TextUtils.isEmpty(otherGoal)) {
+                selectedGoals.add(otherGoal);
+            }
         }
 
-        String goals = goalsBuilder.length() > 0 ? goalsBuilder.substring(0, goalsBuilder.length() - 2) : "";
-
-        // Get reference and generate a unique ID
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         String requestId = db.getReference("SessionRequests").push().getKey();
 
@@ -159,10 +163,11 @@ public class SendRequest extends AppCompatActivity {
                 requestId,
                 tutorId,
                 swimmerId,
+                selectedGoals,
+                otherGoal,
                 date,
                 time,
                 location,
-                goals,
                 notes,
                 "pending"
         );
@@ -178,5 +183,6 @@ public class SendRequest extends AppCompatActivity {
                     Toast.makeText(this, "שגיאה בשליחת הבקשה", Toast.LENGTH_SHORT).show();
                 });
     }
+
 
 }

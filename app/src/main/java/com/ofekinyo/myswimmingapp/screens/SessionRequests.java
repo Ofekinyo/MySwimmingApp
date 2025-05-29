@@ -4,58 +4,48 @@ import android.os.Bundle;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.google.firebase.database.*;
+
+import com.google.firebase.auth.FirebaseUser;
 import com.ofekinyo.myswimmingapp.R;
-import com.ofekinyo.myswimmingapp.models.Request;
-import com.ofekinyo.myswimmingapp.adapters.SessionRequestAdapter;
-import java.util.ArrayList;
+import com.ofekinyo.myswimmingapp.adapters.SessionRequestsAdapter;
+import com.ofekinyo.myswimmingapp.models.SessionRequest;
+import com.ofekinyo.myswimmingapp.services.AuthenticationService;
+import com.ofekinyo.myswimmingapp.services.DatabaseService;
+
 import java.util.List;
 
 public class SessionRequests extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private SessionRequestAdapter adapter;
-    private List<Request> requestList;
+    private SessionRequestsAdapter adapter;
+    private AuthenticationService authService;
+    private DatabaseService dbService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_session_requests);
 
-        recyclerView = findViewById(R.id.recycler_view_requests);
+        recyclerView = findViewById(R.id.recyclerViewRequests);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        requestList = new ArrayList<>();
-        adapter = new SessionRequestAdapter(requestList);
+
+        authService = AuthenticationService.getInstance();
+        dbService = DatabaseService.getInstance();
+
+        adapter = new SessionRequestsAdapter();
         recyclerView.setAdapter(adapter);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("SwimLink");
+        dbService.getPendingRequestsForTutor(new DatabaseService.DatabaseCallback<List<SessionRequest>>() {
+            @Override
+            public void onCompleted(List<SessionRequest> sessionRequests) {
+                adapter.setRequestList(sessionRequests);
+            }
 
-        fetchPendingRequests();
-    }
+            @Override
+            public void onFailed(Exception e) {
 
-    private void fetchPendingRequests() {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("SessionRequests");
-
-        ref.orderByChild("status").equalTo("pending")
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        requestList.clear();
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            Request request = dataSnapshot.getValue(Request.class);
-                            requestList.add(request);
-                        }
-                        adapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(SessionRequests.this, "שגיאה בטעינת בקשות", Toast.LENGTH_SHORT).show();
-                    }
-                });
+            }
+        });
     }
 }

@@ -9,7 +9,7 @@
     android:elevation="2dp">
 
     <TextView
-        android:id="@+id/tvSwimmerId"
+        android:id="@+id/textSwimmerId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="שחיין"
@@ -17,25 +17,25 @@
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/tvDateTime"
+        android:id="@+id/textDateTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="תאריך ושעה" />
 
     <TextView
-        android:id="@+id/tvLocation"
+        android:id="@+id/textLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="מיקום" />
 
     <TextView
-        android:id="@+id/tvGoals"
+        android:id="@+id/textGoals"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="מטרות" />
 
     <TextView
-        android:id="@+id/tvNotes"
+        android:id="@+id/textNotes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="הערות" />

@@ -2,7 +2,7 @@ package com.ofekinyo.myswimmingapp.models;
 
 import java.util.List;
 
-public class Request {
+public class SessionRequest {
     private String requestId;
     private String tutorId;
     private String swimmerId;
@@ -12,18 +12,15 @@ public class Request {
     private String time;
     private String location;
     private String notes;
-    private String status;
+    private String status; // e.g., "pending", "approved", "rejected"
 
-    public Request(String requestId, String tutorId, String swimmerId, String date, String time, String location, String goals, String notes, String status) {
-    }
+    // Required no-arg constructor for Firebase
+    public SessionRequest() {}
 
-    public Request() {
-        this.status = "pending";
-    }
-
-    public Request(String id, String tutorId, String swimmerId, List<String> goals, String otherGoal,
-                   String date, String time, String location, String notes, String status) {
-        this.requestId = id;
+    public SessionRequest(String requestId, String tutorId, String swimmerId,
+                          List<String> goals, String otherGoal, String date,
+                          String time, String location, String notes, String status) {
+        this.requestId = requestId;
         this.tutorId = tutorId;
         this.swimmerId = swimmerId;
         this.goals = goals;
@@ -32,16 +29,16 @@ public class Request {
         this.time = time;
         this.location = location;
         this.notes = notes;
-        this.status = status != null ? status : "pending";
+        this.status = status;
     }
-    // Getters and setters
 
-    public String getId() {
+    // Getters and setters
+    public String getRequestId() {
         return requestId;
     }
 
-    public void setId(String id) {
-        this.requestId = id;
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
     }
 
     public String getTutorId() {
@@ -56,8 +53,8 @@ public class Request {
         return swimmerId;
     }
 
-    public void setSwimmerId(String traineeId) {
-        this.swimmerId = traineeId;
+    public void setSwimmerId(String swimmerId) {
+        this.swimmerId = swimmerId;
     }
 
     public List<String> getGoals() {
@@ -114,21 +111,5 @@ public class Request {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    @Override
-    public String toString() {
-        return "SessionRequest{" +
-                "id='" + requestId + '\'' +
-                ", tutorId='" + tutorId + '\'' +
-                ", swimmerId='" + swimmerId + '\'' +
-                ", goals=" + goals +
-                ", otherGoal='" + otherGoal + '\'' +
-                ", date='" + date + '\'' +
-                ", time='" + time + '\'' +
-                ", location='" + location + '\'' +
-                ", notes='" + notes + '\'' +
-                ", status='" + status + '\'' +
-                '}';
     }
 }

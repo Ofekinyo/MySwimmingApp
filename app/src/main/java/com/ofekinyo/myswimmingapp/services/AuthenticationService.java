@@ -2,9 +2,18 @@ package com.ofekinyo.myswimmingapp.services;
 
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.ofekinyo.myswimmingapp.models.Swimmer;
+import com.ofekinyo.myswimmingapp.models.Tutor;
+import com.ofekinyo.myswimmingapp.models.User;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -83,5 +92,55 @@ public class AuthenticationService {
 
     public boolean isUserSignedIn() {
         return mAuth.getCurrentUser() != null;
+    }
+
+    // New method to fetch full current user data (either Tutor or Swimmer)
+    public void getCurrentUser(@NotNull final AuthCallback<User> callback) {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser == null) {
+            callback.onFailed(new Exception("No authenticated user found"));
+            return;
+        }
+        String uid = currentUser.getUid();
+
+        // First try to fetch from Tutors node
+        DatabaseReference tutorRef = mDatabase.getReference("Tutors").child(uid);
+        tutorRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NotNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    Tutor tutor = snapshot.getValue(Tutor.class);
+                    if (tutor != null) {
+                        callback.onCompleted(tutor);
+                        return;
+                    }
+                }
+                // If not a tutor, try Swimmers node
+                DatabaseReference swimmerRef = mDatabase.getReference("Swimmers").child(uid);
+                swimmerRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NotNull DataSnapshot swimmerSnapshot) {
+                        if (swimmerSnapshot.exists()) {
+                            Swimmer swimmer = swimmerSnapshot.getValue(Swimmer.class);
+                            if (swimmer != null) {
+                                callback.onCompleted(swimmer);
+                                return;
+                            }
+                        }
+                        callback.onFailed(new Exception("User data not found in Tutors or Swimmers nodes"));
+                    }
+
+                    @Override
+                    public void onCancelled(@NotNull DatabaseError error) {
+                        callback.onFailed(error.toException());
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NotNull DatabaseError error) {
+                callback.onFailed(error.toException());
+            }
+        });
     }
 }

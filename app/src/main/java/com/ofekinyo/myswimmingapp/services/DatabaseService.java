@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
@@ -11,6 +12,7 @@ import com.ofekinyo.myswimmingapp.models.Request;
 import com.ofekinyo.myswimmingapp.models.Swimmer;
 import com.ofekinyo.myswimmingapp.models.Tutor;
 import com.ofekinyo.myswimmingapp.models.User;
+import com.ofekinyo.myswimmingapp.models.SessionRequest;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -28,12 +30,20 @@ public class DatabaseService {
         void onFailed(Exception e);
     }
 
+    // New callback interface for requests
+    public interface RequestsCallback {
+        void onRequestsReceived(List<SessionRequest> requests);
+        void onError(String errorMessage);
+    }
+
     private static DatabaseService instance;
     private final DatabaseReference databaseReference;
+    private final FirebaseAuth firebaseAuth;
 
     private DatabaseService() {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
+        firebaseAuth = FirebaseAuth.getInstance();
     }
 
     public static DatabaseService getInstance() {
@@ -46,11 +56,13 @@ public class DatabaseService {
     public void writeData(@NotNull final String path, @NotNull final Object data, final @Nullable DatabaseCallback<Void> callback) {
         databaseReference.child(path).setValue(data).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                if (callback == null) return;
-                callback.onCompleted(null);
+                if (callback != null) {
+                    callback.onCompleted(null);
+                }
             } else {
-                if (callback == null) return;
-                callback.onFailed(task.getException());
+                if (callback != null) {
+                    callback.onFailed(task.getException());
+                }
             }
         });
     }
@@ -59,18 +71,8 @@ public class DatabaseService {
         return databaseReference.child(path);
     }
 
-    /// get a list of data from the database at a specific path
-    /// @param path the path to get the data from
-    /// @param clazz the class of the objects to return
-    /// @param callback the callback to call when the operation is completed
-    private <T> void getDataList(@NotNull final String path, @NotNull final Class<T> clazz, @NotNull Map<String, String> filter, @NotNull final DatabaseCallback<List<T>> callback) {
-        Query dbRef = readData(path);
-
-        for (Map.Entry<String, String> entry : filter.entrySet()) {
-            dbRef = dbRef.orderByChild(entry.getKey()).equalTo(entry.getValue());
-        }
-
-        dbRef.get().addOnCompleteListener(task -> {
+    private <T> void getDataList(@NotNull final String path, @NotNull final Class<T> clazz, @NotNull final DatabaseCallback<List<T>> callback) {
+        readData(path).get().addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
                 Log.e(TAG, "Error getting data", task.getException());
                 callback.onFailed(task.getException());
@@ -90,23 +92,22 @@ public class DatabaseService {
         getData("users/" + uid, User.class, callback);
     }
 
-    /// get all the users from the database
-    /// @param callback the callback to call when the operation is completed
-    ///              the callback will receive a list of user objects
-    ///            if the operation fails, the callback will receive an exception
-    /// @see DatabaseCallback
-    /// @see List
-    /// @see User
-    public void getUserList(@NotNull final DatabaseCallback<List<User>> callback) {
-        getDataList("users/", User.class, new HashMap<>(), callback);
+    /**
+     * Method to get currently authenticated user's full data from DB
+     */
+    public void getCurrentUser(@NotNull final DatabaseCallback<User> callback) {
+        if (firebaseAuth.getCurrentUser() == null) {
+            callback.onFailed(new Exception("No authenticated user found"));
+            return;
+        }
+        String uid = firebaseAuth.getCurrentUser().getUid();
+        getUser(uid, callback);
     }
 
-    /// get data from the database at a specific path
-    /// @param path the path to get the data from
-    /// @param clazz the class of the object to return
-    /// @param callback the callback to call when the operation is completed
-    /// @see DatabaseCallback
-    /// @see Class
+    public void getUserList(@NotNull final DatabaseCallback<List<User>> callback) {
+        getDataList("users/", User.class, callback);
+    }
+
     private <T> void getData(@NotNull final String path, @NotNull final Class<T> clazz, @NotNull final DatabaseCallback<T> callback) {
         readData(path).get().addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
@@ -139,8 +140,6 @@ public class DatabaseService {
         getData("Swimmers/" + swimStudentId, Swimmer.class, callback);
     }
 
-
-
     public void createNewRequest(@NotNull final Request request, @Nullable final DatabaseCallback<Void> callback) {
         String swimmerId = request.getSwimmerId();
         String tutorId = request.getTutorId();
@@ -148,8 +147,6 @@ public class DatabaseService {
         writeData("SwimmerRequest/" + swimmerId + "/" + tutorId, request, callback);
         writeData("TutorRequest/" + tutorId + "/" + swimmerId, request, callback);
     }
-
-
 
     public void getAllTutors(@NotNull final DatabaseCallback<List<Tutor>> callback) {
         readData("Tutors").get().addOnCompleteListener(task -> {
@@ -162,8 +159,7 @@ public class DatabaseService {
 
             task.getResult().getChildren().forEach(dataSnapshot -> {
                 Tutor tutor = dataSnapshot.getValue(Tutor.class);
-
-                tutor =new Tutor(tutor);
+                tutor = new Tutor(tutor);
                 tutors.add(tutor);
             });
             callback.onCompleted(tutors);
@@ -180,10 +176,25 @@ public class DatabaseService {
             List<Swimmer> swimmers = new ArrayList<>();
             task.getResult().getChildren().forEach(dataSnapshot -> {
                 Swimmer swimmer = dataSnapshot.getValue(Swimmer.class);
-
                 swimmers.add(swimmer);
             });
             callback.onCompleted(swimmers);
+        });
+    }
+
+    // --- New method to get pending requests for a specific tutor ---
+    public void getPendingRequestsForTutor(@Nullable final DatabaseCallback<List<SessionRequest>> callback) {
+        getDataList("SessionRequests", SessionRequest.class, new DatabaseCallback<List<SessionRequest>>() {
+            @Override
+            public void onCompleted(List<SessionRequest> sessionRequests) {
+                sessionRequests.removeIf(sessionRequest -> !sessionRequest.getStatus().equalsIgnoreCase("pending"));
+                callback.onCompleted(sessionRequests);
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+                callback.onFailed(e);
+            }
         });
     }
 }
