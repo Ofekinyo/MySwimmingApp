@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -12,20 +13,20 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.utils.SharedPreferencesUtil;
+import com.ofekinyo.myswimmingapp.base.BaseActivity;
 
-public class TutorPage extends AppCompatActivity {
+public class TutorPage extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutor_page);
+        setupToolbar("SwimLink");
 
         // Get button references
-        Button btnSchedule = findViewById(R.id.btnSchedule);
-        Button btnSessionRequests = findViewById(R.id.btnSessionRequests); // Updated button ID
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("SwimLink");
+        Button btnSchedule = findViewById(R.id.btnTutorSchedule);
+        Button btnSessionRequests = findViewById(R.id.btnSessionRequests);
+
         // Set button click listeners
         btnSchedule.setOnClickListener(v -> {
             Intent intent = new Intent(TutorPage.this, TutorScheduleActivity.class);
@@ -33,11 +34,16 @@ public class TutorPage extends AppCompatActivity {
         });
 
         btnSessionRequests.setOnClickListener(v -> {
-             //When the tutor clicks "Session Requests", navigate to SessionRequestsActivity
-            Intent intent = new Intent(TutorPage.this, SessionRequests.class);
-            startActivity(intent);
+            try {
+                // Navigate to SessionRequests
+                Intent intent = new Intent(TutorPage.this, SessionRequests.class);
+                startActivity(intent);
+            } catch (Exception e) {
+                Toast.makeText(this, "מצטערים, התכונה הזו עדיין לא זמינה", Toast.LENGTH_SHORT).show();
+            }
         });
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);

@@ -6,21 +6,22 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.*;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
 
-import java.util.ArrayList;
-
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ofekinyo.myswimmingapp.R;
+import com.ofekinyo.myswimmingapp.base.BaseActivity;
 import com.ofekinyo.myswimmingapp.models.Request;
-import com.ofekinyo.myswimmingapp.services.AuthenticationService;
+import com.ofekinyo.myswimmingapp.models.Swimmer;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
-public class SendRequest extends AppCompatActivity {
+public class SendRequest extends BaseActivity {
 
     private TextView tvTutorName;
     private EditText etDate, etTime, etLocation, etNotes, etOtherGoal;
@@ -36,6 +37,7 @@ public class SendRequest extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_request);
+        setupToolbar("שליחת בקשה");
 
         // UI References
         tvTutorName = findViewById(R.id.tvTutorName);
@@ -62,43 +64,18 @@ public class SendRequest extends AppCompatActivity {
         // Display tutor name
         tvTutorName.setText(tutorName);
 
-        // Get swimmer ID from auth service
-        swimmerId = AuthenticationService.getInstance().getCurrentUserId();
-
-        // Load swimmer name
-        fetchSwimmerName();
-
-        // Pickers
-        etDate.setOnClickListener(v -> showDatePicker());
-        etTime.setOnClickListener(v -> showTimePicker());
-
-        // Submit request
-        btnSubmit.setOnClickListener(v -> submitRequest());
-    }
-
-    private void fetchSwimmerName() {
-        FirebaseDatabase.getInstance().getReference("Swimmers")
-                .child(swimmerId)
-                .child("fname") // assuming name is under fname + lname
+        // Get current user (swimmer) data
+        FirebaseDatabase.getInstance().getReference("Users/Swimmers")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        String fname = snapshot.getValue(String.class);
-                        FirebaseDatabase.getInstance().getReference("Swimmers")
-                                .child(swimmerId)
-                                .child("lname")
-                                .addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot snapshot) {
-                                        String lname = snapshot.getValue(String.class);
-                                        swimmerName = fname + " " + lname;
-                                    }
-
-                                    @Override
-                                    public void onCancelled(DatabaseError error) {
-                                        Toast.makeText(SendRequest.this, "שגיאה בטעינת שם המשתמש", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            Swimmer swimmer = snapshot.getValue(Swimmer.class);
+                            if (swimmer != null) {
+                                swimmerName = swimmer.getFname() + " " + swimmer.getLname();
+                            }
+                        }
                     }
 
                     @Override
@@ -106,6 +83,13 @@ public class SendRequest extends AppCompatActivity {
                         Toast.makeText(SendRequest.this, "שגיאה בטעינת שם המשתמש", Toast.LENGTH_SHORT).show();
                     }
                 });
+
+        // Pickers
+        etDate.setOnClickListener(v -> showDatePicker());
+        etTime.setOnClickListener(v -> showTimePicker());
+
+        // Submit request
+        btnSubmit.setOnClickListener(v -> submitRequest());
     }
 
     private void showDatePicker() {
@@ -183,6 +167,4 @@ public class SendRequest extends AppCompatActivity {
                     Toast.makeText(this, "שגיאה בשליחת הבקשה", Toast.LENGTH_SHORT).show();
                 });
     }
-
-
 }

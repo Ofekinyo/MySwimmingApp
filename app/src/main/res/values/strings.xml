@@ -20,7 +20,7 @@
         <item>Gender</item>
         <item>Price</item>
         <item>Experience</item>
-        <item>Training Types</item>
+        <item>Session Types</item>
     </string-array>
 
 </resources>

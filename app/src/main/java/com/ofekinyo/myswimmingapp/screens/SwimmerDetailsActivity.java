@@ -32,7 +32,7 @@ public class SwimmerDetailsActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         userId = mAuth.getCurrentUser().getUid();
-        swimmerDatabaseRef = FirebaseDatabase.getInstance().getReference("Swimmers").child(userId);
+        swimmerDatabaseRef = FirebaseDatabase.getInstance().getReference("Users/Swimmers").child(userId);
 
         etHeight = findViewById(R.id.etHeight);
         etWeight = findViewById(R.id.etWeight);

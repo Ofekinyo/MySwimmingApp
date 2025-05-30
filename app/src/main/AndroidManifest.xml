@@ -43,19 +43,7 @@
             android:name=".screens.UsersList"
             android:exported="false" />
         <activity
-            android:name=".screens.EditUser"
-            android:exported="false" />
-        <activity
-            android:name=".screens.ItemSchedule"
-            android:exported="false" />
-        <activity
-            android:name=".adapters.ScheduleAdapter"
-            android:exported="false" />
-        <activity
             android:name=".screens.TutorInfo"
-            android:exported="false" />
-        <activity
-            android:name=".screens.EachTutor"
             android:exported="false" />
         <activity
             android:name=".screens.TutorsList"
@@ -76,9 +64,6 @@
             android:name=".screens.AdminPage"
             android:exported="false" />
         <activity
-            android:name=".models.Schedule"
-            android:exported="false" />
-        <activity
             android:name=".screens.SwimmerDetailsActivity"
             android:exported="false" />
         <activity
@@ -95,10 +80,12 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity 
+            android:name=".screens.AdminPasskeyActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

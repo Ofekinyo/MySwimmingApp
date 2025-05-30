@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.*;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -13,13 +12,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ofekinyo.myswimmingapp.R;
+import com.ofekinyo.myswimmingapp.base.BaseActivity;
 import com.ofekinyo.myswimmingapp.models.Swimmer;
 import com.ofekinyo.myswimmingapp.models.Tutor;
 import com.ofekinyo.myswimmingapp.models.User;
 
 import java.util.*;
 
-public class EditAccount extends AppCompatActivity {
+public class EditAccount extends BaseActivity {
 
     private EditText etFname, etLname, etPhone, etEmail, etAge, etGender, etCity, etPassword;
     private EditText etHeight, etWeight; // for Swimmer
@@ -35,6 +35,7 @@ public class EditAccount extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_account);
+        setupToolbar("עריכת חשבון");
 
         etFname = findViewById(R.id.etFname);
         etLname = findViewById(R.id.etLname);
@@ -131,7 +132,6 @@ public class EditAccount extends AppCompatActivity {
             tutor.setPrice(Double.parseDouble(etPrice.getText().toString()));
             tutor.setSessionTypes(Arrays.asList(etSessionTypes.getText().toString().split(",\\s*")));
 
-
             userRef.setValue(tutor);
 
         } else if (role.equals("Swimmer")) {
@@ -153,6 +153,7 @@ public class EditAccount extends AppCompatActivity {
         }
 
         Toast.makeText(this, "Account updated successfully", Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     private void setTutorVisibility(boolean isTutor) {

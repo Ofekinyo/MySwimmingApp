@@ -154,9 +154,9 @@
             android:textColor="@color/white"
             android:layout_marginBottom="16dp" />
 
-        <!-- Training Types -->
+        <!-- Session Types -->
         <TextView
-            android:text="Training Types:"
+            android:text="Session Types:"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/white"
@@ -167,7 +167,7 @@
             android:id="@+id/tvSessionTypes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Training Types"
+            android:text="Session Types"
             android:textColor="@color/white" />
         <!-- Back Button -->
         <Button

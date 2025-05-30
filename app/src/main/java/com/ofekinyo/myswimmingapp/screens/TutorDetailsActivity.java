@@ -81,7 +81,7 @@ public class TutorDetailsActivity extends AppCompatActivity {
 
         Map<String, Object> tutorDetails = new HashMap<>();
         tutorDetails.put("experience", Integer.parseInt(experience));
-        tutorDetails.put("trainingTypes", selectedTrainingTypes);
+        tutorDetails.put("sessionTypes", selectedTrainingTypes);
         tutorDetails.put("price", price);
 
         tutorDatabaseRef.updateChildren(tutorDetails).addOnCompleteListener(task -> {

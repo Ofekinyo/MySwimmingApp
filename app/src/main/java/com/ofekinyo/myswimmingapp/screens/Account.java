@@ -2,14 +2,11 @@ package com.ofekinyo.myswimmingapp.screens;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -19,8 +16,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ofekinyo.myswimmingapp.R;
+import com.ofekinyo.myswimmingapp.base.BaseActivity;
 
-public class Account extends AppCompatActivity {
+public class Account extends BaseActivity {
 
     private TextView tvFirstName, tvLastName, tvEmail, tvPhone, tvCity, tvGender, tvAge;
     private Button btnEditDetails, btnBack;
@@ -33,6 +31,7 @@ public class Account extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
+        setupToolbar("החשבון שלי");
 
         ivProfile = findViewById(R.id.ivProfile);
         tvFirstName = findViewById(R.id.tvFirstName);
@@ -44,11 +43,6 @@ public class Account extends AppCompatActivity {
         tvAge = findViewById(R.id.tvAge);
         btnEditDetails = findViewById(R.id.btnEditDetails);
         btnBack = findViewById(R.id.btnBack);
-
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("My Account");
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
@@ -71,20 +65,19 @@ public class Account extends AppCompatActivity {
 
     private void getUserType(String uid) {
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-
-        rootRef.child("Tutors").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+        rootRef.child("Users/Tutors").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    userType = "Trainers";
-                    fetchUserData(uid, userType);
+                    userType = "Tutors";
+                    loadTutorData(uid);
                 } else {
-                    rootRef.child("Swimmers").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                    rootRef.child("Users/Swimmers").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if (snapshot.exists()) {
                                 userType = "Swimmers";
-                                fetchUserData(uid, userType);
+                                loadSwimmerData(uid);
                             } else {
                                 Toast.makeText(Account.this, "User data not found", Toast.LENGTH_SHORT).show();
                             }
@@ -105,8 +98,8 @@ public class Account extends AppCompatActivity {
         });
     }
 
-    private void fetchUserData(String uid, String userType) {
-        databaseReference = FirebaseDatabase.getInstance().getReference().child(userType).child(uid);
+    private void loadTutorData(String uid) {
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Users/Tutors").child(uid);
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -118,7 +111,6 @@ public class Account extends AppCompatActivity {
                     tvCity.setText("עיר: " + snapshot.child("city").getValue(String.class));
                     tvGender.setText("מגדר: " + snapshot.child("gender").getValue(String.class));
 
-                    // FIX: Fetch age correctly
                     Long ageValue = snapshot.child("age").getValue(Long.class);
                     if (ageValue != null) {
                         tvAge.setText("גיל: " + ageValue.toString());
@@ -135,9 +127,32 @@ public class Account extends AppCompatActivity {
         });
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        finish();
-        return true;
+    private void loadSwimmerData(String uid) {
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Users/Swimmers").child(uid);
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    tvFirstName.setText("שם פרטי: " + snapshot.child("fname").getValue(String.class));
+                    tvLastName.setText("שם משפחה: " + snapshot.child("lname").getValue(String.class));
+                    tvPhone.setText("טלפון: " + snapshot.child("phone").getValue(String.class));
+                    tvCity.setText("עיר: " + snapshot.child("city").getValue(String.class));
+                    tvGender.setText("מגדר: " + snapshot.child("gender").getValue(String.class));
+
+                    Long ageValue = snapshot.child("age").getValue(Long.class);
+                    if (ageValue != null) {
+                        tvAge.setText("גיל: " + ageValue.toString());
+                    } else {
+                        tvAge.setText("גיל: N/A");
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(Account.this, "Failed to load data", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

@@ -56,8 +56,8 @@ public class Request {
         return swimmerId;
     }
 
-    public void setSwimmerId(String traineeId) {
-        this.swimmerId = traineeId;
+    public void setSwimmerId(String swimmerId) {
+        this.swimmerId = swimmerId;
     }
 
     public List<String> getGoals() {

@@ -20,6 +20,10 @@ import org.jetbrains.annotations.NotNull;
 public class AuthenticationService {
 
     private static final String TAG = "AuthenticationService";
+    private static final String USERS_PATH = "Users";
+    private static final String TUTORS_PATH = USERS_PATH + "/Tutors";
+    private static final String SWIMMERS_PATH = USERS_PATH + "/Swimmers";
+    private static final String ADMINS_PATH = USERS_PATH + "/Admins";
 
     public interface AuthCallback<T> {
         void onCompleted(T object);
@@ -71,12 +75,22 @@ public class AuthenticationService {
     }
 
     private void saveUserRoleToDatabase(String userId, String role) {
-        // Store the user's information under the appropriate node based on their role (Tutor or Swimmer)
-        if ("Tutor".equals(role)) {
-            mDatabase.getReference("Tutors").child(userId).setValue(true);  // Add any relevant user data as needed
-        } else if ("Swimmer".equals(role)) {
-            mDatabase.getReference("Swimmers").child(userId).setValue(true);  // Add any relevant user data as needed
+        String path = "";
+        switch (role.toLowerCase()) {
+            case "tutor":
+                path = TUTORS_PATH;
+                break;
+            case "swimmer":
+                path = SWIMMERS_PATH;
+                break;
+            case "admin":
+                path = ADMINS_PATH;
+                break;
+            default:
+                Log.e(TAG, "Invalid role: " + role);
+                return;
         }
+        mDatabase.getReference(path).child(userId).setValue(true);
     }
 
     public void signOut() {
@@ -94,7 +108,6 @@ public class AuthenticationService {
         return mAuth.getCurrentUser() != null;
     }
 
-    // New method to fetch full current user data (either Tutor or Swimmer)
     public void getCurrentUser(@NotNull final AuthCallback<User> callback) {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null) {
@@ -104,7 +117,7 @@ public class AuthenticationService {
         String uid = currentUser.getUid();
 
         // First try to fetch from Tutors node
-        DatabaseReference tutorRef = mDatabase.getReference("Tutors").child(uid);
+        DatabaseReference tutorRef = mDatabase.getReference(TUTORS_PATH).child(uid);
         tutorRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NotNull DataSnapshot snapshot) {
@@ -116,7 +129,7 @@ public class AuthenticationService {
                     }
                 }
                 // If not a tutor, try Swimmers node
-                DatabaseReference swimmerRef = mDatabase.getReference("Swimmers").child(uid);
+                DatabaseReference swimmerRef = mDatabase.getReference(SWIMMERS_PATH).child(uid);
                 swimmerRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NotNull DataSnapshot swimmerSnapshot) {
@@ -127,7 +140,26 @@ public class AuthenticationService {
                                 return;
                             }
                         }
-                        callback.onFailed(new Exception("User data not found in Tutors or Swimmers nodes"));
+                        // If not a swimmer, try Admins node
+                        DatabaseReference adminRef = mDatabase.getReference(ADMINS_PATH).child(uid);
+                        adminRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NotNull DataSnapshot adminSnapshot) {
+                                if (adminSnapshot.exists()) {
+                                    User admin = adminSnapshot.getValue(User.class);
+                                    if (admin != null) {
+                                        callback.onCompleted(admin);
+                                        return;
+                                    }
+                                }
+                                callback.onFailed(new Exception("User data not found in any role nodes"));
+                            }
+
+                            @Override
+                            public void onCancelled(@NotNull DatabaseError error) {
+                                callback.onFailed(error.toException());
+                            }
+                        });
                     }
 
                     @Override

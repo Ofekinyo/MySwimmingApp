@@ -7,15 +7,11 @@ import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.adapters.TutorAdapter;
+import com.ofekinyo.myswimmingapp.base.BaseActivity;
 import com.ofekinyo.myswimmingapp.models.Tutor;
 import com.ofekinyo.myswimmingapp.services.DatabaseService;
 
@@ -34,17 +31,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TutorsList extends AppCompatActivity {
+public class TutorsList extends BaseActivity {
     private DatabaseReference tutorsDatabaseRef;
     private FirebaseAuth mAuth;
-    private List<Tutor> tutors, filteredTutors;
+    private List<Tutor> tutors;
     private TutorAdapter adapter;
     private EditText searchBar;
     private Spinner searchSpinner;
 
-    private String traineeId, traineeName;
+    private String swimmerId, swimmerName;
     DatabaseService databaseService;
-    ArrayList<Tutor>tutors2=new ArrayList<>();
 
     // Mapping from Hebrew labels to internal keys based on the new categories
     private final Map<String, String> filterMap = new HashMap<String, String>() {{
@@ -55,97 +51,134 @@ public class TutorsList extends AppCompatActivity {
         put("שם משפחה", "lname");
         put("מין", "gender");
         put("תעודת זהות", "id");
-        put("סיסמא", "password");
-        put("טלפון", "phone");
         put("מחיר", "price");
-        put("תפקיד", "role");
-        put("סוג שיעור", "trainingTypes");
+        put("סוג שיעור", "sessionTypes");
     }};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutors_list);
-        databaseService=DatabaseService.getInstance();
+        setupToolbar("רשימת מדריכים");
 
+        // Initialize Firebase components
+        mAuth = FirebaseAuth.getInstance();
+        tutorsDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Tutors");
+        databaseService = DatabaseService.getInstance();
 
-        databaseService.getAllTutors(new DatabaseService.DatabaseCallback<List<Tutor>>() {
-            @Override
-            public void onCompleted(List<Tutor> object) {
-                tutors2.addAll(object);
-            }
+        // Get swimmer data from intent
+        swimmerId = getIntent().getStringExtra("swimmerId");
+        swimmerName = getIntent().getStringExtra("swimmerName");
 
-            @Override
-            public void onFailed(Exception e) {
-
-            }
-        });
-
-
-        traineeId = getIntent().getStringExtra("traineeId");
-        traineeName = getIntent().getStringExtra("traineeName");
-
-        RecyclerView rvTutors = findViewById(R.id.rvTutors);
+        // Initialize UI components
         searchBar = findViewById(R.id.searchBar);
         searchSpinner = findViewById(R.id.searchSpinner);
 
-        rvTutors.setLayoutManager(new LinearLayoutManager(this));
+        // Set up RecyclerView
+        RecyclerView recyclerView = findViewById(R.id.rvTutors);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        String[] searchOptions = {"שם", "עיר", "אימייל", "ניסיון", "שם משפחה", "מין", "תעודת זהות", "סיסמא", "טלפון", "מחיר", "תפקיד", "סוג שיעור"};
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, searchOptions);
-        searchSpinner.setAdapter(spinnerAdapter);
-
-        tutorsDatabaseRef = FirebaseDatabase.getInstance().getReference("Tutors");
+        // Initialize empty list and adapter
         tutors = new ArrayList<>();
-        filteredTutors = new ArrayList<>();
+        adapter = new TutorAdapter(this, tutors, swimmerId, swimmerName);
+        recyclerView.setAdapter(adapter);
 
-        adapter = new TutorAdapter(this, filteredTutors, traineeId, traineeName);
-        rvTutors.setAdapter(adapter);
+        // Load tutors
+        loadTutors();
 
-        tutorsDatabaseRef.addValueEventListener(new ValueEventListener() {
+        // Set up search functionality
+        setupSearch();
+
+        setupBackButton();
+    }
+
+    private void setupSearch() {
+        searchBar.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                tutors.clear();
-                filteredTutors.clear();
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Tutor tutor = snapshot.getValue(Tutor.class);
-                    if (tutor != null) {
-                        tutors.add(tutor);
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String searchText = s.toString().toLowerCase();
+                String selectedFilter = filterMap.get(searchSpinner.getSelectedItem().toString());
+                filterTutors(searchText, selectedFilter);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+    }
+
+    private void filterTutors(String searchText, String filterType) {
+        List<Tutor> filteredList = new ArrayList<>();
+        for (Tutor tutor : tutors) {
+            boolean matchFound = false;
+            switch (filterType) {
+                case "fname":
+                    matchFound = tutor.getFname().toLowerCase().contains(searchText);
+                    break;
+                case "lname":
+                    matchFound = tutor.getLname().toLowerCase().contains(searchText);
+                    break;
+                case "email":
+                    matchFound = tutor.getEmail().toLowerCase().contains(searchText);
+                    break;
+                case "city":
+                    matchFound = tutor.getCity().toLowerCase().contains(searchText);
+                    break;
+                case "gender":
+                    matchFound = tutor.getGender().toLowerCase().contains(searchText);
+                    break;
+                case "id":
+                    matchFound = tutor.getId().toLowerCase().contains(searchText);
+                    break;
+                case "price":
+                    if (tutor.getPrice() != null) {
+                        matchFound = String.valueOf(tutor.getPrice()).contains(searchText);
                     }
-                }
+                    break;
+                case "experience":
+                    if (tutor.getExperience() != null) {
+                        matchFound = String.valueOf(tutor.getExperience()).contains(searchText);
+                    }
+                    break;
+                case "sessionTypes":
+                    if (tutor.getSessionTypes() != null) {
+                        for (String type : tutor.getSessionTypes()) {
+                            if (type.toLowerCase().contains(searchText)) {
+                                matchFound = true;
+                                break;
+                            }
+                        }
+                    }
+                    break;
+            }
+            if (matchFound) {
+                filteredList.add(tutor);
+            }
+        }
+        adapter.updateTutors(filteredList);
+    }
 
-                filteredTutors.addAll(tutors);
+    private void loadTutors() {
+        databaseService.getAllTutors(new DatabaseService.DatabaseCallback<List<Tutor>>() {
+            @Override
+            public void onCompleted(List<Tutor> tutorsList) {
+                tutors.clear();
+                tutors.addAll(tutorsList);
                 adapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onFailed(Exception e) {
+                Toast.makeText(TutorsList.this, "Failed to load tutors: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
-        searchBar.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-            @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                filterTutors(charSequence.toString());
-            }
-            @Override public void afterTextChanged(Editable editable) {}
-        });
-
-        searchSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                filterTutors(searchBar.getText().toString());
-            }
-            @Override public void onNothingSelected(AdapterView<?> parent) {}
-        });
-
-        setupBackButton();
     }
 
     private void setupBackButton() {
         Button backButton = findViewById(R.id.btnBack);
         backButton.setOnClickListener(v -> {
-
             FirebaseUser currentUser = mAuth.getCurrentUser();
             if (currentUser != null) {
                 String userId = currentUser.getUid();
@@ -169,62 +202,5 @@ public class TutorsList extends AppCompatActivity {
                 });
             }
         });
-    }
-
-    private void filterTutors(String query) {
-        filteredTutors.clear();
-        if (query.isEmpty()) {
-            filteredTutors.addAll(tutors);
-        } else {
-            String selectedOption = searchSpinner.getSelectedItem().toString();
-            query = query.toLowerCase();
-            String key = filterMap.get(selectedOption);
-
-            for (Tutor tutor : tutors) {
-                boolean matches = false;
-                switch (key) {
-                    case "fname":
-                        matches = tutor.getFname() != null && tutor.getFname().toLowerCase().contains(query);
-                        break;
-                    case "city":
-                        matches = tutor.getCity() != null && tutor.getCity().toLowerCase().contains(query);
-                        break;
-                    case "email":
-                        matches = tutor.getEmail() != null && tutor.getEmail().toLowerCase().contains(query);
-                        break;
-                    case "experience":
-                        matches = tutor.getExperience() != null && String.valueOf(tutor.getExperience()).contains(query);
-                        break;
-                    case "lname":
-                        matches = tutor.getLname() != null && tutor.getLname().toLowerCase().contains(query);
-                        break;
-                    case "gender":
-                        matches = tutor.getGender() != null && tutor.getGender().toLowerCase().contains(query);
-                        break;
-                    case "id":
-                        matches = tutor.getId() != null && tutor.getId().toLowerCase().contains(query);
-                        break;
-                    case "password":
-                        matches = tutor.getPassword() != null && tutor.getPassword().toLowerCase().contains(query);
-                        break;
-                    case "phone":
-                        matches = tutor.getPhone() != null && tutor.getPhone().toLowerCase().contains(query);
-                        break;
-                    case "price":
-                        matches = tutor.getPrice() != null && String.valueOf(tutor.getPrice()).contains(query);
-                        break;
-                    case "role":
-                        matches = tutor.getRole() != null && tutor.getRole().toLowerCase().contains(query);
-                        break;
-                    case "trainingTypes":
-                        matches = tutor.getSessionTypes() != null && tutor.getSessionTypes().toString().toLowerCase().contains(query);
-                        break;
-                }
-                if (matches) {
-                    filteredTutors.add(tutor);
-                }
-            }
-        }
-        adapter.notifyDataSetChanged();
     }
 }

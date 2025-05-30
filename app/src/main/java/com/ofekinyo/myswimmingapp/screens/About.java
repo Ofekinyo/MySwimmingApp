@@ -16,33 +16,34 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ofekinyo.myswimmingapp.R;
+import com.ofekinyo.myswimmingapp.base.BaseActivity;
 
-public class About extends AppCompatActivity {
+public class About extends BaseActivity {
 
     private FirebaseAuth mAuth;
+    private Button btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
+        setupToolbar("אודות");
+
         mAuth = FirebaseAuth.getInstance();
 
         // Initialize Back Button
-        Button btnBack = findViewById(R.id.btnBack);
+        btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> navigateToCorrectPage());
     }
 
     private void navigateToCorrectPage() {
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
-        Button backButton = findViewById(R.id.btnBack); // Adjust to your actual button ID
-        FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
-
         if (currentUser != null) {
             String userId = currentUser.getUid();
 
-            backButton.setOnClickListener(v -> {
+            btnBack.setOnClickListener(v -> {
                 DatabaseReference tutorRef = FirebaseDatabase.getInstance().getReference("Tutors").child(userId);
 
                 tutorRef.addListenerForSingleValueEvent(new ValueEventListener() {

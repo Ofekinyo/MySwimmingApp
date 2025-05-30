@@ -55,7 +55,9 @@ public class EachTutor extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    tutorName = dataSnapshot.child("name").getValue(String.class);
+                    String fname = dataSnapshot.child("fname").getValue(String.class);
+                    String lname = dataSnapshot.child("lname").getValue(String.class);
+                    tutorName = (fname != null ? fname : "") + " " + (lname != null ? lname : "");
                     tvTutorName.setText(tutorName);
                     Log.d("EachTutor", "Tutor name: " + tutorName);
 

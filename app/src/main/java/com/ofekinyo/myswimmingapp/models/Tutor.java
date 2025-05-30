@@ -23,11 +23,9 @@ public class Tutor extends User implements Serializable {
 
     public Tutor(Tutor tutor) {
         super(tutor.id, tutor.fname, tutor.lname, tutor.phone, tutor.email, tutor.age, tutor.gender, tutor.city, tutor.password, tutor.role);
-        this.sessionTypes = sessionTypes;
-        this.experience = experience;
-        this.price = price;
-
-
+        this.sessionTypes = tutor.sessionTypes;
+        this.experience = tutor.experience;
+        this.price = tutor.price;
     }
 
     // Getters and Setters

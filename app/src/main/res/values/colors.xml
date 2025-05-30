@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Base colors -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    
+    <!-- Theme colors -->
+    <color name="primary">#3F9FCF</color>
+    <color name="primary_dark">#35788E</color>
+    <color name="primary_light">#A7D8FF</color>
+    <color name="accent">#0277BD</color>
+    
+    <!-- Button colors -->
     <color name="button_blue">#0277BD</color>
     <color name="button_green">#43A047</color>
     <color name="button_red">#B53939</color>
+    
+    <!-- Font colors -->
     <color name="blue1_font">#0C1342</color>
     <color name="blue2_font">#08172E</color>
+    
+    <!-- Additional colors -->
     <color name="red">#FF0000</color>
     <color name="purple">#673AB7</color>
     <color name="orange">#FF5722</color>

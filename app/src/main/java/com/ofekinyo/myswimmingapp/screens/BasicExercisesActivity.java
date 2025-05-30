@@ -3,18 +3,18 @@ package com.ofekinyo.myswimmingapp.screens;
 import android.os.Bundle;
 import android.widget.Button;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.adapters.ExerciseAdapter;
+import com.ofekinyo.myswimmingapp.base.BaseActivity;
 import com.ofekinyo.myswimmingapp.models.Exercise;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BasicExercisesActivity extends AppCompatActivity {
+public class BasicExercisesActivity extends BaseActivity {
     private RecyclerView rvExercises;
     private ExerciseAdapter adapter;
     private List<Exercise> exercisesList;
@@ -24,6 +24,7 @@ public class BasicExercisesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic_exercises);
+        setupToolbar("תרגילים בסיסיים");
 
         rvExercises = findViewById(R.id.rvExercises);
         rvExercises.setLayoutManager(new LinearLayoutManager(this));

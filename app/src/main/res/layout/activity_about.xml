@@ -3,77 +3,69 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center"
     android:background="@drawable/water_gradient_bg">
 
-    <!-- App Logo -->
-    <ImageView
-        android:id="@+id/ivLogo"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:src="@drawable/ic_android_black_24dp"
-        android:contentDescription="Android Logo"
-        android:layout_marginBottom="24dp"
-        android:layout_gravity="center" />
+    <include layout="@layout/toolbar_main"/>
 
-    <!-- App Info Title -->
-    <TextView
-        android:id="@+id/tvAppInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="אודותינו"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:layout_marginBottom="16dp"
-        android:gravity="center" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="16dp">
 
-    <!-- Description of the app -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ברוכים הבאים ל-SwimLink!
-האפליקציה מחברת בין מדריכים לשחיינים לחוויית שחייה חלקה ונוחה.
-תוכלו לעקוב אחרי לוחות זמנים, מטרות והתקדמות!
-עם ממשק ידידותי למשתמש ופיצ'רים מתקדמים, האפליקציה מושלמת עבור חובבי שחייה בכל הרמות.
-"
-        android:textSize="16sp"
-        android:textColor="@color/white"
-        android:layout_marginBottom="16dp"
-        android:gravity="center" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
 
-    <!-- More information about app features -->
-    <TextView
-        android:id="@+id/tvMoreInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="
-פיצ'רים:\n- קישור בין מאמנים למתאמנים\n- ניהול לוחות זמנים לאימוני שחייה\n- קבלת טיפים לשיפור השחייה\n\nיתרונות:\n- משפר את חוויית הלמידה\n- מחבר משתמשים עם מומחים\n- מעודד אורח חיים בריא"
-        android:textSize="16sp"
-        android:textColor="@color/white"
-        android:layout_marginBottom="16dp"
-        android:gravity="center" />
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/cropped_image"
+                android:layout_marginBottom="24dp"/>
 
-    <!-- Contact Email -->
-    <TextView
-        android:id="@+id/tvContactEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="למידע נוסף, צרו איתנו קשר : ofekah2903@gmail.com"
-        android:textSize="16sp"
-        android:textColor="@color/white"
-        android:layout_marginBottom="16dp"
-        android:gravity="center" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SwimLink"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:layout_marginBottom="16dp"/>
 
-    <!-- Back Button -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SwimLink היא אפליקציה חדשנית המחברת בין מדריכי שחייה מוסמכים לבין אנשים המעוניינים ללמוד לשחות. האפליקציה מאפשרת למשתמשים למצוא מדריך שחייה מתאים, לתאם שיעורים, ולעקוב אחר ההתקדמות שלהם. המדריכים יכולים לנהל את הלו״ז שלהם, לקבל בקשות לשיעורים, ולתקשר עם התלמידים שלהם. האפליקציה מציעה גם מגוון תרגילים בסיסיים וטיפים לשיפור טכניקת השחייה."
+                android:textSize="16sp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:layout_marginBottom="24dp"
+                android:lineSpacingExtra="4dp"
+                android:padding="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="גרסה 1.0"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:textColor="@color/white"/>
+
+        </LinearLayout>
+    </ScrollView>
+
     <Button
         android:id="@+id/btnBack"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="חזרה"
-        android:layout_marginTop="10dp"
-        android:backgroundTint="@color/blue1_font"
-        android:textColor="@android:color/white" />
+        android:text="חזור"
+        android:layout_gravity="center"
+        android:layout_margin="16dp"
+        android:background="@drawable/rounded_button_blue"
+        android:textColor="@color/white"
+        android:padding="12dp"/>
 
 </LinearLayout>

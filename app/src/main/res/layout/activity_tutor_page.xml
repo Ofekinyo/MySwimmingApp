@@ -3,74 +3,61 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
-    android:padding="16dp"
-    android:background="@drawable/water_gradient_bg">
+    android:background="@drawable/water_gradient_bg"
+    android:padding="16dp">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <include layout="@layout/toolbar_main"/>
+
+    <!-- Space between toolbar and image -->
+    <Space
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/blue1_font"
-        android:elevation="4dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:titleTextColor="@android:color/white" />
+        android:layout_height="24dp" />
+
     <!-- Logo -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:padding="16dp"
-        android:background="@drawable/water_gradient_bg">
-        <ImageView
-            android:id="@+id/ivLogo"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:src="@drawable/cropped_image"
-            android:contentDescription="App Logo"
-            android:layout_marginBottom="24dp"
-            android:layout_gravity="center" />
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="24dp"
+        android:contentDescription="App Logo"
+        android:src="@drawable/cropped_image" />
 
-        <!-- Welcome Message -->
-        <TextView
-            android:id="@+id/tvWelcome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ברוך הבא מדריך!"
-            android:textSize="26sp"
-            android:textStyle="bold"
-            android:textColor="@color/blue1_font"
-            android:gravity="center"
-            android:layout_marginBottom="32dp" />
+    <!-- Welcome Text -->
+    <TextView
+        android:id="@+id/tvWelcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ברוך הבא מדריך!"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:textColor="@color/blue1_font"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_marginBottom="32dp" />
 
     <!-- Schedule Button -->
-        <Button
-            android:id="@+id/btnSchedule"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="מערכת שעות"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:elevation="4dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/rounded_button_blue"/>
-    
+    <Button
+        android:id="@+id/btnTutorSchedule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="לוח זמנים"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:elevation="4dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_button_blue"/>
+
     <!-- Session Requests Button -->
-        <Button
-            android:id="@+id/btnSessionRequests"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="בקשות ממתאמנים"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:elevation="4dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/rounded_button_blue"/>
+    <Button
+        android:id="@+id/btnSessionRequests"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="בקשות לשיעורים"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:elevation="4dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_button_blue"/>
 
-
-
-    </LinearLayout>
 </LinearLayout>
