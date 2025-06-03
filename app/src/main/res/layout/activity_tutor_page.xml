@@ -53,7 +53,7 @@
         android:id="@+id/btnSessionRequests"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="בקשות לשיעורים"
+        android:text="בקשות משחיינים"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:elevation="4dp"

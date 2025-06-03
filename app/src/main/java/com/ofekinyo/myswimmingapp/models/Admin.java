@@ -1,34 +1,46 @@
 package com.ofekinyo.myswimmingapp.models;
 
 public class Admin extends User {
-    private boolean isAdmin;
+    private boolean isOnDuty;          // Track if admin is currently on duty
+    private String workingHours;        // Admin's working hours
 
     // Constructor with all parameters
-    public Admin(String id, String fname, String lname, String phone, String email, int age, String gender, String city, String password, String role, boolean isAdmin) {
+    public Admin(String id, String fname, String lname, String phone, String email, 
+                int age, String gender, String city, String password, String role) {
         super(id, fname, lname, phone, email, age, gender, city, password, role);
-        this.isAdmin = isAdmin; // true if it's an admin
+        this.isOnDuty = false;
+        this.workingHours = "";
     }
 
     // Default constructor
     public Admin() {
-        super(); // Call the parent constructor
-        this.isAdmin = true; // By default, an Admin is always true
+        super();
+        this.isOnDuty = false;
+        this.workingHours = "";
     }
 
-    // Getter for isAdmin
-    public boolean isAdmin() {
-        return isAdmin;
+    // Getters and Setters
+    public boolean isOnDuty() {
+        return isOnDuty;
     }
 
-    // Setter for isAdmin
-    public void setAdmin(boolean isAdmin) {
-        this.isAdmin = isAdmin;
+    public void setOnDuty(boolean onDuty) {
+        isOnDuty = onDuty;
     }
 
-    // Optionally, override toString method to reflect the Admin status
+    public String getWorkingHours() {
+        return workingHours;
+    }
+
+    public void setWorkingHours(String workingHours) {
+        this.workingHours = workingHours;
+    }
+
     @Override
     public String toString() {
-        return super.toString() + ", isAdmin=" + isAdmin;
+        return super.toString() + 
+               ", isOnDuty=" + isOnDuty +
+               ", workingHours=" + workingHours;
     }
 }
 

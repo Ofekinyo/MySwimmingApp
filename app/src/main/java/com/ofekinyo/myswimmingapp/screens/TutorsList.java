@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -32,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 public class TutorsList extends BaseActivity {
+    private static final String TAG = "TutorsList";
     private DatabaseReference tutorsDatabaseRef;
     private FirebaseAuth mAuth;
     private List<Tutor> tutors;
@@ -63,7 +65,7 @@ public class TutorsList extends BaseActivity {
 
         // Initialize Firebase components
         mAuth = FirebaseAuth.getInstance();
-        tutorsDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Tutors");
+        tutorsDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Tutors");
         databaseService = DatabaseService.getInstance();
 
         // Get swimmer data from intent
@@ -167,11 +169,16 @@ public class TutorsList extends BaseActivity {
                 tutors.clear();
                 tutors.addAll(tutorsList);
                 adapter.notifyDataSetChanged();
+
+                if (tutors.isEmpty()) {
+                    Toast.makeText(TutorsList.this, "לא נמצאו מדריכים", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onFailed(Exception e) {
-                Toast.makeText(TutorsList.this, "Failed to load tutors: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "Error loading tutors", e);
+                Toast.makeText(TutorsList.this, "שגיאה בטעינת המדריכים: " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

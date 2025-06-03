@@ -15,6 +15,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -33,15 +34,18 @@ import java.util.List;
 public class Register extends AppCompatActivity {
 
     private static final String TAG = "Register";
+    private static final String ADMIN_PASSKEY = "NewAdminCreate!";
     private EditText etFName, etLName, etEmail, etPhone, etPassword, etGender, etAge;
     private EditText etExperience, etPrice; // Tutor fields
     private EditText etHeight, etWeight, etGoal; // Swimmer fields
+    private EditText etAdminPasskey; // Admin passkey field
+    private Button btnRegister, btnVerifyAdmin;
     private CheckBox cbBeginner, cbAdvanced, cbCompetitive, cbSafety, cbRehab, cbInfants;
-    private Button btnRegister;
     private Spinner spCity;
     private RadioGroup radioGroup;
-    private RadioButton radioTutor, radioSwimmer;
+    private RadioButton radioTutor, radioSwimmer, radioAdmin;
     private LinearLayout tutorFieldsContainer, swimmerFieldsContainer;
+    private boolean isAdminVerified = false;
 
     private AuthenticationService authService;
     private DatabaseService dbService;
@@ -59,6 +63,52 @@ public class Register extends AppCompatActivity {
         setupRoleSelection();
 
         btnRegister.setOnClickListener(v -> handleRegistration());
+        btnVerifyAdmin.setOnClickListener(v -> verifyAdminPasskey());
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        
+        // Check if returning from successful admin verification
+        if (intent.getBooleanExtra("admin_verified", false)) {
+            disableRoleSelection();
+        }
+    }
+
+    private void disableRoleSelection() {
+        // Change headline for admin registration
+        ((TextView) findViewById(R.id.tvHeadline)).setText("הרשמת מנהל חדש");
+        
+        // Completely disable role selection
+        radioGroup.setEnabled(false);
+        radioAdmin.setChecked(true);
+        radioTutor.setEnabled(false);
+        radioSwimmer.setEnabled(false);
+        radioAdmin.setEnabled(false);
+        
+        // Make radio buttons non-clickable
+        radioTutor.setClickable(false);
+        radioSwimmer.setClickable(false);
+        radioAdmin.setClickable(false);
+        
+        // Force admin selection if somehow changed
+        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            radioAdmin.setChecked(true);
+            radioTutor.setChecked(false);
+            radioSwimmer.setChecked(false);
+        });
+        
+        // Hide role selection label since role is fixed
+        TextView roleLabel = findViewById(R.id.roleSelectionLabel);
+        if (roleLabel != null) {
+            roleLabel.setText("תפקיד: מנהל");
+        }
+        
+        // Hide role-specific containers
+        tutorFieldsContainer.setVisibility(View.GONE);
+        swimmerFieldsContainer.setVisibility(View.GONE);
     }
 
     private void initViews() {
@@ -75,6 +125,11 @@ public class Register extends AppCompatActivity {
         radioGroup = findViewById(R.id.radioGroup);
         radioTutor = findViewById(R.id.radioTutor);
         radioSwimmer = findViewById(R.id.radioSwimmer);
+        radioAdmin = findViewById(R.id.radioAdmin);
+
+        // Admin fields
+        etAdminPasskey = findViewById(R.id.etAdminPasskey);
+        btnVerifyAdmin = findViewById(R.id.btnVerifyAdmin);
 
         // Containers
         tutorFieldsContainer = findViewById(R.id.tutorFieldsContainer);
@@ -108,9 +163,53 @@ public class Register extends AppCompatActivity {
 
     private void setupRoleSelection() {
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            tutorFieldsContainer.setVisibility(checkedId == R.id.radioTutor ? View.VISIBLE : View.GONE);
-            swimmerFieldsContainer.setVisibility(checkedId == R.id.radioSwimmer ? View.VISIBLE : View.GONE);
+            if (checkedId == R.id.radioTutor) {
+                showTutorFields();
+            } else if (checkedId == R.id.radioSwimmer) {
+                showSwimmerFields();
+            } else if (checkedId == R.id.radioAdmin) {
+                showAdminFields();
+            }
         });
+    }
+
+    private void showTutorFields() {
+        tutorFieldsContainer.setVisibility(View.VISIBLE);
+        swimmerFieldsContainer.setVisibility(View.GONE);
+        etAdminPasskey.setVisibility(View.GONE);
+        btnVerifyAdmin.setVisibility(View.GONE);
+        btnRegister.setEnabled(true);
+    }
+
+    private void showSwimmerFields() {
+        tutorFieldsContainer.setVisibility(View.GONE);
+        swimmerFieldsContainer.setVisibility(View.VISIBLE);
+        etAdminPasskey.setVisibility(View.GONE);
+        btnVerifyAdmin.setVisibility(View.GONE);
+        btnRegister.setEnabled(true);
+    }
+
+    private void showAdminFields() {
+        tutorFieldsContainer.setVisibility(View.GONE);
+        swimmerFieldsContainer.setVisibility(View.GONE);
+        etAdminPasskey.setVisibility(View.VISIBLE);
+        btnVerifyAdmin.setVisibility(View.VISIBLE);
+        btnRegister.setEnabled(false); // Disable registration until passkey is verified
+    }
+
+    private void verifyAdminPasskey() {
+        String enteredPasskey = etAdminPasskey.getText().toString().trim();
+        
+        if (enteredPasskey.equals(ADMIN_PASSKEY)) {
+            isAdminVerified = true;
+            Toast.makeText(this, "קוד נכון!", Toast.LENGTH_SHORT).show();
+            etAdminPasskey.setEnabled(false);
+            btnVerifyAdmin.setEnabled(false);
+            btnRegister.setEnabled(true);
+        } else {
+            Toast.makeText(this, "קוד לא נכון", Toast.LENGTH_SHORT).show();
+            etAdminPasskey.setText("");
+        }
     }
 
     private void handleRegistration() {
@@ -130,8 +229,14 @@ public class Register extends AppCompatActivity {
         }
 
         // Get role
-        String role = radioTutor.isChecked() ? "Tutor" : radioSwimmer.isChecked() ? "Swimmer" : "";
-        if (role.isEmpty()) {
+        String role;
+        if (radioTutor.isChecked()) {
+            role = "Tutor";
+        } else if (radioSwimmer.isChecked()) {
+            role = "Swimmer";
+        } else if (radioAdmin.isChecked() && isAdminVerified) {
+            role = "Admin";
+        } else {
             Toast.makeText(Register.this, "יש לבחור תפקיד", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -139,7 +244,7 @@ public class Register extends AppCompatActivity {
         // Validate role-specific fields
         if (role.equals("Tutor")) {
             if (!validateTutorFields()) return;
-        } else {
+        } else if (role.equals("Swimmer")) {
             if (!validateSwimmerFields()) return;
         }
 
@@ -299,8 +404,13 @@ public class Register extends AppCompatActivity {
 
     private void navigateToNextScreen(String role) {
         Toast.makeText(Register.this, "הרשמה בוצעה בהצלחה!", Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(Register.this, 
-            role.equals("Tutor") ? TutorPage.class : SwimmerPage.class);
+        Intent intent;
+        if (role.equals("Admin")) {
+            intent = new Intent(Register.this, AdminPage.class);
+        } else {
+            intent = new Intent(Register.this, 
+                role.equals("Tutor") ? TutorPage.class : SwimmerPage.class);
+        }
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();

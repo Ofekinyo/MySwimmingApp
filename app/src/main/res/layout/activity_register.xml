@@ -152,6 +152,7 @@
 
         <!-- Role Selection -->
         <TextView
+            android:id="@+id/roleSelectionLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="בחר תפקיד"
@@ -166,24 +167,54 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginTop="8dp">
+            android:gravity="center">
 
             <RadioButton
                 android:id="@+id/radioTutor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="מדריך"
-                android:textColor="@color/white"
-                android:layout_marginEnd="16dp"/>
+                android:text="מדריך" />
 
             <RadioButton
                 android:id="@+id/radioSwimmer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="שחיין"
-                android:textColor="@color/white"/>
+                android:text="שחיין" />
+
+            <RadioButton
+                android:id="@+id/radioAdmin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="מנהל"
+                android:textColor="@color/white" />
+
         </RadioGroup>
+
+        <!-- Admin Passkey Field (Initially Hidden) -->
+        <EditText
+            android:id="@+id/etAdminPasskey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="הכנס קוד מנהל"
+            android:inputType="textPassword"
+            android:visibility="gone"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:padding="12dp"
+            android:background="@drawable/rounded_transparent_bg"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"/>
+
+        <!-- Verify Admin Button (Initially Hidden) -->
+        <Button
+            android:id="@+id/btnVerifyAdmin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="אמת קוד"
+            android:visibility="gone"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/rounded_button_blue"
+            android:textColor="@color/white"/>
 
         <!-- Tutor Specific Fields -->
         <LinearLayout

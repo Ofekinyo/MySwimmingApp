@@ -36,7 +36,7 @@ public class TutorDetailsActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         userId = mAuth.getCurrentUser().getUid();
-        tutorDatabaseRef = FirebaseDatabase.getInstance().getReference("Tutors").child(userId);
+        tutorDatabaseRef = FirebaseDatabase.getInstance().getReference("Users").child("Tutors").child(userId);
 
         etExperience = findViewById(R.id.etExperience);
         etPrice = findViewById(R.id.etPrice);

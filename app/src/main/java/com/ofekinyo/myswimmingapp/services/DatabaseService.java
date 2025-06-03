@@ -196,10 +196,20 @@ public class DatabaseService {
             List<Tutor> tutors = new ArrayList<>();
 
             task.getResult().getChildren().forEach(dataSnapshot -> {
-                Tutor tutor = dataSnapshot.getValue(Tutor.class);
-                tutor = new Tutor(tutor);
-                tutors.add(tutor);
+                try {
+                    Tutor tutor = dataSnapshot.getValue(Tutor.class);
+                    if (tutor != null) {
+                        tutors.add(new Tutor(tutor));
+                        Log.d(TAG, "Loaded tutor: " + tutor.getName());
+                    } else {
+                        Log.w(TAG, "Failed to deserialize tutor at key: " + dataSnapshot.getKey());
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, "Error deserializing tutor at key: " + dataSnapshot.getKey(), e);
+                }
             });
+
+            Log.d(TAG, "Loaded " + tutors.size() + " tutors");
             callback.onCompleted(tutors);
         });
     }
