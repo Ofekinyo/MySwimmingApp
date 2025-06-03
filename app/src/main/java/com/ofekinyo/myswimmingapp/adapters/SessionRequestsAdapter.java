@@ -33,25 +33,72 @@ public class SessionRequestsAdapter extends RecyclerView.Adapter<SessionRequests
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         SessionRequest request = requestList.get(position);
 
-        // Change Trainee to Swimmer terminology
-        holder.swimmerId.setText("שחיין: " + request.getSwimmerId());  // Assuming you renamed getter from getTraineeId() to getSwimmerId()
-        holder.dateTime.setText("תאריך: " + request.getDate() + " שעה: " + request.getTime());
+        // Display swimmer name if available, otherwise show ID
+        String swimmerDisplay = request.getSwimmerName() != null ? 
+            request.getSwimmerName() : request.getSwimmerId();
+        holder.swimmerName.setText("שחיין: " + swimmerDisplay);
+
+        // Format date and time
+        String dateTime = formatDateTime(request.getDate(), request.getTime());
+        holder.dateTime.setText(dateTime);
+
+        // Display location
         holder.location.setText("מיקום: " + request.getLocation());
 
-        List<String> goals = request.getGoals();
+        // Format goals
+        String goalsText = formatGoals(request);
+        holder.goals.setText(goalsText);
+
+        // Display notes
+        String notes = request.getNotes();
+        holder.notes.setText("הערות: " + (notes != null && !notes.isEmpty() ? notes : "אין"));
+
+        // Display status if available
+        String status = request.getStatus();
+        if (status != null && !status.isEmpty()) {
+            holder.status.setText("סטטוס: " + status);
+            holder.status.setVisibility(View.VISIBLE);
+        } else {
+            holder.status.setVisibility(View.GONE);
+        }
+    }
+
+    private String formatDateTime(String date, String time) {
+        StringBuilder sb = new StringBuilder();
+        if (date != null && !date.isEmpty()) {
+            sb.append("תאריך: ").append(date);
+        }
+        if (time != null && !time.isEmpty()) {
+            if (sb.length() > 0) {
+                sb.append(" | ");
+            }
+            sb.append("שעה: ").append(time);
+        }
+        return sb.toString();
+    }
+
+    private String formatGoals(SessionRequest request) {
         StringBuilder goalText = new StringBuilder("מטרות: ");
+        List<String> goals = request.getGoals();
+        
         if (goals != null && !goals.isEmpty()) {
             goalText.append(String.join(", ", goals));
         }
-        if (request.getOtherGoal() != null && !request.getOtherGoal().isEmpty()) {
+        
+        String otherGoal = request.getOtherGoal();
+        if (otherGoal != null && !otherGoal.isEmpty()) {
             if (goals != null && !goals.isEmpty()) {
                 goalText.append(", ");
             }
-            goalText.append(request.getOtherGoal());
+            goalText.append(otherGoal);
         }
-        holder.goals.setText(goalText.toString());
-
-        holder.notes.setText("הערות: " + (request.getNotes() != null && !request.getNotes().isEmpty() ? request.getNotes() : "אין"));
+        
+        if ((goals == null || goals.isEmpty()) && 
+            (otherGoal == null || otherGoal.isEmpty())) {
+            goalText.append("לא צוינו");
+        }
+        
+        return goalText.toString();
     }
 
     @Override
@@ -60,21 +107,21 @@ public class SessionRequestsAdapter extends RecyclerView.Adapter<SessionRequests
     }
 
     public void setRequestList(List<SessionRequest> requestList) {
-        this.requestList.clear();
-        this.requestList.addAll(requestList);
-        this.notifyDataSetChanged();
+        this.requestList = requestList != null ? requestList : new ArrayList<>();
+        notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView swimmerId, dateTime, location, goals, notes;
+        TextView swimmerName, dateTime, location, goals, notes, status;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            swimmerId = itemView.findViewById(R.id.textSwimmerId);
+            swimmerName = itemView.findViewById(R.id.textSwimmerId);
             dateTime = itemView.findViewById(R.id.textDateTime);
             location = itemView.findViewById(R.id.textLocation);
             goals = itemView.findViewById(R.id.textGoals);
             notes = itemView.findViewById(R.id.textNotes);
+            status = itemView.findViewById(R.id.textStatus);
         }
     }
 }

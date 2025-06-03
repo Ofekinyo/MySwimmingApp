@@ -5,7 +5,9 @@ import java.util.List;
 public class SessionRequest {
     private String requestId;
     private String tutorId;
+    private String tutorName;
     private String swimmerId;
+    private String swimmerName;
     private List<String> goals;
     private String otherGoal;
     private String date;
@@ -17,12 +19,14 @@ public class SessionRequest {
     // Required no-arg constructor for Firebase
     public SessionRequest() {}
 
-    public SessionRequest(String requestId, String tutorId, String swimmerId,
-                          List<String> goals, String otherGoal, String date,
-                          String time, String location, String notes, String status) {
+    public SessionRequest(String requestId, String tutorId, String tutorName, String swimmerId, 
+                        String swimmerName, List<String> goals, String otherGoal, String date,
+                        String time, String location, String notes, String status) {
         this.requestId = requestId;
         this.tutorId = tutorId;
+        this.tutorName = tutorName;
         this.swimmerId = swimmerId;
+        this.swimmerName = swimmerName;
         this.goals = goals;
         this.otherGoal = otherGoal;
         this.date = date;
@@ -49,12 +53,28 @@ public class SessionRequest {
         this.tutorId = tutorId;
     }
 
+    public String getTutorName() {
+        return tutorName;
+    }
+
+    public void setTutorName(String tutorName) {
+        this.tutorName = tutorName;
+    }
+
     public String getSwimmerId() {
         return swimmerId;
     }
 
     public void setSwimmerId(String swimmerId) {
         this.swimmerId = swimmerId;
+    }
+
+    public String getSwimmerName() {
+        return swimmerName;
+    }
+
+    public void setSwimmerName(String swimmerName) {
+        this.swimmerName = swimmerName;
     }
 
     public List<String> getGoals() {

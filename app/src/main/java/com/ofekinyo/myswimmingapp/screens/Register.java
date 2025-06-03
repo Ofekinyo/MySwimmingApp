@@ -405,11 +405,19 @@ public class Register extends AppCompatActivity {
     private void navigateToNextScreen(String role) {
         Toast.makeText(Register.this, "הרשמה בוצעה בהצלחה!", Toast.LENGTH_LONG).show();
         Intent intent;
-        if (role.equals("Admin")) {
-            intent = new Intent(Register.this, AdminPage.class);
-        } else {
-            intent = new Intent(Register.this, 
-                role.equals("Tutor") ? TutorPage.class : SwimmerPage.class);
+        switch (role) {
+            case "Admin":
+                intent = new Intent(Register.this, AdminPage.class);
+                break;
+            case "Tutor":
+                intent = new Intent(Register.this, TutorPage.class);
+                break;
+            case "Swimmer":
+                intent = new Intent(Register.this, SwimmerPage.class);
+                break;
+            default:
+                Log.e(TAG, "Unknown role: " + role);
+                return;
         }
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
