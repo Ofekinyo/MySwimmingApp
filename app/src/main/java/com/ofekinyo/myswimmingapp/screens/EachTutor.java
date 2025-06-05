@@ -6,15 +6,15 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ofekinyo.myswimmingapp.R;
+import com.ofekinyo.myswimmingapp.base.BaseActivity;
 
-public class EachTutor extends AppCompatActivity {
+public class EachTutor extends BaseActivity {
 
     private TextView tvTutorName;
     private Button btnRequestSession, btnMoreInfo;
@@ -25,6 +25,7 @@ public class EachTutor extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_each_tutor);
+        setupToolbar("פרטי מדריך");
 
         // Initialize UI components
         tvTutorName = findViewById(R.id.tvTutorName);

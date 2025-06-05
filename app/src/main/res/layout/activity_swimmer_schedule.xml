@@ -4,43 +4,51 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
     android:background="@drawable/water_gradient_bg">
 
-    <!-- Upcoming Sessions Title -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Upcoming Sessions (Next Week)"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:layout_marginBottom="8dp" />
+    <include layout="@layout/toolbar_main"/>
 
-    <!-- RecyclerView for Upcoming Sessions -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvUpcomingSessions"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/water_recycler_view_bg" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <!-- Pending Requests Title -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pending Requests"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:layout_marginBottom="8dp" />
+        <!-- Upcoming Sessions Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Upcoming Sessions (Next Week)"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_marginBottom="8dp" />
 
-    <!-- RecyclerView for Pending Requests -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvPendingRequests"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/water_recycler_view_bg" />
+        <!-- RecyclerView for Upcoming Sessions -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvUpcomingSessions"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/water_recycler_view_bg" />
 
+        <!-- Pending Requests Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pending Requests"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_marginBottom="8dp" />
+
+        <!-- RecyclerView for Pending Requests -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPendingRequests"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/water_recycler_view_bg" />
+
+    </LinearLayout>
 </LinearLayout>

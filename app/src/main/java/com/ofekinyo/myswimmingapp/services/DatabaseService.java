@@ -409,4 +409,8 @@ public class DatabaseService {
             }
         });
     }
+
+    public void createNewAdmin(@NotNull final User admin, @Nullable final DatabaseCallback<Void> callback) {
+        writeData(ADMINS_PATH + "/" + admin.getId(), admin, callback);
+    }
 }

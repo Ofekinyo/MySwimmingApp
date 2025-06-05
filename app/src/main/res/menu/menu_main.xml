@@ -4,9 +4,8 @@
 
     <item
         android:id="@+id/action_account"
-        android:icon="@drawable/ic_account"
         android:title="חשבון"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/action_about"
@@ -16,6 +15,11 @@
     <item
         android:id="@+id/action_logout"
         android:title="התנתק"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_back"
+        android:title="חזור"
         app:showAsAction="never"/>
 
 </menu> 

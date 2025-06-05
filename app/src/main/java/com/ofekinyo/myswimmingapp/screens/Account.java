@@ -21,7 +21,7 @@ import com.ofekinyo.myswimmingapp.base.BaseActivity;
 public class Account extends BaseActivity {
 
     private TextView tvFirstName, tvLastName, tvEmail, tvPhone, tvCity, tvGender, tvAge;
-    private Button btnEditDetails, btnBack;
+    private Button btnEditDetails;
     private ImageView ivProfile;
     private FirebaseAuth mAuth;
     private DatabaseReference databaseReference;
@@ -31,7 +31,7 @@ public class Account extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
-        setupToolbar("החשבון שלי");
+        setupToolbar("SwimLink");
 
         ivProfile = findViewById(R.id.ivProfile);
         tvFirstName = findViewById(R.id.tvFirstName);
@@ -42,7 +42,6 @@ public class Account extends BaseActivity {
         tvGender = findViewById(R.id.tvGender);
         tvAge = findViewById(R.id.tvAge);
         btnEditDetails = findViewById(R.id.btnEditDetails);
-        btnBack = findViewById(R.id.btnBack);
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
@@ -59,8 +58,30 @@ public class Account extends BaseActivity {
             Intent intent = new Intent(Account.this, EditAccount.class);
             startActivity(intent);
         });
+    }
 
-        btnBack.setOnClickListener(v -> finish());
+    @Override
+    public void onBackPressed() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+            rootRef.child("Users/Tutors").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        startActivity(new Intent(Account.this, TutorPage.class));
+                    } else {
+                        startActivity(new Intent(Account.this, SwimmerPage.class));
+                    }
+                    finish();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(Account.this, "Error determining user type", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     private void getUserType(String uid) {

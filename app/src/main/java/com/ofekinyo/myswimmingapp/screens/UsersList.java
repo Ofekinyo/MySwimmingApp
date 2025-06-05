@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,11 +11,12 @@ import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.adapters.UserAdapter;
 import com.ofekinyo.myswimmingapp.models.User;
 import com.ofekinyo.myswimmingapp.services.DatabaseService;
+import com.ofekinyo.myswimmingapp.base.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsersList extends AppCompatActivity {
+public class UsersList extends BaseActivity {
 
     private static final String TAG = "UsersList";
     private RecyclerView recyclerView;
@@ -27,16 +27,21 @@ public class UsersList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_users_list);  // ✅ This layout must match the modern one we wrote earlier
+        setContentView(R.layout.activity_users_list);
+        setupToolbar("רשימת משתמשים");
 
-        // Initialize Firebase service and RecyclerView
-        databaseService = DatabaseService.getInstance();
         recyclerView = findViewById(R.id.recyclerViewUsers);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true);
-
+        
         users = new ArrayList<>();
+        adapter = new UserAdapter(this, users);
+        recyclerView.setAdapter(adapter);
+        
+        databaseService = DatabaseService.getInstance();
+        loadUsers();
+    }
 
+    private void loadUsers() {
         // Fetch users from Firebase
         databaseService.getUserList(new DatabaseService.DatabaseCallback<List<User>>() {
             @Override

@@ -5,15 +5,14 @@ import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.models.Admin;
 import com.ofekinyo.myswimmingapp.models.User;
+import com.ofekinyo.myswimmingapp.base.BaseActivity;
 
-public class AdminLoginActivity extends AppCompatActivity {
+public class AdminLoginActivity extends BaseActivity {
 
     private FirebaseAuth mAuth;
     private EditText emailEditText, passwordEditText;
@@ -22,6 +21,7 @@ public class AdminLoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_login);
+        setupToolbar("התחברות מנהל");
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -45,6 +45,11 @@ public class AdminLoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                        if (firebaseUser != null) {
+                            Intent intent = new Intent(AdminLoginActivity.this, AdminPage.class);
+                            startActivity(intent);
+                            finish();
+                        }
                     } else {
                         Toast.makeText(AdminLoginActivity.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }

@@ -1,5 +1,6 @@
 package com.ofekinyo.myswimmingapp.screens;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -36,7 +37,7 @@ public class TutorScheduleActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutor_schedule);
-        setupToolbar("לוח זמנים");
+        setupToolbar("SwimLink");
 
         initializeViews();
         setupRecyclerView();
@@ -110,5 +111,11 @@ public class TutorScheduleActivity extends BaseActivity {
             recyclerView.setVisibility(View.VISIBLE);
             adapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, TutorPage.class));
+        finish();
     }
 }

@@ -11,6 +11,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -61,7 +62,7 @@ public class TutorsList extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutors_list);
-        setupToolbar("רשימת מדריכים");
+        setupToolbar("SwimLink");
 
         // Initialize Firebase components
         mAuth = FirebaseAuth.getInstance();
@@ -186,28 +187,14 @@ public class TutorsList extends BaseActivity {
     private void setupBackButton() {
         Button backButton = findViewById(R.id.btnBack);
         backButton.setOnClickListener(v -> {
-            FirebaseUser currentUser = mAuth.getCurrentUser();
-            if (currentUser != null) {
-                String userId = currentUser.getUid();
-                DatabaseReference tutorRef = FirebaseDatabase.getInstance().getReference("Tutors").child(userId);
-
-                tutorRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.exists()) {
-                            startActivity(new Intent(TutorsList.this, TutorPage.class));
-                        } else {
-                            startActivity(new Intent(TutorsList.this, SwimmerPage.class));
-                        }
-                        finish();
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(TutorsList.this, "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
+            startActivity(new Intent(TutorsList.this, SwimmerPage.class));
+            finish();
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(TutorsList.this, SwimmerPage.class));
+        finish();
     }
 }

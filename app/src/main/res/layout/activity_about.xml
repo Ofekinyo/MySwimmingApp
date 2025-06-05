@@ -56,16 +56,4 @@
 
         </LinearLayout>
     </ScrollView>
-
-    <Button
-        android:id="@+id/btnBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="חזור"
-        android:layout_gravity="center"
-        android:layout_margin="16dp"
-        android:background="@drawable/rounded_button_blue"
-        android:textColor="@color/white"
-        android:padding="12dp"/>
-
 </LinearLayout>

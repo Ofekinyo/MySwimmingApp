@@ -328,8 +328,10 @@ public class Register extends AppCompatActivity {
             public void onCompleted(String userId) {
                 if (role.equals("Tutor")) {
                     createTutor(userId, fname, lname, email, phone, city, gender, age, password);
-                } else {
+                } else if (role.equals("Swimmer")) {
                     createSwimmer(userId, fname, lname, email, phone, city, gender, age, password);
+                } else if (role.equals("Admin")) {
+                    createAdmin(userId, fname, lname, email, phone, city, gender, age, password);
                 }
             }
 
@@ -402,25 +404,61 @@ public class Register extends AppCompatActivity {
         });
     }
 
+    private void createAdmin(String userId, String fname, String lname, String email, String phone,
+                           String city, String gender, int age, String password) {
+        // Create admin user object
+        User admin = new User(userId, fname, lname, phone, email, age, password, gender, city, "Admin");
+
+        // Save admin data
+        dbService.createNewAdmin(admin, new DatabaseService.DatabaseCallback<Void>() {
+            @Override
+            public void onCompleted(Void aVoid) {
+                Log.d(TAG, "Admin data saved successfully. Proceeding to save to SharedPreferences.");
+                SharedPreferencesUtil.saveUser(Register.this, admin);
+                Log.d(TAG, "Admin saved to SharedPreferences. Starting navigation.");
+                navigateToNextScreen("Admin");
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+                Log.e(TAG, "Error saving admin data", e);
+                Toast.makeText(Register.this, "שגיאה בשמירת פרטי המנהל", 
+                             Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
     private void navigateToNextScreen(String role) {
+        Log.d(TAG, "Starting navigation to next screen for role: " + role);
         Toast.makeText(Register.this, "הרשמה בוצעה בהצלחה!", Toast.LENGTH_LONG).show();
         Intent intent;
         switch (role) {
             case "Admin":
+                Log.d(TAG, "Creating intent for AdminPage");
                 intent = new Intent(Register.this, AdminPage.class);
                 break;
             case "Tutor":
+                Log.d(TAG, "Creating intent for TutorPage");
                 intent = new Intent(Register.this, TutorPage.class);
                 break;
             case "Swimmer":
+                Log.d(TAG, "Creating intent for SwimmerPage");
                 intent = new Intent(Register.this, SwimmerPage.class);
                 break;
             default:
                 Log.e(TAG, "Unknown role: " + role);
                 return;
         }
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+        try {
+            Log.d(TAG, "Adding flags to intent");
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            Log.d(TAG, "Starting activity");
+            startActivity(intent);
+            Log.d(TAG, "Calling finish()");
+            finish();
+        } catch (Exception e) {
+            Log.e(TAG, "Error during navigation", e);
+            e.printStackTrace();
+        }
     }
 }

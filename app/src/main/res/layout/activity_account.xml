@@ -4,124 +4,122 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
     android:background="@drawable/water_gradient_bg"
     tools:context=".screens.Account">
 
-    <!-- Profile Image -->
-    <ImageView
-        android:id="@+id/ivProfile"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="16dp"
-        android:src="@drawable/default_profile"
-        android:contentDescription="Profile Picture"
-        android:clipToOutline="true"
-        android:outlineProvider="background"
-        android:background="@drawable/circular_border" />
+    <include layout="@layout/toolbar_main"/>
 
-    <!-- Headline -->
-    <TextView
-        android:id="@+id/tvHeadline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingBottom="16dp"
-        android:text="פרטי חשבון"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_gravity="center"
-        android:textColor="@color/white" />
-
-    <!-- User Details -->
-    <TextView
-        android:id="@+id/tvFirstName"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="שם פרטי: "
-        android:textSize="18sp"
-        android:padding="12dp"
-        android:textColor="@color/white" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <TextView
-        android:id="@+id/tvLastName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="שם משפחה: "
-        android:textSize="18sp"
-        android:padding="12dp"
-        android:textColor="@color/white" />
+        <!-- Profile Image -->
+        <ImageView
+            android:id="@+id/ivProfile"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/default_profile"
+            android:contentDescription="Profile Picture"
+            android:clipToOutline="true"
+            android:outlineProvider="background"
+            android:background="@drawable/circular_border" />
 
-    <TextView
-        android:id="@+id/tvEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="אימייל: "
-        android:textSize="18sp"
-        android:padding="12dp"
-        android:textColor="@color/white" />
+        <!-- Headline -->
+        <TextView
+            android:id="@+id/tvHeadline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="16dp"
+            android:text="פרטי חשבון"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:textColor="@color/white" />
 
-    <TextView
-        android:id="@+id/tvPhone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="טלפון: "
-        android:textSize="18sp"
-        android:padding="12dp"
-        android:textColor="@color/white" />
+        <!-- User Details -->
+        <TextView
+            android:id="@+id/tvFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="שם פרטי: "
+            android:textSize="18sp"
+            android:padding="12dp"
+            android:textColor="@color/white" />
 
-    <TextView
-        android:id="@+id/tvCity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="עיר: "
-        android:textSize="18sp"
-        android:padding="12dp"
-        android:textColor="@color/white" />
+        <TextView
+            android:id="@+id/tvLastName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="שם משפחה: "
+            android:textSize="18sp"
+            android:padding="12dp"
+            android:textColor="@color/white" />
 
-    <TextView
-        android:id="@+id/tvGender"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="מגדר: "
-        android:textSize="18sp"
-        android:padding="12dp"
-        android:textColor="@color/white" />
+        <TextView
+            android:id="@+id/tvEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="אימייל: "
+            android:textSize="18sp"
+            android:padding="12dp"
+            android:textColor="@color/white" />
 
-    <TextView
-        android:id="@+id/tvAge"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="גיל: "
-        android:textSize="18sp"
-        android:padding="12dp"
-        android:textColor="@color/white" />
+        <TextView
+            android:id="@+id/tvPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="טלפון: "
+            android:textSize="18sp"
+            android:padding="12dp"
+            android:textColor="@color/white" />
 
-    <!-- Edit Details Button -->
-    <Button
-        android:id="@+id/btnEditDetails"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="ערוך פרטים"
-        android:background="@drawable/rounded_button_green"
-        android:textColor="@color/white" />
+        <TextView
+            android:id="@+id/tvCity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="עיר: "
+            android:textSize="18sp"
+            android:padding="12dp"
+            android:textColor="@color/white" />
 
-    <!-- Back Button -->
-    <Button
-        android:id="@+id/btnBack"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="חזור"
-        android:background="@drawable/rounded_button_red"
-        android:textColor="@color/white" />
+        <TextView
+            android:id="@+id/tvGender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="מגדר: "
+            android:textSize="18sp"
+            android:padding="12dp"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/tvAge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="גיל: "
+            android:textSize="18sp"
+            android:padding="12dp"
+            android:textColor="@color/white" />
+
+        <!-- Edit Details Button -->
+        <Button
+            android:id="@+id/btnEditDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="ערוך פרטים"
+            android:background="@drawable/rounded_button_green"
+            android:textColor="@color/white" />
+    </LinearLayout>
 </LinearLayout>

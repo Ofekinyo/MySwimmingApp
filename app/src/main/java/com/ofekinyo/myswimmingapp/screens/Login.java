@@ -5,15 +5,15 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.models.User;
 import com.ofekinyo.myswimmingapp.services.AuthenticationService;
 import com.ofekinyo.myswimmingapp.services.DatabaseService;
 import com.ofekinyo.myswimmingapp.utils.SharedPreferencesUtil;
+import com.ofekinyo.myswimmingapp.base.BaseActivity;
 
-public class Login extends AppCompatActivity {
+public class Login extends BaseActivity {
 
     private static final String TAG = "Login";
     private EditText etLoginEmail, etLoginPassword;
@@ -25,6 +25,7 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        setupToolbar("התחברות");
 
         authService = AuthenticationService.getInstance();
         dbService = DatabaseService.getInstance();

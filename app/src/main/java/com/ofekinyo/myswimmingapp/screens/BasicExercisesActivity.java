@@ -1,8 +1,7 @@
 package com.ofekinyo.myswimmingapp.screens;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
-
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,20 +17,15 @@ public class BasicExercisesActivity extends BaseActivity {
     private RecyclerView rvExercises;
     private ExerciseAdapter adapter;
     private List<Exercise> exercisesList;
-    private Button btnBackToMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic_exercises);
-        setupToolbar("תרגילים בסיסיים");
+        setupToolbar("SwimLink");
 
         rvExercises = findViewById(R.id.rvExercises);
         rvExercises.setLayoutManager(new LinearLayoutManager(this));
-
-        // Initialize the back button
-        btnBackToMain = findViewById(R.id.btnBackToMain);
-        btnBackToMain.setOnClickListener(v -> finish()); // Goes back to the previous activity
 
         // Sample exercises
         exercisesList = new ArrayList<>();
@@ -41,5 +35,11 @@ public class BasicExercisesActivity extends BaseActivity {
 
         adapter = new ExerciseAdapter(this, exercisesList);
         rvExercises.setAdapter(adapter);
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, SwimmerPage.class));
+        finish();
     }
 }

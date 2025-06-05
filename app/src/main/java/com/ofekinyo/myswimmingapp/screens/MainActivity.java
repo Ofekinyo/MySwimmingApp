@@ -6,13 +6,12 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.ofekinyo.myswimmingapp.R;
+import com.ofekinyo.myswimmingapp.base.BaseActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private static final String TAG = "MainActivity";
     private TextView welcomeTextView;
@@ -23,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setupToolbar("SwimLink");
 
         // Initialize Firebase
         mAuth = FirebaseAuth.getInstance();

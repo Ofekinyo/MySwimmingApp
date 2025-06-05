@@ -1,5 +1,6 @@
 package com.ofekinyo.myswimmingapp.screens;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -31,7 +32,7 @@ public class SessionRequests extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_session_requests);
-        setupToolbar("בקשות לשיעור");
+        setupToolbar("SwimLink");
 
         try {
             // Initialize Firebase Auth
@@ -84,5 +85,11 @@ public class SessionRequests extends BaseActivity {
             Toast.makeText(this, "שגיאה בטעינת המסך: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             finish();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, TutorPage.class));
+        finish();
     }
 }

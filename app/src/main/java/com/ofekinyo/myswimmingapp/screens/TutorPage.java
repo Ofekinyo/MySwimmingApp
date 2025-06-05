@@ -2,17 +2,11 @@ package com.ofekinyo.myswimmingapp.screens;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
+import androidx.appcompat.app.AlertDialog;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import com.google.firebase.auth.FirebaseAuth;
 import com.ofekinyo.myswimmingapp.R;
-import com.ofekinyo.myswimmingapp.utils.SharedPreferencesUtil;
 import com.ofekinyo.myswimmingapp.base.BaseActivity;
 
 public class TutorPage extends BaseActivity {
@@ -45,35 +39,16 @@ public class TutorPage extends BaseActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.menu_profile) {
-            Intent intent = new Intent(this, Account.class);
-            startActivity(intent);
-            return true;
-
-        } else if (id == R.id.menu_about) {
-            Intent intent = new Intent(this, About.class);
-            startActivity(intent);
-            return true;
-
-        } else if (id == R.id.menu_logout) {
-            SharedPreferencesUtil.signOutUser(this);
-            FirebaseAuth.getInstance().signOut();
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("יציאה")
+                .setMessage("האם אתה רוצה לצאת מהאפליקציה?")
+                .setPositiveButton("כן", (dialog, which) -> {
+                    finishAffinity(); // This will close all activities and exit the app
+                })
+                .setNegativeButton("ביטול", (dialog, which) -> {
+                    dialog.dismiss();
+                })
+                .show();
     }
 }

@@ -3,38 +3,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
     android:background="@drawable/water_gradient_bg">
 
-    <!-- Title: Basic Swimming Exercises -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="תרגילי שחייה בסיסיים"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_gravity="center"
-        android:textColor="@color/white"
-        android:shadowColor="#000000"
-        android:shadowRadius="2"
-        android:paddingBottom="10dp"/>
+    <include layout="@layout/toolbar_main"/>
 
-    <!-- RecyclerView for Exercises -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvExercises"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:scrollbars="vertical"
-        android:layout_marginTop="10dp"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <!-- Back Button -->
-    <Button
-        android:id="@+id/btnBackToMain"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="חזרה"
-        android:layout_marginTop="10dp"
-        android:backgroundTint="@color/blue1_font"
-        android:textColor="@android:color/white"/>
+        <!-- Title: Basic Swimming Exercises -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="תרגילי שחייה בסיסיים"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:textColor="@color/white"
+            android:shadowColor="#000000"
+            android:shadowRadius="2"
+            android:paddingBottom="10dp"/>
+
+        <!-- RecyclerView for Exercises -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvExercises"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="vertical"
+            android:layout_marginTop="10dp"/>
+
+    </LinearLayout>
 </LinearLayout>
