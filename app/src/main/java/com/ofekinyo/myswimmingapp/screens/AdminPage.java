@@ -53,7 +53,6 @@ public class AdminPage extends BaseActivity {
             Button editUserButton = findViewById(R.id.btnUsersList);
             Button deleteUserButton = findViewById(R.id.btnDeleteUser);
             Button addUserButton = findViewById(R.id.btnAddUser);
-            Button logoutButton = findViewById(R.id.btnLogout);
 
             Log.d(TAG, "All buttons found successfully");
 
@@ -79,16 +78,6 @@ public class AdminPage extends BaseActivity {
                 startActivity(intent);
             });
 
-            // Logout Button functionality
-            logoutButton.setOnClickListener(v -> {
-                Log.d(TAG, "Logout button clicked");
-                authService.signOut();
-                Intent intent = new Intent(AdminPage.this, Login.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
-            });
-
             Log.d(TAG, "All button click listeners set up successfully");
             
         } catch (Exception e) {
@@ -105,6 +94,7 @@ public class AdminPage extends BaseActivity {
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         Log.d(TAG, "Back button pressed");
         new AlertDialog.Builder(this)
                 .setTitle("יציאה")
