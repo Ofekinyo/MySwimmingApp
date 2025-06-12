@@ -64,12 +64,6 @@
             android:name=".screens.AdminPage"
             android:exported="false" />
         <activity
-            android:name=".screens.SwimmerDetailsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".screens.TutorDetailsActivity"
-            android:exported="false" />
-        <activity
             android:name=".screens.Register"
             android:exported="false" />
         <activity
@@ -83,9 +77,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity 
-            android:name=".screens.AdminPasskeyActivity"
-            android:exported="false" />
     </application>
 
 </manifest>

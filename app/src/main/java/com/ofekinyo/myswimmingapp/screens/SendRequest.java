@@ -15,7 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.base.BaseActivity;
-import com.ofekinyo.myswimmingapp.models.Request;
+import com.ofekinyo.myswimmingapp.models.Session;
 import com.ofekinyo.myswimmingapp.models.Swimmer;
 
 import java.util.ArrayList;
@@ -136,35 +136,35 @@ public class SendRequest extends BaseActivity {
         }
 
         FirebaseDatabase db = FirebaseDatabase.getInstance();
-        String requestId = db.getReference("SessionRequests").push().getKey();
+        String sessionId = db.getReference("Sessions").push().getKey();
 
-        if (requestId == null) {
-            Toast.makeText(this, "שגיאה ביצירת מזהה הבקשה", Toast.LENGTH_SHORT).show();
+        if (sessionId == null) {
+            Toast.makeText(this, "שגיאה ביצירת מזהה השיעור", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        Request request = new Request(
-                requestId,
-                tutorId,
+        Session session = new Session(
+                sessionId,
                 swimmerId,
-                selectedGoals,
-                otherGoal,
+                tutorId,
                 date,
                 time,
+                selectedGoals,
                 location,
                 notes,
-                "pending"
+                null // isAccepted set to null initially
         );
 
-        db.getReference("SessionRequests")
-                .child(requestId)
-                .setValue(request)
+        db.getReference("Sessions")
+                .child(sessionId)
+                .setValue(session)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "הבקשה נשלחה בהצלחה", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "הבקשה לשיעור נשלחה בהצלחה", Toast.LENGTH_SHORT).show();
                     finish();
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(this, "שגיאה בשליחת הבקשה", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "שגיאה בשליחת הבקשה לשיעור", Toast.LENGTH_SHORT).show();
                 });
     }
+
 }

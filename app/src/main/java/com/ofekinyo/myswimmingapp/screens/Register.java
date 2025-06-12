@@ -23,6 +23,7 @@ import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.models.Swimmer;
 import com.ofekinyo.myswimmingapp.models.Tutor;
 import com.ofekinyo.myswimmingapp.models.User;
+import com.ofekinyo.myswimmingapp.models.Admin;
 import com.ofekinyo.myswimmingapp.services.AuthenticationService;
 import com.ofekinyo.myswimmingapp.services.DatabaseService;
 import com.ofekinyo.myswimmingapp.utils.SharedPreferencesUtil;
@@ -406,16 +407,14 @@ public class Register extends AppCompatActivity {
 
     private void createAdmin(String userId, String fname, String lname, String email, String phone,
                            String city, String gender, int age, String password) {
-        // Create admin user object
-        User admin = new User(userId, fname, lname, phone, email, age, password, gender, city, "Admin");
-
+        // Create admin with all required fields
+        Admin admin = new Admin(userId, fname, lname, phone, email, age, password, gender, city, "Admin");
+        
         // Save admin data
         dbService.createNewAdmin(admin, new DatabaseService.DatabaseCallback<Void>() {
             @Override
             public void onCompleted(Void aVoid) {
-                Log.d(TAG, "Admin data saved successfully. Proceeding to save to SharedPreferences.");
                 SharedPreferencesUtil.saveUser(Register.this, admin);
-                Log.d(TAG, "Admin saved to SharedPreferences. Starting navigation.");
                 navigateToNextScreen("Admin");
             }
 
