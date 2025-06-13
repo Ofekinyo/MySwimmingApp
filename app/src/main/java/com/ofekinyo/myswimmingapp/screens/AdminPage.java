@@ -47,7 +47,6 @@ public class AdminPage extends BaseActivity {
         try {
             // Initialize buttons
             Button editUserButton = findViewById(R.id.btnUsersList);
-            Button deleteUserButton = findViewById(R.id.btnDeleteUser);
             Button addUserButton = findViewById(R.id.btnAddUser);
 
             Log.d(TAG, "All buttons found successfully");
@@ -56,13 +55,6 @@ public class AdminPage extends BaseActivity {
             editUserButton.setOnClickListener(v -> {
                 Log.d(TAG, "Edit user button clicked");
                 Intent intent = new Intent(AdminPage.this, UsersList.class);
-                startActivity(intent);
-            });
-
-            // Delete User Button functionality
-            deleteUserButton.setOnClickListener(v -> {
-                Log.d(TAG, "Delete user button clicked");
-                Intent intent = new Intent(AdminPage.this, DeleteUser.class);
                 startActivity(intent);
             });
 

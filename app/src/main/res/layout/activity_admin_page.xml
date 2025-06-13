@@ -35,18 +35,6 @@
         android:textStyle="bold"
         android:layout_marginBottom="16dp" />
 
-    <!-- Button to Delete User -->
-    <Button
-        android:id="@+id/btnDeleteUser"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="מחיקת משתמש"
-        android:background="@drawable/rounded_button_red"
-        android:textColor="@color/white"
-        android:layout_gravity="center"
-        android:textStyle="bold"
-        android:layout_marginBottom="16dp" />
-
     <!-- Button to Add User -->
     <Button
         android:id="@+id/btnAddUser"

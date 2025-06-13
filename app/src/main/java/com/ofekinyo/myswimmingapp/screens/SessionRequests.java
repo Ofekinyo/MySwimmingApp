@@ -44,7 +44,7 @@ public class SessionRequests extends BaseActivity {
         emptyStateLayout = findViewById(R.id.emptyStateLayout);
 
         // Check authentication
-        if (authenticationService.isUserSignedIn()) {
+        if (!authenticationService.isUserSignedIn()) {
             Toast.makeText(this, "לא נמצא משתמש מחובר", Toast.LENGTH_SHORT).show();
             finish();
             return;
