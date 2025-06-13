@@ -3,15 +3,17 @@ package com.ofekinyo.myswimmingapp.screens;
 import android.os.Bundle;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.adapters.UserAdapter;
+import com.ofekinyo.myswimmingapp.base.BaseActivity;
+import com.ofekinyo.myswimmingapp.models.Admin;
+import com.ofekinyo.myswimmingapp.models.Swimmer;
+import com.ofekinyo.myswimmingapp.models.Tutor;
 import com.ofekinyo.myswimmingapp.models.User;
 import com.ofekinyo.myswimmingapp.services.DatabaseService;
-import com.ofekinyo.myswimmingapp.base.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +36,34 @@ public class UsersList extends BaseActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         
         users = new ArrayList<>();
-        adapter = new UserAdapter(this, users);
+        adapter = new UserAdapter(this, new UserAdapter.OnUserClickListener() {
+            @Override
+            public <T extends User> void OnClickSave(T user, int position) {
+
+                DatabaseService.DatabaseCallback<Void> callback = new DatabaseService.DatabaseCallback<Void>() {
+                    @Override
+                    public void onCompleted(Void object) {
+                        adapter.updateUser(user, position);
+                    }
+
+                    @Override
+                    public void onFailed(Exception e) {
+
+                    }
+                };
+                switch (user.getRole()) {
+                    case "Tutor":
+                        databaseService.createNewTutor((Tutor) user, callback);
+                        break;
+                    case "Swimmer":
+                        databaseService.createNewSwimmer((Swimmer) user, callback);
+                        break;
+                    case "Admin":
+                        databaseService.createNewAdmin((Admin) user, callback);
+                        break;
+                }
+            }
+        });
         recyclerView.setAdapter(adapter);
         
         databaseService = DatabaseService.getInstance();
@@ -43,22 +72,37 @@ public class UsersList extends BaseActivity {
 
     private void loadUsers() {
         // Fetch users from Firebase
-        databaseService.getUserList(new DatabaseService.DatabaseCallback<List<User>>() {
+        databaseService.getAllTutors(new DatabaseService.DatabaseCallback<List<Tutor>>() {
             @Override
-            public void onCompleted(List<User> us) {
-                Log.d(TAG, "onCompleted: successfully received users");
-                users = us;
-                adapter = new UserAdapter(UsersList.this, users);  // ✅ Uses modern card layout (user_item.xml)
-                recyclerView.setAdapter(adapter);
-
-                for (User u : users) {
-                    Log.d(TAG, u.getFname() + " loaded");
-                }
+            public void onCompleted(List<Tutor> tutors) {
+                adapter.addUsers(tutors);
             }
 
             @Override
             public void onFailed(Exception e) {
-                Log.e(TAG, "onFailed: failed to receive users", e);
+
+            }
+        });
+        databaseService.getAllSwimmers(new DatabaseService.DatabaseCallback<List<Swimmer>>() {
+            @Override
+            public void onCompleted(List<Swimmer> swimmers) {
+                adapter.addUsers(swimmers);
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+
+            }
+        });
+        databaseService.getAllAdmins(new DatabaseService.DatabaseCallback<List<Admin>>() {
+            @Override
+            public void onCompleted(List<Admin> admins) {
+                adapter.addUsers(admins);
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+
             }
         });
     }

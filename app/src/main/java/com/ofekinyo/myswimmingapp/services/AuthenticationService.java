@@ -20,10 +20,6 @@ import org.jetbrains.annotations.NotNull;
 public class AuthenticationService {
 
     private static final String TAG = "AuthenticationService";
-    private static final String USERS_PATH = "Users";
-    private static final String TUTORS_PATH = USERS_PATH + "/Tutors";
-    private static final String SWIMMERS_PATH = USERS_PATH + "/Swimmers";
-    private static final String ADMINS_PATH = USERS_PATH + "/Admins";
 
     public interface AuthCallback<T> {
         void onCompleted(T object);
@@ -33,11 +29,9 @@ public class AuthenticationService {
 
     private static AuthenticationService instance;
     private final FirebaseAuth mAuth;
-    private final FirebaseDatabase mDatabase;
 
     private AuthenticationService() {
         mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance();
     }
 
     public static AuthenticationService getInstance() {
@@ -58,13 +52,12 @@ public class AuthenticationService {
         });
     }
 
-    public void signUp(@NotNull final String email, @NotNull final String password, @NotNull final String role, @NotNull final AuthCallback<String> callback) {
+    public void signUp(@NotNull final String email, @NotNull final String password, @NotNull final AuthCallback<String> callback) {
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 FirebaseUser user = mAuth.getCurrentUser();
                 if (user != null) {
                     String userId = user.getUid();
-                    saveUserRoleToDatabase(userId, role);
                     callback.onCompleted(userId);
                 }
             } else {
@@ -72,25 +65,6 @@ public class AuthenticationService {
                 callback.onFailed(task.getException());
             }
         });
-    }
-
-    private void saveUserRoleToDatabase(String userId, String role) {
-        String path = "";
-        switch (role.toLowerCase()) {
-            case "tutor":
-                path = TUTORS_PATH;
-                break;
-            case "swimmer":
-                path = SWIMMERS_PATH;
-                break;
-            case "admin":
-                path = ADMINS_PATH;
-                break;
-            default:
-                Log.e(TAG, "Invalid role: " + role);
-                return;
-        }
-        mDatabase.getReference(path).child(userId).setValue(true);
     }
 
     public void signOut() {
@@ -104,75 +78,14 @@ public class AuthenticationService {
         return mAuth.getCurrentUser().getUid();
     }
 
-    public boolean isUserSignedIn() {
-        return mAuth.getCurrentUser() != null;
+    public String getCurrentUserEmail() {
+        if (mAuth.getCurrentUser() == null) {
+            return null;
+        }
+        return mAuth.getCurrentUser().getEmail();
     }
 
-    public void getCurrentUser(@NotNull final AuthCallback<User> callback) {
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser == null) {
-            callback.onFailed(new Exception("No authenticated user found"));
-            return;
-        }
-        String uid = currentUser.getUid();
-
-        // First try to fetch from Tutors node
-        DatabaseReference tutorRef = mDatabase.getReference(TUTORS_PATH).child(uid);
-        tutorRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NotNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    Tutor tutor = snapshot.getValue(Tutor.class);
-                    if (tutor != null) {
-                        callback.onCompleted(tutor);
-                        return;
-                    }
-                }
-                // If not a tutor, try Swimmers node
-                DatabaseReference swimmerRef = mDatabase.getReference(SWIMMERS_PATH).child(uid);
-                swimmerRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NotNull DataSnapshot swimmerSnapshot) {
-                        if (swimmerSnapshot.exists()) {
-                            Swimmer swimmer = swimmerSnapshot.getValue(Swimmer.class);
-                            if (swimmer != null) {
-                                callback.onCompleted(swimmer);
-                                return;
-                            }
-                        }
-                        // If not a swimmer, try Admins node
-                        DatabaseReference adminRef = mDatabase.getReference(ADMINS_PATH).child(uid);
-                        adminRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NotNull DataSnapshot adminSnapshot) {
-                                if (adminSnapshot.exists()) {
-                                    User admin = adminSnapshot.getValue(User.class);
-                                    if (admin != null) {
-                                        callback.onCompleted(admin);
-                                        return;
-                                    }
-                                }
-                                callback.onFailed(new Exception("User data not found in any role nodes"));
-                            }
-
-                            @Override
-                            public void onCancelled(@NotNull DatabaseError error) {
-                                callback.onFailed(error.toException());
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onCancelled(@NotNull DatabaseError error) {
-                        callback.onFailed(error.toException());
-                    }
-                });
-            }
-
-            @Override
-            public void onCancelled(@NotNull DatabaseError error) {
-                callback.onFailed(error.toException());
-            }
-        });
+    public boolean isUserSignedIn() {
+        return mAuth.getCurrentUser() != null;
     }
 }

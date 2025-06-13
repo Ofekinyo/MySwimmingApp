@@ -2,22 +2,20 @@ package com.ofekinyo.myswimmingapp.screens;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.base.BaseActivity;
 import com.ofekinyo.myswimmingapp.models.Swimmer;
 import com.ofekinyo.myswimmingapp.models.Tutor;
 import com.ofekinyo.myswimmingapp.models.User;
+import com.ofekinyo.myswimmingapp.models.UserRole;
+import com.ofekinyo.myswimmingapp.services.AuthenticationService;
+import com.ofekinyo.myswimmingapp.services.DatabaseService;
 
-import java.util.*;
+import java.util.Arrays;
 
 public class EditAccount extends BaseActivity {
 
@@ -27,9 +25,10 @@ public class EditAccount extends BaseActivity {
     private EditText etSessionTypes; // comma-separated for Tutor
     private Button btnSave;
 
-    private DatabaseReference userRef;
     private String userId;
-    private String role;
+    private UserRole role;
+
+    private User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +55,9 @@ public class EditAccount extends BaseActivity {
 
         // Assume userId and role passed via Intent
         userId = getIntent().getStringExtra("userId");
-        role = getIntent().getStringExtra("role");
-
-        userRef = FirebaseDatabase.getInstance().getReference(role + "s").child(userId);
+        if (userId == null) {
+            userId = AuthenticationService.getInstance().getCurrentUserId();
+        }
 
         loadUserData();
 
@@ -66,19 +65,21 @@ public class EditAccount extends BaseActivity {
     }
 
     private void loadUserData() {
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseService.getUser(userId, new DatabaseService.DatabaseCallback<User>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (role.equals("Tutor")) {
-                    Tutor tutor = snapshot.getValue(Tutor.class);
-                    if (tutor != null) fillCommonFields(tutor);
+            public void onCompleted(User user) {
+                currentUser = user;
+                fillCommonFields(user);
+                if (user instanceof Tutor) {
+                    role = UserRole.Tutor;
+                    Tutor tutor = (Tutor) user;
                     etExperience.setText(String.valueOf(tutor.getExperience()));
                     etPrice.setText(String.valueOf(tutor.getPrice()));
                     etSessionTypes.setText(String.join(", ", tutor.getSessionTypes()));
                     setTutorVisibility(true);
-                } else if (role.equals("Swimmer")) {
-                    Swimmer swimmer = snapshot.getValue(Swimmer.class);
-                    if (swimmer != null) fillCommonFields(swimmer);
+                } else if (user instanceof Swimmer) {
+                    role = UserRole.Swimmer;
+                    Swimmer swimmer = (Swimmer) user;
                     etHeight.setText(String.valueOf(swimmer.getHeight()));
                     etWeight.setText(String.valueOf(swimmer.getWeight()));
                     setTutorVisibility(false);
@@ -86,8 +87,8 @@ public class EditAccount extends BaseActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(EditAccount.this, "Failed to load data.", Toast.LENGTH_SHORT).show();
+            public void onFailed(Exception e) {
+
             }
         });
     }
@@ -104,52 +105,50 @@ public class EditAccount extends BaseActivity {
     }
 
     private void saveUserData() {
-        User user = new User();
-        user.setId(userId);
-        user.setFname(etFname.getText().toString());
-        user.setLname(etLname.getText().toString());
-        user.setPhone(etPhone.getText().toString());
-        user.setEmail(etEmail.getText().toString());
-        user.setAge(Integer.parseInt(etAge.getText().toString()));
-        user.setGender(etGender.getText().toString());
-        user.setCity(etCity.getText().toString());
-        user.setPassword(etPassword.getText().toString());
-        user.setRole(role);
+        currentUser.setFname(etFname.getText().toString());
+        currentUser.setLname(etLname.getText().toString());
+        currentUser.setPhone(etPhone.getText().toString());
+        currentUser.setEmail(etEmail.getText().toString());
+        currentUser.setAge(Integer.parseInt(etAge.getText().toString()));
+        currentUser.setGender(etGender.getText().toString());
+        currentUser.setCity(etCity.getText().toString());
+        currentUser.setPassword(etPassword.getText().toString());
 
-        if (role.equals("Tutor")) {
-            Tutor tutor = new Tutor();
-            tutor.setId(user.getId());
-            tutor.setFname(user.getFname());
-            tutor.setLname(user.getLname());
-            tutor.setPhone(user.getPhone());
-            tutor.setEmail(user.getEmail());
-            tutor.setAge(user.getAge());
-            tutor.setGender(user.getGender());
-            tutor.setCity(user.getCity());
-            tutor.setPassword(user.getPassword());
-            tutor.setRole(user.getRole());
+        if (role == UserRole.Tutor) {
+            Tutor tutor = (Tutor) currentUser;
             tutor.setExperience(Integer.parseInt(etExperience.getText().toString()));
             tutor.setPrice(Double.parseDouble(etPrice.getText().toString()));
             tutor.setSessionTypes(Arrays.asList(etSessionTypes.getText().toString().split(",\\s*")));
 
-            userRef.setValue(tutor);
+            databaseService.createNewTutor(tutor, new DatabaseService.DatabaseCallback<Void>() {
+                @Override
+                public void onCompleted(Void object) {
 
-        } else if (role.equals("Swimmer")) {
-            Swimmer swimmer = new Swimmer();
-            swimmer.setId(user.getId());
-            swimmer.setFname(user.getFname());
-            swimmer.setLname(user.getLname());
-            swimmer.setPhone(user.getPhone());
-            swimmer.setEmail(user.getEmail());
-            swimmer.setAge(user.getAge());
-            swimmer.setGender(user.getGender());
-            swimmer.setCity(user.getCity());
-            swimmer.setPassword(user.getPassword());
-            swimmer.setRole(user.getRole());
+                }
+
+                @Override
+                public void onFailed(Exception e) {
+
+                }
+            });
+
+        } else if (role == UserRole.Swimmer) {
+            Swimmer swimmer = (Swimmer) currentUser;
+
             swimmer.setHeight(Double.parseDouble(etHeight.getText().toString()));
             swimmer.setWeight(Double.parseDouble(etWeight.getText().toString()));
 
-            userRef.setValue(swimmer);
+            databaseService.createNewSwimmer(swimmer, new DatabaseService.DatabaseCallback<Void>() {
+                @Override
+                public void onCompleted(Void object) {
+
+                }
+
+                @Override
+                public void onFailed(Exception e) {
+
+                }
+            });
         }
 
         Toast.makeText(this, "Account updated successfully", Toast.LENGTH_SHORT).show();

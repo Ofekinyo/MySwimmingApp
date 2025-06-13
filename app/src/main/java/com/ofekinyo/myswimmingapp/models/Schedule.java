@@ -3,14 +3,16 @@ package com.ofekinyo.myswimmingapp.models;
 public class Schedule {
     private String id; // Assuming you have an ID for each schedule
     private String title;
-    private String date;
-    private String time;
+    private SimpleDate date;
+    private SimpleTime time;
 
     // Default constructor required for calls to DataSnapshot.getValue(Schedule.class)
     public Schedule() {
+        this.date = SimpleDate.now();
+        this.time = SimpleTime.now();
     }
 
-    public Schedule(String id, String title, String date, String time) {
+    public Schedule(String id, String title, SimpleDate date, SimpleTime time) {
         this.id = id;
         this.title = title;
         this.date = date;
@@ -33,19 +35,19 @@ public class Schedule {
         this.title = title;
     }
 
-    public String getDate() {
+    public SimpleDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(SimpleDate date) {
         this.date = date;
     }
 
-    public String getTime() {
+    public SimpleTime getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(SimpleTime time) {
         this.time = time;
     }
 }

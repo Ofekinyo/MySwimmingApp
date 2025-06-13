@@ -1,5 +1,7 @@
 package com.ofekinyo.myswimmingapp.models;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 public class Swimmer extends User implements Serializable {
@@ -16,15 +18,10 @@ public class Swimmer extends User implements Serializable {
         this.weight = weight;
     }
 
-    public Swimmer(double height, double weight) {
-        this.height = height;
-        this.weight = weight;
-    }
-
-    public Swimmer(User user, double height, double weight) {
-        super(user);
-        this.height = height;
-        this.weight = weight;
+    public Swimmer(Swimmer swimmer) {
+        super(swimmer);
+        this.height = swimmer.height;
+        this.weight = swimmer.weight;
     }
 
     public Swimmer() {
@@ -71,5 +68,11 @@ public class Swimmer extends User implements Serializable {
                 ", age=" + age +
                 ", password='" + password + '\'' +
                 '}';
+    }
+
+    @NonNull
+    @Override
+    public Swimmer clone() {
+        return new Swimmer(this);
     }
 }

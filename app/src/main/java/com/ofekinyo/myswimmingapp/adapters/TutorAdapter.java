@@ -18,19 +18,17 @@ import com.ofekinyo.myswimmingapp.models.Tutor;
 import com.ofekinyo.myswimmingapp.screens.SendRequest;
 import com.ofekinyo.myswimmingapp.screens.TutorInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TutorAdapter extends RecyclerView.Adapter<TutorAdapter.TutorViewHolder> {
     private static final String TAG = "TutorAdapter";
     private Context context;
     private List<Tutor> tutorList;
-    //private String swimmerId, swimmerName;
 
-    public TutorAdapter(Context context, List<Tutor> tutorList, String swimmerId, String swimmerName) {
+    public TutorAdapter(Context context) {
         this.context = context;
-        this.tutorList = tutorList;
-       //this.swimmerId = swimmerId;
-        //this.swimmerName = swimmerName;
+        this.tutorList = new ArrayList<>();
     }
 
     public void updateTutors(List<Tutor> newTutors) {
@@ -48,65 +46,50 @@ public class TutorAdapter extends RecyclerView.Adapter<TutorAdapter.TutorViewHol
 
     @Override
     public void onBindViewHolder(@NonNull TutorViewHolder holder, int position) {
-        try {
-            Tutor tutor = tutorList.get(position);
-            
-            // Set name
-            String name = tutor.getName();
-            holder.tutorName.setText(name != null ? name : "שם לא זמין");
+        Tutor tutor = tutorList.get(position);
+        if (tutor == null) return;
 
-            // Set experience
-            Integer experience = tutor.getExperience();
-            holder.tutorExperience.setText(experience != null ? 
-                "ניסיון: " + experience + " שנים" : "ניסיון: לא צוין");
+        // Set name
+        String name = tutor.getName();
+        holder.tutorName.setText(name != null ? name : "שם לא זמין");
 
-            // Set price
-            Double price = tutor.getPrice();
-            holder.tutorPrice.setText(price != null ? 
-                String.format("מחיר לשיעור: ₪%.2f", price) : "מחיר: לא צוין");
+        // Set experience
+        int experience = tutor.getExperience();
+        holder.tutorExperience.setText("ניסיון: " + experience + " שנים");
 
-            // Set session types
-            List<String> sessionTypes = tutor.getSessionTypes();
-            if (sessionTypes != null && !sessionTypes.isEmpty()) {
-                holder.tutorSessionTypes.setVisibility(View.VISIBLE);
-                holder.tutorSessionTypes.setText("סוגי שיעורים: " + String.join(", ", sessionTypes));
-            } else {
-                holder.tutorSessionTypes.setVisibility(View.GONE);
-            }
+        // Set price
+        double price = tutor.getPrice();
+        holder.tutorPrice.setText(String.format("מחיר לשיעור: ₪%.2f", price));
 
-            // Set up buttons
-            holder.btnRequestSession.setOnClickListener(v -> {
-                try {
-                    Intent requestIntent = new Intent(context, SendRequest.class);
-                    requestIntent.putExtra("tutor", tutor);
-                    context.startActivity(requestIntent);
-                } catch (Exception e) {
-                    Log.e(TAG, "Error starting SendRequest activity", e);
-                    Toast.makeText(context, "לא ניתן לשלוח בקשה כרגע", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            holder.btnMoreInfo.setOnClickListener(v -> {
-                try {
-                    Intent moreInfoIntent = new Intent(context, TutorInfo.class);
-                    moreInfoIntent.putExtra("tutor", tutor);
-                    context.startActivity(moreInfoIntent);
-                } catch (Exception e) {
-                    Log.e(TAG, "Error starting TutorInfo activity", e);
-                    Toast.makeText(context, "לא ניתן להציג מידע נוסף כרגע", Toast.LENGTH_SHORT).show();
-                }
-            });
-        } catch (Exception e) {
-            Log.e(TAG, "Error binding tutor data", e);
+        // Set session types
+        List<String> sessionTypes = tutor.getSessionTypes();
+        if (sessionTypes != null && !sessionTypes.isEmpty()) {
+            holder.tutorSessionTypes.setVisibility(View.VISIBLE);
+            holder.tutorSessionTypes.setText("סוגי שיעורים: " + String.join(", ", sessionTypes));
+        } else {
+            holder.tutorSessionTypes.setVisibility(View.GONE);
         }
+
+        // Set up buttons
+        holder.btnRequestSession.setOnClickListener(v -> {
+            Intent requestIntent = new Intent(context, SendRequest.class);
+            requestIntent.putExtra("tutor", tutor);
+            context.startActivity(requestIntent);
+        });
+
+        holder.btnMoreInfo.setOnClickListener(v -> {
+            Intent moreInfoIntent = new Intent(context, TutorInfo.class);
+            moreInfoIntent.putExtra("tutor", tutor);
+            context.startActivity(moreInfoIntent);
+        });
     }
 
     @Override
     public int getItemCount() {
-        return tutorList != null ? tutorList.size() : 0;
+        return tutorList.size();
     }
 
-    static class TutorViewHolder extends RecyclerView.ViewHolder {
+    public static class TutorViewHolder extends RecyclerView.ViewHolder {
         TextView tutorName, tutorExperience, tutorPrice, tutorSessionTypes;
         Button btnRequestSession, btnMoreInfo;
 

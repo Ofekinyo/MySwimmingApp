@@ -7,7 +7,15 @@ import com.ofekinyo.myswimmingapp.models.User;
 
 public class SharedPreferencesUtil {
 
-    private static final String PREF_NAME = "com.ofekinyo.myswimmingapp.PREFERENCE_FILE_KEY";  // Updated package name
+    private static final String PREF_NAME = "SwimLinkPrefs";
+
+    private static SharedPreferences getPrefs(Context context) {
+        return context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+    }
+
+    public static void clearAll(Context context) {
+        getPrefs(context).edit().clear().apply();
+    }
 
     // Save user data (excluding password for security)
     public static void saveUser(Context context, User user) {

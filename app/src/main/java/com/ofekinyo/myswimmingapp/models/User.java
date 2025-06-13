@@ -1,5 +1,7 @@
 package com.ofekinyo.myswimmingapp.models;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 public class User implements Serializable {
@@ -133,5 +135,11 @@ public class User implements Serializable {
                 ", city='" + city + '\'' +
                 ", role='" + role + '\'' +
                 '}';
+    }
+
+    @NonNull
+    @Override
+    public User clone() {
+        return new User(this);
     }
 }

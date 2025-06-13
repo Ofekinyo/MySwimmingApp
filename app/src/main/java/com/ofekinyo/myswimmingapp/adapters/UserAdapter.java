@@ -8,9 +8,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,16 +15,34 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.models.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
-    private Context context;
-    private List<User> userList;
 
-    public UserAdapter(Context context, List<User> userList) {
+    public interface OnUserClickListener {
+        public <T extends User> void OnClickSave(T user, int position);
+    }
+
+    private Context context;
+    private final List<User> userList;
+    private OnUserClickListener onUserClickListener;
+
+    public UserAdapter(Context context, OnUserClickListener onUserClickListener) {
         this.context = context;
-        this.userList = userList;
+        this.userList = new ArrayList<>();
+        this.onUserClickListener = onUserClickListener;
+    }
+
+    public void addUsers(List<? extends User> userList) {
+        this.userList.addAll(userList);
+        this.notifyDataSetChanged();
+    }
+
+    public <T extends User> void updateUser(T user, int index) {
+        this.userList.set(index, user);
+        this.notifyItemChanged(index);
     }
 
     @NonNull
@@ -42,7 +57,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.textViewName.setText("שם פרטי: " + user.getFname());
         holder.textViewRole.setText("תפקיד: " + user.getRole());
 
-        holder.buttonEditUser.setOnClickListener(v -> showEditDialog(user));
+        holder.buttonEditUser.setOnClickListener(v -> showEditDialog(user, position));
     }
 
     @Override
@@ -50,7 +65,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         return userList != null ? userList.size() : 0;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView textViewName, textViewRole;
         Button buttonEditUser;
 
@@ -62,7 +77,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         }
     }
 
-    private void showEditDialog(User user) {
+    private void showEditDialog(final User user, final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_edit_user, null);
         builder.setView(view);
@@ -85,19 +100,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         builder.setPositiveButton("Save", (dialog, which) -> {
             // Update user with the new data
-            user.setFname(fname.getText().toString());
-            user.setLname(lname.getText().toString());
-            user.setPhone(phone.getText().toString());
-            user.setAge(Integer.parseInt(age.getText().toString()));
-            user.setGender(gender.getText().toString());
-            user.setCity(city.getText().toString());
+            User user1 = user.clone();
+            user1.setFname(fname.getText().toString());
+            user1.setLname(lname.getText().toString());
+            user1.setPhone(phone.getText().toString());
+            user1.setAge(Integer.parseInt(age.getText().toString()));
+            user1.setGender(gender.getText().toString());
+            user1.setCity(city.getText().toString());
 
-            // Save updated user to Firebase
-            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
-            databaseReference.child(user.getId()).setValue(user);
-
-            // Notify the adapter that the data has been updated
-            notifyDataSetChanged();
+            onUserClickListener.OnClickSave(user1, position);
         });
 
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());

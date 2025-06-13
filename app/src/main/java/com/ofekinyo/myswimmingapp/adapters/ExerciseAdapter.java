@@ -14,15 +14,29 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.models.Exercise;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ExerciseViewHolder> {
+
+    public interface OnExerciseListener {
+        public void onWatchClick(Exercise exercise);
+    }
+
     private Context context;
     private List<Exercise> exerciseList;
+    private OnExerciseListener exerciseListener;
 
-    public ExerciseAdapter(Context context, List<Exercise> exerciseList) {
+    public ExerciseAdapter(Context context, OnExerciseListener exerciseListener) {
         this.context = context;
-        this.exerciseList = exerciseList;
+        this.exerciseList = new ArrayList<>();
+        this.exerciseListener = exerciseListener;
+    }
+
+    public void setExerciseList(List<Exercise> exerciseList) {
+        this.exerciseList.clear();
+        this.exerciseList.addAll(exerciseList);
+        this.notifyDataSetChanged();
     }
 
     @NonNull
@@ -40,8 +54,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
 
         // Open YouTube link when the button is clicked
         holder.btnWatch.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(exercise.getVideoUrl()));
-            context.startActivity(intent);
+            exerciseListener.onWatchClick(exercise);
         });
     }
 

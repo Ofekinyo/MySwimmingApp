@@ -31,6 +31,9 @@ public class SplashActivity extends AppCompatActivity {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } finally {
+
+                // TODO move to correct pages if already logged in
+
                 startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 finish();
             }

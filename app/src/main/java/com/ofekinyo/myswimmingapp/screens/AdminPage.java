@@ -5,16 +5,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
-import androidx.appcompat.app.AlertDialog;
 
 import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.base.BaseActivity;
-import com.ofekinyo.myswimmingapp.services.AuthenticationService;
 
 public class AdminPage extends BaseActivity {
 
     private static final String TAG = "AdminPage";
-    private AuthenticationService authService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +25,6 @@ public class AdminPage extends BaseActivity {
             setupToolbar("SwimLink");
             Log.d(TAG, "Toolbar setup completed");
 
-            authService = AuthenticationService.getInstance();
             Log.d(TAG, "AuthService initialized");
 
             initializeButtons();
@@ -92,21 +88,4 @@ public class AdminPage extends BaseActivity {
         Log.d(TAG, "onResume called");
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Log.d(TAG, "Back button pressed");
-        new AlertDialog.Builder(this)
-                .setTitle("יציאה")
-                .setMessage("האם אתה רוצה לצאת מהאפליקציה?")
-                .setPositiveButton("כן", (dialog, which) -> {
-                    Log.d(TAG, "User confirmed exit");
-                    finishAffinity(); // This will close all activities and exit the app
-                })
-                .setNegativeButton("ביטול", (dialog, which) -> {
-                    Log.d(TAG, "User cancelled exit");
-                    dialog.dismiss();
-                })
-                .show();
-    }
 }

@@ -40,10 +40,4 @@ public class Validator {
         return name != null && name.length() >= 3;
     }
 
-    /// Check if the role is valid (Tutor or Swimmer)
-    /// @param role role to validate
-    /// @return true if the role is either "Tutor" or "Swimmer", false otherwise
-    public static boolean isRoleValid(@Nullable String role) {
-        return role != null && (role.equals("Tutor") || role.equals("Swimmer"));
-    }
 }

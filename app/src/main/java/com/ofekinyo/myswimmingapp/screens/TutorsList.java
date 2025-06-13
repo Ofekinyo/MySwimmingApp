@@ -10,18 +10,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.adapters.TutorAdapter;
 import com.ofekinyo.myswimmingapp.base.BaseActivity;
@@ -35,15 +26,11 @@ import java.util.Map;
 
 public class TutorsList extends BaseActivity {
     private static final String TAG = "TutorsList";
-    private DatabaseReference tutorsDatabaseRef;
-    private FirebaseAuth mAuth;
+
     private List<Tutor> tutors;
     private TutorAdapter adapter;
     private EditText searchBar;
     private Spinner searchSpinner;
-
-    private String swimmerId, swimmerName;
-    DatabaseService databaseService;
 
     // Mapping from Hebrew labels to internal keys based on the new categories
     private final Map<String, String> filterMap = new HashMap<String, String>() {{
@@ -64,15 +51,6 @@ public class TutorsList extends BaseActivity {
         setContentView(R.layout.activity_tutors_list);
         setupToolbar("SwimLink");
 
-        // Initialize Firebase components
-        mAuth = FirebaseAuth.getInstance();
-        tutorsDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Tutors");
-        databaseService = DatabaseService.getInstance();
-
-        // Get swimmer data from intent
-        swimmerId = getIntent().getStringExtra("swimmerId");
-        swimmerName = getIntent().getStringExtra("swimmerName");
-
         // Initialize UI components
         searchBar = findViewById(R.id.searchBar);
         searchSpinner = findViewById(R.id.searchSpinner);
@@ -82,8 +60,7 @@ public class TutorsList extends BaseActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Initialize empty list and adapter
-        tutors = new ArrayList<>();
-        adapter = new TutorAdapter(this, tutors, swimmerId, swimmerName);
+        adapter = new TutorAdapter(this);
         recyclerView.setAdapter(adapter);
 
         // Load tutors
@@ -136,14 +113,10 @@ public class TutorsList extends BaseActivity {
                     matchFound = tutor.getId().toLowerCase().contains(searchText);
                     break;
                 case "price":
-                    if (tutor.getPrice() != null) {
-                        matchFound = String.valueOf(tutor.getPrice()).contains(searchText);
-                    }
+                    matchFound = String.valueOf(tutor.getPrice()).contains(searchText);
                     break;
                 case "experience":
-                    if (tutor.getExperience() != null) {
-                        matchFound = String.valueOf(tutor.getExperience()).contains(searchText);
-                    }
+                    matchFound = String.valueOf(tutor.getExperience()).contains(searchText);
                     break;
                 case "sessionTypes":
                     if (tutor.getSessionTypes() != null) {
@@ -167,13 +140,8 @@ public class TutorsList extends BaseActivity {
         databaseService.getAllTutors(new DatabaseService.DatabaseCallback<List<Tutor>>() {
             @Override
             public void onCompleted(List<Tutor> tutorsList) {
-                tutors.clear();
-                tutors.addAll(tutorsList);
-                adapter.notifyDataSetChanged();
-
-                if (tutors.isEmpty()) {
-                    Toast.makeText(TutorsList.this, "לא נמצאו מדריכים", Toast.LENGTH_SHORT).show();
-                }
+                tutors = tutorsList;
+                adapter.updateTutors(tutorsList);
             }
 
             @Override
@@ -192,9 +160,4 @@ public class TutorsList extends BaseActivity {
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        startActivity(new Intent(TutorsList.this, SwimmerPage.class));
-        finish();
-    }
 }

@@ -8,13 +8,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.models.Schedule;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ScheduleViewHolder> {
     private List<Schedule> scheduleList;
 
-    public ScheduleAdapter(List<Schedule> scheduleList) {
-        this.scheduleList = scheduleList;
+    public ScheduleAdapter() {
+        this.scheduleList = new ArrayList<>();
+    }
+
+    public void setScheduleList(List<Schedule> scheduleList) {
+        this.scheduleList.clear();
+        this.scheduleList.addAll(scheduleList);
+        this.notifyDataSetChanged();
     }
 
     @NonNull

@@ -28,9 +28,4 @@ public class SwimmerScheduleActivity extends BaseActivity {
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        startActivity(new Intent(this, SwimmerPage.class));
-        finish();
-    }
 }

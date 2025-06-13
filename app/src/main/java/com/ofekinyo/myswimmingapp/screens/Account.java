@@ -3,29 +3,20 @@ package com.ofekinyo.myswimmingapp.screens;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.base.BaseActivity;
+import com.ofekinyo.myswimmingapp.models.Swimmer;
+import com.ofekinyo.myswimmingapp.models.Tutor;
+import com.ofekinyo.myswimmingapp.models.User;
+import com.ofekinyo.myswimmingapp.services.DatabaseService;
 
 public class Account extends BaseActivity {
 
     private TextView tvFirstName, tvLastName, tvEmail, tvPhone, tvCity, tvGender, tvAge;
     private Button btnEditDetails;
-    private ImageView ivProfile;
-    private FirebaseAuth mAuth;
-    private DatabaseReference databaseReference;
-    private String userType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +24,6 @@ public class Account extends BaseActivity {
         setContentView(R.layout.activity_account);
         setupToolbar("SwimLink");
 
-        ivProfile = findViewById(R.id.ivProfile);
         tvFirstName = findViewById(R.id.tvFirstName);
         tvLastName = findViewById(R.id.tvLastName);
         tvEmail = findViewById(R.id.tvEmail);
@@ -43,16 +33,15 @@ public class Account extends BaseActivity {
         tvAge = findViewById(R.id.tvAge);
         btnEditDetails = findViewById(R.id.btnEditDetails);
 
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = mAuth.getCurrentUser();
 
-        if (user != null) {
-            tvEmail.setText(user.getEmail());
-            getUserType(user.getUid());
-        } else {
+        if (!authenticationService.isUserSignedIn()) {
             Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
             finish();
         }
+
+        tvEmail.setText(authenticationService.getCurrentUserEmail());
+        getUserType(authenticationService.getCurrentUserId());
+
 
         btnEditDetails.setOnClickListener(v -> {
             Intent intent = new Intent(Account.this, EditAccount.class);
@@ -60,120 +49,31 @@ public class Account extends BaseActivity {
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-            DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-            rootRef.child("Users/Tutors").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-                        startActivity(new Intent(Account.this, TutorPage.class));
-                    } else {
-                        startActivity(new Intent(Account.this, SwimmerPage.class));
-                    }
-                    finish();
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(Account.this, "Error determining user type", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-    }
-
     private void getUserType(String uid) {
-        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        rootRef.child("Users/Tutors").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseService.getUser(uid, new DatabaseService.DatabaseCallback<User>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    userType = "Tutors";
-                    loadTutorData(uid);
-                } else {
-                    rootRef.child("Users/Swimmers").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (snapshot.exists()) {
-                                userType = "Swimmers";
-                                loadSwimmerData(uid);
-                            } else {
-                                Toast.makeText(Account.this, "User data not found", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Toast.makeText(Account.this, "Database Error", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+            public void onCompleted(User user) {
+                updateUI(user);
+                if (user instanceof Tutor) {
+                    Tutor tutor = (Tutor) user;
+                } else if (user instanceof Swimmer) {
+                    Swimmer swimmer = (Swimmer) user;
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(Account.this, "Database Error", Toast.LENGTH_SHORT).show();
+            public void onFailed(Exception e) {
+
             }
         });
     }
 
-    private void loadTutorData(String uid) {
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Users/Tutors").child(uid);
-
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    tvFirstName.setText("שם פרטי: " + snapshot.child("fname").getValue(String.class));
-                    tvLastName.setText("שם משפחה: " + snapshot.child("lname").getValue(String.class));
-                    tvPhone.setText("טלפון: " + snapshot.child("phone").getValue(String.class));
-                    tvCity.setText("עיר: " + snapshot.child("city").getValue(String.class));
-                    tvGender.setText("מגדר: " + snapshot.child("gender").getValue(String.class));
-
-                    Long ageValue = snapshot.child("age").getValue(Long.class);
-                    if (ageValue != null) {
-                        tvAge.setText("גיל: " + ageValue.toString());
-                    } else {
-                        tvAge.setText("גיל: N/A");
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(Account.this, "Failed to load data", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void loadSwimmerData(String uid) {
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Users/Swimmers").child(uid);
-
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    tvFirstName.setText("שם פרטי: " + snapshot.child("fname").getValue(String.class));
-                    tvLastName.setText("שם משפחה: " + snapshot.child("lname").getValue(String.class));
-                    tvPhone.setText("טלפון: " + snapshot.child("phone").getValue(String.class));
-                    tvCity.setText("עיר: " + snapshot.child("city").getValue(String.class));
-                    tvGender.setText("מגדר: " + snapshot.child("gender").getValue(String.class));
-
-                    Long ageValue = snapshot.child("age").getValue(Long.class);
-                    if (ageValue != null) {
-                        tvAge.setText("גיל: " + ageValue.toString());
-                    } else {
-                        tvAge.setText("גיל: N/A");
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(Account.this, "Failed to load data", Toast.LENGTH_SHORT).show();
-            }
-        });
+    private void updateUI(User user) {
+        tvFirstName.setText("שם פרטי: " + user.getFname());
+        tvLastName.setText("שם משפחה: " + user.getLname());
+        tvPhone.setText("טלפון: " + user.getPhone());
+        tvCity.setText("עיר: " + user.getCity());
+        tvGender.setText("מגדר: " + user.getGender());
+        tvAge.setText("גיל: " + user.getAge().toString());
     }
 }

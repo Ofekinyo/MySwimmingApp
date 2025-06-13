@@ -1,34 +1,27 @@
 package com.ofekinyo.myswimmingapp.screens;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-import androidx.annotation.NonNull;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
+
 import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.adapters.ScheduleAdapter;
 import com.ofekinyo.myswimmingapp.base.BaseActivity;
 import com.ofekinyo.myswimmingapp.models.Schedule;
-import java.util.ArrayList;
+import com.ofekinyo.myswimmingapp.models.Tutor;
+import com.ofekinyo.myswimmingapp.services.AuthenticationService;
+import com.ofekinyo.myswimmingapp.services.DatabaseService;
+
 import java.util.List;
 
 public class TutorScheduleActivity extends BaseActivity {
     private RecyclerView recyclerView;
     private ScheduleAdapter adapter;
-    private List<Schedule> scheduleList;
-    private DatabaseReference databaseReference;
     private Button btnRefresh;
     private ProgressBar progressBar;
     private TextView tvNoSchedules;
@@ -41,7 +34,6 @@ public class TutorScheduleActivity extends BaseActivity {
 
         initializeViews();
         setupRecyclerView();
-        setupDatabase();
         fetchSchedules();
 
         btnRefresh.setOnClickListener(v -> fetchSchedules());
@@ -55,43 +47,29 @@ public class TutorScheduleActivity extends BaseActivity {
     }
 
     private void setupRecyclerView() {
-        scheduleList = new ArrayList<>();
-        adapter = new ScheduleAdapter(scheduleList);
+        adapter = new ScheduleAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }
 
-    private void setupDatabase() {
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        databaseReference = FirebaseDatabase.getInstance().getReference("Schedules");
-        // Filter schedules by tutor ID
-        databaseReference = databaseReference.orderByChild("tutorId").equalTo(userId).getRef();
-    }
 
     private void fetchSchedules() {
         showLoading(true);
-        
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        String tutorID = AuthenticationService.getInstance().getCurrentUserId();
+        databaseService.getTutor(tutorID, new DatabaseService.DatabaseCallback<Tutor>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                scheduleList.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Schedule schedule = dataSnapshot.getValue(Schedule.class);
-                    if (schedule != null) {
-                        scheduleList.add(schedule);
-                    }
-                }
-                
+            public void onCompleted(Tutor tutor) {
+                List<Schedule> schedules = tutor.getSchedules();
+                schedules.sort((o1, o2) -> o1.getDate().compareTo(o2.getDate()));
+                adapter.setScheduleList(schedules);
+
                 showLoading(false);
-                updateUI();
+                updateUI(schedules);
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                showLoading(false);
-                Toast.makeText(TutorScheduleActivity.this, 
-                    "שגיאה בטעינת לוח הזמנים: " + error.getMessage(), 
-                    Toast.LENGTH_LONG).show();
+            public void onFailed(Exception e) {
+
             }
         });
     }
@@ -102,20 +80,14 @@ public class TutorScheduleActivity extends BaseActivity {
         btnRefresh.setEnabled(!show);
     }
 
-    private void updateUI() {
-        if (scheduleList.isEmpty()) {
+    private void updateUI(List<Schedule> schedules) {
+        if (schedules.isEmpty()) {
             tvNoSchedules.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
         } else {
             tvNoSchedules.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
-            adapter.notifyDataSetChanged();
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        startActivity(new Intent(this, TutorPage.class));
-        finish();
-    }
 }

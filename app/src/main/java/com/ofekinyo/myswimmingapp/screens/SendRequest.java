@@ -5,18 +5,18 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.*;
-import androidx.annotation.NonNull;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.base.BaseActivity;
 import com.ofekinyo.myswimmingapp.models.Session;
-import com.ofekinyo.myswimmingapp.models.Swimmer;
+import com.ofekinyo.myswimmingapp.models.Tutor;
+import com.ofekinyo.myswimmingapp.services.AuthenticationService;
+import com.ofekinyo.myswimmingapp.services.DatabaseService;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,16 +28,16 @@ public class SendRequest extends BaseActivity {
     private CheckBox cbGoal1, cbGoal2, cbGoal3, cbOther;
     private Button btnSubmit;
 
-    private String tutorId;
-    private String tutorName;
+    private Tutor tutor;
     private String swimmerId;
-    private String swimmerName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_request);
         setupToolbar("שליחת בקשה");
+
+        swimmerId = AuthenticationService.getInstance().getCurrentUserId();
 
         // UI References
         tvTutorName = findViewById(R.id.tvTutorName);
@@ -58,31 +58,11 @@ public class SendRequest extends BaseActivity {
         });
 
         // Get tutor info from Intent
-        tutorId = getIntent().getStringExtra("tutorId");
-        tutorName = getIntent().getStringExtra("tutorName");
+        tutor = getIntent().getSerializableExtra("tutor", Tutor.class);
 
         // Display tutor name
-        tvTutorName.setText(tutorName);
-
-        // Get current user (swimmer) data
-        FirebaseDatabase.getInstance().getReference("Users/Swimmers")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.exists()) {
-                            Swimmer swimmer = snapshot.getValue(Swimmer.class);
-                            if (swimmer != null) {
-                                swimmerName = swimmer.getFname() + " " + swimmer.getLname();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError error) {
-                        Toast.makeText(SendRequest.this, "שגיאה בטעינת שם המשתמש", Toast.LENGTH_SHORT).show();
-                    }
-                });
+        assert tutor != null;
+        tvTutorName.setText(tutor.getName());
 
         // Pickers
         etDate.setOnClickListener(v -> showDatePicker());
@@ -135,18 +115,12 @@ public class SendRequest extends BaseActivity {
             }
         }
 
-        FirebaseDatabase db = FirebaseDatabase.getInstance();
-        String sessionId = db.getReference("Sessions").push().getKey();
-
-        if (sessionId == null) {
-            Toast.makeText(this, "שגיאה ביצירת מזהה השיעור", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        String sessionId = databaseService.generateSessionId();
 
         Session session = new Session(
                 sessionId,
                 swimmerId,
-                tutorId,
+                tutor.getId(),
                 date,
                 time,
                 selectedGoals,
@@ -155,16 +129,20 @@ public class SendRequest extends BaseActivity {
                 null // isAccepted set to null initially
         );
 
-        db.getReference("Sessions")
-                .child(sessionId)
-                .setValue(session)
-                .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "הבקשה לשיעור נשלחה בהצלחה", Toast.LENGTH_SHORT).show();
-                    finish();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(this, "שגיאה בשליחת הבקשה לשיעור", Toast.LENGTH_SHORT).show();
-                });
+        databaseService.createNewSession(session, new DatabaseService.DatabaseCallback<Void>() {
+            @Override
+            public void onCompleted(Void object) {
+                Toast.makeText(SendRequest.this, "הבקשה לשיעור נשלחה בהצלחה", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+                Toast.makeText(SendRequest.this, "שגיאה בשליחת הבקשה לשיעור", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
     }
 
 }

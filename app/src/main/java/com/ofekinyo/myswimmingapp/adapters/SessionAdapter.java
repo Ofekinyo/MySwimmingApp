@@ -18,19 +18,38 @@ import com.ofekinyo.myswimmingapp.models.Swimmer;
 import com.ofekinyo.myswimmingapp.models.Tutor;
 import com.ofekinyo.myswimmingapp.services.DatabaseService;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.RequestViewHolder> {
-    private List<Session> requestList;
-    private Context context;
+    private final List<Session> requestList;
+    private final List<Tutor> tutorList;
+    private final List<Swimmer> swimmerList;
+    private final Context context;
 
-    public SessionAdapter(List<Session> requestList, Context context) {
-        this.requestList = requestList;
+    public SessionAdapter(Context context) {
+        this.requestList = new ArrayList<>();
+        this.swimmerList = new ArrayList<>();
+        this.tutorList = new ArrayList<>();
         this.context = context;
     }
 
     public void setRequestList(List<Session> newRequestList) {
-        this.requestList = newRequestList;
+        this.requestList.clear();
+        this.requestList.addAll(newRequestList);
+        notifyDataSetChanged();
+    }
+
+    public void setTutorList(List<Tutor> tutorList) {
+        this.tutorList.clear();
+        this.tutorList.addAll(tutorList);
+        notifyDataSetChanged();
+    }
+
+    public void setSwimmerList(List<Swimmer> swimmerList) {
+        this.swimmerList.clear();
+        this.swimmerList.addAll(swimmerList);
         notifyDataSetChanged();
     }
 
@@ -68,39 +87,25 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.RequestV
             updateSessionStatus(request);
         });
 
-        DatabaseService.getInstance().getTutor(request.getTutorId(), new DatabaseService.DatabaseCallback<Tutor>() {
-            @Override
-            public void onCompleted(Tutor tutor) {
-                if (tutor != null) {
-                    holder.tutorName.setText("מדריך: " + tutor.getFname() + " " + tutor.getLname());
-                } else {
-                    holder.tutorName.setText("מדריך לא נמצא");
-                }
-            }
+        Optional<Tutor> tutor = this.tutorList.stream()
+                .filter(tutor1 -> tutor1.getId().equals(request.getTutorId()))
+                .findFirst();
+        Optional<Swimmer> swimmer = this.swimmerList.stream()
+                .filter(swimmer1 -> swimmer1.getId().equals(request.getSwimmerId()))
+                .findFirst();
 
-            @Override
-            public void onFailed(Exception e) {
-                Log.e("RequestAdapter", "שגיאה בטעינת המדריך: " + e.getMessage());
-                holder.tutorName.setText("שגיאה בטעינת המדריך");
-            }
-        });
+        if (tutor.isPresent()) {
+            holder.tutorName.setText("מדריך: " + tutor.get().getFname() + " " + tutor.get().getLname());
+        } else {
+            holder.tutorName.setText("מדריך לא נמצא");
+        }
 
-        DatabaseService.getInstance().getSwimmer(request.getSwimmerId(), new DatabaseService.DatabaseCallback<Swimmer>() {
-            @Override
-            public void onCompleted(Swimmer swimmer) {
-                if (swimmer != null) {
-                    holder.swimmerName.setText("שחיין: " + swimmer.getFname() + " " + swimmer.getLname());
-                } else {
-                    holder.swimmerName.setText("שחיין לא נמצא");
-                }
-            }
+        if (swimmer.isPresent()) {
+            holder.swimmerName.setText("שחיין: " + swimmer.get().getFname() + " " + swimmer.get().getLname());
+        } else {
+            holder.swimmerName.setText("שחיין לא נמצא");
+        }
 
-            @Override
-            public void onFailed(Exception e) {
-                Log.e("RequestAdapter", "שגיאה בטעינת השחיין: " + e.getMessage());
-                holder.swimmerName.setText("שגיאה בטעינת השחיין");
-            }
-        });
     }
 
     private void updateSessionStatus(Session session) {
@@ -122,7 +127,9 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.RequestV
 
     @Override
     public int getItemCount() {
-        return requestList != null ? requestList.size() : 0;
+        if (tutorList.isEmpty()) return 0;
+        if (swimmerList.isEmpty()) return 0;
+        return requestList.size();
     }
 
     public static class RequestViewHolder extends RecyclerView.ViewHolder {

@@ -28,9 +28,6 @@ public class DatabaseService {
     private static final String TUTORS_PATH = USERS_PATH + "/Tutors";
     private static final String SWIMMERS_PATH = USERS_PATH + "/Swimmers";
     private static final String ADMINS_PATH = USERS_PATH + "/Admins";
-    private static final String REQUESTS_PATH = "Requests";
-    private static final String SWIMMER_REQUESTS_PATH = REQUESTS_PATH + "/Swimmers";
-    private static final String TUTOR_REQUESTS_PATH = REQUESTS_PATH + "/Tutors";
     private static final String SESSIONS_PATH = "Sessions";
 
     public interface DatabaseCallback<T> {
@@ -53,77 +50,6 @@ public class DatabaseService {
             instance = new DatabaseService();
         }
         return instance;
-    }
-
-    public void getUserData(String userId, String role, @NotNull final DatabaseCallback<User> callback) {
-        String path;
-        switch (role) {
-            case "Tutor":
-                path = TUTORS_PATH;
-                break;
-            case "Swimmer":
-                path = SWIMMERS_PATH;
-                break;
-            case "Admin":
-                path = ADMINS_PATH;
-                break;
-            default:
-                callback.onFailed(new Exception("Invalid role"));
-                return;
-        }
-
-        readData(path + "/" + userId).get().addOnCompleteListener(task -> {
-            if (!task.isSuccessful()) {
-                callback.onFailed(task.getException());
-                return;
-            }
-
-            User user = null;
-            switch (role) {
-                case "Tutor":
-                    user = task.getResult().getValue(Tutor.class);
-                    break;
-                case "Swimmer":
-                    user = task.getResult().getValue(Swimmer.class);
-                    break;
-                case "Admin":
-                    user = task.getResult().getValue(Admin.class);
-                    break;
-            }
-
-            if (user != null) {
-                callback.onCompleted(user);
-            } else {
-                callback.onFailed(new Exception("User not found"));
-            }
-        });
-    }
-
-    public void getUserRole(String userId, @NotNull final DatabaseCallback<String> callback) {
-        // First check Tutors
-        readData(TUTORS_PATH + "/" + userId).get().addOnCompleteListener(tutorTask -> {
-            if (tutorTask.isSuccessful() && tutorTask.getResult().exists()) {
-                callback.onCompleted("Tutor");
-                return;
-            }
-
-            // Then check Swimmers
-            readData(SWIMMERS_PATH + "/" + userId).get().addOnCompleteListener(swimmerTask -> {
-                if (swimmerTask.isSuccessful() && swimmerTask.getResult().exists()) {
-                    callback.onCompleted("Swimmer");
-                    return;
-                }
-
-                // Finally check Admins
-                readData(ADMINS_PATH + "/" + userId).get().addOnCompleteListener(adminTask -> {
-                    if (adminTask.isSuccessful() && adminTask.getResult().exists()) {
-                        callback.onCompleted("Admin");
-                    } else {
-                        callback.onFailed(new Exception("User role not found"));
-                    }
-                });
-            });
-        });
     }
 
     public void writeData(@NotNull final String path, @NotNull final Object data, final @Nullable DatabaseCallback<Void> callback) {
@@ -161,50 +87,7 @@ public class DatabaseService {
         });
     }
 
-    public void getUser(@NotNull final String uid, @NotNull final DatabaseCallback<User> callback) {
-        getData(TUTORS_PATH + "/" + uid, User.class, new DatabaseCallback<User>() {
-            @Override
-            public void onCompleted(User user) {
-                if (user != null) {
-                    callback.onCompleted(user);
-                } else {
-                    getData(SWIMMERS_PATH + "/" + uid, User.class, new DatabaseCallback<User>() {
-                        @Override
-                        public void onCompleted(User user) {
-                            if (user != null) {
-                                callback.onCompleted(user);
-                            } else {
-                                getData(ADMINS_PATH + "/" + uid, User.class, callback);
-                            }
-                        }
 
-                        @Override
-                        public void onFailed(Exception e) {
-                            callback.onFailed(e);
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onFailed(Exception e) {
-                callback.onFailed(e);
-            }
-        });
-    }
-
-    public void getCurrentUser(@NotNull final DatabaseCallback<User> callback) {
-        if (firebaseAuth.getCurrentUser() == null) {
-            callback.onFailed(new Exception("No authenticated user found"));
-            return;
-        }
-        String uid = firebaseAuth.getCurrentUser().getUid();
-        getUser(uid, callback);
-    }
-
-    public void getUserList(@NotNull final DatabaseCallback<List<User>> callback) {
-        getDataList(USERS_PATH, User.class, callback);
-    }
 
     private <T> void getData(@NotNull final String path, @NotNull final Class<T> clazz, @NotNull final DatabaseCallback<T> callback) {
         readData(path).get().addOnCompleteListener(task -> {
@@ -218,7 +101,7 @@ public class DatabaseService {
         });
     }
 
-    public String generateNewId(@NotNull final String path) {
+    private String generateNewId(@NotNull final String path) {
         return databaseReference.child(path).push().getKey();
     }
 
@@ -242,92 +125,21 @@ public class DatabaseService {
         getData(SWIMMERS_PATH + "/" + swimmerId, Swimmer.class, callback);
     }
 
-    public void createNewRequest(@NotNull final Session request, @Nullable final DatabaseCallback<Void> callback) {
-        String swimmerId = request.getSwimmerId();
-        String tutorId = request.getTutorId();
-
-        getSwimmer(swimmerId, new DatabaseCallback<Swimmer>() {
-            @Override
-            public void onCompleted(Swimmer swimmer) {
-                if (swimmer != null) {
-                    getTutor(tutorId, new DatabaseCallback<Tutor>() {
-                        @Override
-                        public void onCompleted(Tutor tutor) {
-                            if (tutor != null) {
-                                // Removed setting swimmerName and tutorName here
-                                request.setIsAccepted(null); // pending
-
-                                writeData(SWIMMER_REQUESTS_PATH + "/" + swimmerId + "/" + tutorId, request, null);
-                                writeData(TUTOR_REQUESTS_PATH + "/" + tutorId + "/" + swimmerId, request, callback);
-                            } else {
-                                if (callback != null) callback.onFailed(new Exception("Tutor not found"));
-                            }
-                        }
-
-                        @Override
-                        public void onFailed(Exception e) {
-                            if (callback != null) callback.onFailed(e);
-                        }
-                    });
-                } else {
-                    if (callback != null) callback.onFailed(new Exception("Swimmer not found"));
-                }
-            }
-
-            @Override
-            public void onFailed(Exception e) {
-                if (callback != null) callback.onFailed(e);
-            }
-        });
+    public void getAdmin(@NotNull final String adminId, @NotNull final DatabaseCallback<Admin> callback) {
+        getData(ADMINS_PATH+"/"+ adminId, Admin.class, callback);
     }
 
+
     public void getAllTutors(@NotNull final DatabaseCallback<List<Tutor>> callback) {
-        readData(TUTORS_PATH).get().addOnCompleteListener(task -> {
-            if (!task.isSuccessful()) {
-                callback.onFailed(task.getException());
-                return;
-            }
-            List<Tutor> tutors = new ArrayList<>();
-            task.getResult().getChildren().forEach(dataSnapshot -> {
-                Tutor tutor = dataSnapshot.getValue(Tutor.class);
-                if (tutor != null) tutors.add(tutor);
-            });
-            callback.onCompleted(tutors);
-        });
+        getDataList(TUTORS_PATH, Tutor.class, callback);
     }
 
     public void getAllSwimmers(@NotNull final DatabaseCallback<List<Swimmer>> callback) {
-        readData(SWIMMERS_PATH).get().addOnCompleteListener(task -> {
-            if (!task.isSuccessful()) {
-                callback.onFailed(task.getException());
-                return;
-            }
-            List<Swimmer> swimmers = new ArrayList<>();
-            task.getResult().getChildren().forEach(dataSnapshot -> {
-                Swimmer swimmer = dataSnapshot.getValue(Swimmer.class);
-                if (swimmer != null) swimmers.add(swimmer);
-            });
-            callback.onCompleted(swimmers);
-        });
+        getDataList(SWIMMERS_PATH, Swimmer.class, callback);
     }
 
-    public void getPendingRequestsForTutor(String tutorId, @NotNull final DatabaseCallback<List<Session>> callback) {
-        readData(SESSIONS_PATH).get().addOnCompleteListener(task -> {
-            if (!task.isSuccessful()) {
-                callback.onFailed(task.getException());
-                return;
-            }
-
-            List<Session> pendingRequests = new ArrayList<>();
-            task.getResult().getChildren().forEach(dataSnapshot -> {
-                Session session = dataSnapshot.getValue(Session.class);
-                if (session != null && session.getTutorId().equals(tutorId) && !session.getIsAccepted()) {
-                    pendingRequests.add(session);
-                }
-            });
-
-            callback.onCompleted(pendingRequests);
-        });
+    public void getAllAdmins(@NotNull final DatabaseCallback<List<Admin>> callback) {
+        getDataList(ADMINS_PATH, Admin.class, callback);
     }
 
     public void updateSessionStatus(Session session, DatabaseCallback<Void> callback) {
@@ -340,29 +152,58 @@ public class DatabaseService {
             .addOnFailureListener(e -> callback.onFailed(e));
     }
 
-    public void getSessions(String userId, @NotNull final DatabaseCallback<List<Session>> callback) {
-        DatabaseReference sessionsRef = databaseReference.child(SESSIONS_PATH);
-        sessionsRef.get().addOnCompleteListener(task -> {
-            if (!task.isSuccessful()) {
-                Log.e(TAG, "Error getting sessions", task.getException());
-                callback.onFailed(task.getException());
-                return;
+    public void getSessions(@NotNull final DatabaseCallback<List<Session>> callback) {
+        getDataList(SESSIONS_PATH, Session.class, callback);
+    }
+
+    public String generateSessionId() {
+        return generateNewId(SESSIONS_PATH);
+    }
+
+    public void createNewSession(@NotNull final Session session, @Nullable final DatabaseCallback<Void> callback) {
+        writeData(SESSIONS_PATH + "/" + session.getId(), session, callback);
+    }
+
+
+    public void getUser(String uid, @NotNull final DatabaseCallback<User> callback) {
+        getTutor(uid, new DatabaseCallback<Tutor>() {
+            @Override
+            public void onCompleted(Tutor tutor) {
+                if (tutor == null) {
+                    getSwimmer(uid, new DatabaseCallback<Swimmer>() {
+                        @Override
+                        public void onCompleted(Swimmer swimmer) {
+                            if (swimmer == null) {
+                                getAdmin(uid, new DatabaseCallback<Admin>() {
+                                    @Override
+                                    public void onCompleted(Admin admin) {
+                                        callback.onCompleted(admin);
+                                    }
+
+                                    @Override
+                                    public void onFailed(Exception e) {
+                                        callback.onFailed(e);
+                                    }
+                                });
+                                return;
+                            }
+                            callback.onCompleted(swimmer);
+                        }
+
+                        @Override
+                        public void onFailed(Exception e) {
+                            callback.onFailed(e);
+                        }
+                    });
+                    return;
+                }
+                callback.onCompleted(tutor);
             }
 
-            List<Session> sessions = new ArrayList<>();
-            DataSnapshot snapshot = task.getResult();
-            
-            for (DataSnapshot sessionSnapshot : snapshot.getChildren()) {
-                Session session = sessionSnapshot.getValue(Session.class);
-                if (session != null && 
-                    session.getTutorId().equals(userId) && 
-                    session.getIsAccepted() == null) { // pending status
-                    session.setId(sessionSnapshot.getKey());
-                    sessions.add(session);
-                }
+            @Override
+            public void onFailed(Exception e) {
+                callback.onFailed(e);
             }
-            
-            callback.onCompleted(sessions);
         });
     }
 }

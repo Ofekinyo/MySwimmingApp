@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
-import androidx.appcompat.app.AlertDialog;
 
 import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.base.BaseActivity;
@@ -38,17 +37,4 @@ public class TutorPage extends BaseActivity {
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        new AlertDialog.Builder(this)
-                .setTitle("יציאה")
-                .setMessage("האם אתה רוצה לצאת מהאפליקציה?")
-                .setPositiveButton("כן", (dialog, which) -> {
-                    finishAffinity(); // This will close all activities and exit the app
-                })
-                .setNegativeButton("ביטול", (dialog, which) -> {
-                    dialog.dismiss();
-                })
-                .show();
-    }
 }

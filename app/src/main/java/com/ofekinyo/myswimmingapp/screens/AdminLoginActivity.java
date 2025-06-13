@@ -5,16 +5,12 @@ import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.ofekinyo.myswimmingapp.R;
-import com.ofekinyo.myswimmingapp.models.Admin;
-import com.ofekinyo.myswimmingapp.models.User;
 import com.ofekinyo.myswimmingapp.base.BaseActivity;
+import com.ofekinyo.myswimmingapp.services.AuthenticationService;
 
 public class AdminLoginActivity extends BaseActivity {
 
-    private FirebaseAuth mAuth;
     private EditText emailEditText, passwordEditText;
 
     @Override
@@ -23,7 +19,6 @@ public class AdminLoginActivity extends BaseActivity {
         setContentView(R.layout.activity_admin_login);
         setupToolbar("התחברות מנהל");
 
-        mAuth = FirebaseAuth.getInstance();
 
         emailEditText = findViewById(R.id.etAdminUsername);
         passwordEditText = findViewById(R.id.etAdminPassword);
@@ -40,19 +35,19 @@ public class AdminLoginActivity extends BaseActivity {
             return;
         }
 
-        // Firebase Authentication to sign in
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        FirebaseUser firebaseUser = mAuth.getCurrentUser();
-                        if (firebaseUser != null) {
-                            Intent intent = new Intent(AdminLoginActivity.this, AdminPage.class);
-                            startActivity(intent);
-                            finish();
-                        }
-                    } else {
-                        Toast.makeText(AdminLoginActivity.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+        authenticationService.signIn(email, password, new AuthenticationService.AuthCallback<String>() {
+            @Override
+            public void onCompleted(String uid) {
+                Intent intent = new Intent(AdminLoginActivity.this, AdminPage.class);
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+                Toast.makeText(AdminLoginActivity.this, "Authentication failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }

@@ -27,6 +27,7 @@ import com.ofekinyo.myswimmingapp.models.Admin;
 import com.ofekinyo.myswimmingapp.services.AuthenticationService;
 import com.ofekinyo.myswimmingapp.services.DatabaseService;
 import com.ofekinyo.myswimmingapp.utils.SharedPreferencesUtil;
+import com.ofekinyo.myswimmingapp.utils.Validator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -258,13 +259,13 @@ public class Register extends AppCompatActivity {
                                       String password, String city, String gender, String ageStr) {
         if (TextUtils.isEmpty(fname)) { etFName.setError("יש להזין שם פרטי"); return false; }
         if (TextUtils.isEmpty(lname)) { etLName.setError("יש להזין שם משפחה"); return false; }
-        if (TextUtils.isEmpty(email) || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        if (!Validator.isEmailValid(email)) {
             etEmail.setError("אימייל לא תקין"); return false;
         }
-        if (TextUtils.isEmpty(phone) || !phone.matches("\\d{10}")) {
+        if (!Validator.isPhoneValid(phone)) {
             etPhone.setError("מספר טלפון לא תקין"); return false;
         }
-        if (TextUtils.isEmpty(password) || password.length() < 6) {
+        if (!Validator.isPasswordValid(password)) {
             etPassword.setError("הסיסמה חייבת להיות לפחות 6 תווים"); return false;
         }
         if (TextUtils.isEmpty(city)) {
@@ -324,15 +325,19 @@ public class Register extends AppCompatActivity {
 
     private void createUserAccount(String fname, String lname, String email, String phone,
                                  String password, String city, String gender, int age, String role) {
-        authService.signUp(email, password, role, new AuthenticationService.AuthCallback<String>() {
+        authService.signUp(email, password, new AuthenticationService.AuthCallback<String>() {
             @Override
             public void onCompleted(String userId) {
-                if (role.equals("Tutor")) {
-                    createTutor(userId, fname, lname, email, phone, city, gender, age, password);
-                } else if (role.equals("Swimmer")) {
-                    createSwimmer(userId, fname, lname, email, phone, city, gender, age, password);
-                } else if (role.equals("Admin")) {
-                    createAdmin(userId, fname, lname, email, phone, city, gender, age, password);
+                switch (role) {
+                    case "Tutor":
+                        createTutor(userId, fname, lname, email, phone, city, gender, age, password);
+                        break;
+                    case "Swimmer":
+                        createSwimmer(userId, fname, lname, email, phone, city, gender, age, password);
+                        break;
+                    case "Admin":
+                        createAdmin(userId, fname, lname, email, phone, city, gender, age, password);
+                        break;
                 }
             }
 
@@ -348,7 +353,9 @@ public class Register extends AppCompatActivity {
     private void createTutor(String userId, String fname, String lname, String email, String phone,
                            String city, String gender, int age, String password) {
         // Create tutor with null values for optional fields first
-        Tutor tutor = new Tutor(userId, fname, lname, phone, email, age, password, gender, city, "Tutor", null, null, null);
+        // TODO fix experience and price
+        Tutor tutor = new Tutor(userId, fname, lname, phone, email, age, password, gender, city,
+                "Tutor", null, 0, 0, new ArrayList<>());
         
         // Add tutor-specific fields
         tutor.setExperience(Integer.parseInt(etExperience.getText().toString().trim()));
@@ -449,11 +456,8 @@ public class Register extends AppCompatActivity {
                 return;
         }
         try {
-            Log.d(TAG, "Adding flags to intent");
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            Log.d(TAG, "Starting activity");
             startActivity(intent);
-            Log.d(TAG, "Calling finish()");
             finish();
         } catch (Exception e) {
             Log.e(TAG, "Error during navigation", e);
