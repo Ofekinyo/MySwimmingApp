@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.base.BaseActivity;
+import com.ofekinyo.myswimmingapp.services.AuthenticationService;
 
 public class TutorPage extends BaseActivity {
 
@@ -30,6 +31,8 @@ public class TutorPage extends BaseActivity {
             try {
                 // Navigate to SessionRequests
                 Intent intent = new Intent(TutorPage.this, SessionRequests.class);
+                String currentUserId = AuthenticationService.getInstance().getCurrentUserId();
+                intent.putExtra("userId", currentUserId);
                 startActivity(intent);
             } catch (Exception e) {
                 Toast.makeText(this, "מצטערים, התכונה הזו עדיין לא זמינה", Toast.LENGTH_SHORT).show();

@@ -70,11 +70,23 @@ public class SessionRequests extends BaseActivity {
         databaseService.getSessions(new DatabaseService.DatabaseCallback<List<Session>>() {
             @Override
             public void onCompleted(List<Session> sessions) {
-                sessions.removeIf(session -> !session.getTutorId().equals(userId) && session.getIsAccepted() != null);
+                // Filter sessions to only show requests for this tutor that haven't been responded to
+                sessions.removeIf(session -> 
+                    !session.getTutorId().equals(userId) || // Not for this tutor
+                    session.getIsAccepted() != null // Already responded to
+                );
+                
+                if (sessions.isEmpty()) {
+                    emptyStateLayout.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
+                } else {
+                    emptyStateLayout.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                }
+                
                 adapter.setRequestList(sessions);
 
                 progressBar.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
             }
 
             @Override
