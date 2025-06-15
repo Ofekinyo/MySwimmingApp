@@ -47,4 +47,16 @@
         android:textStyle="bold"
         android:layout_marginBottom="16dp" />
 
+    <!-- ScheduleActivity for swimmers-->
+    <Button
+        android:id="@+id/btnSwimmerSchedule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="השיעורים שלי"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:elevation="4dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_button_red"/>
+
 </LinearLayout>

@@ -23,7 +23,7 @@ public class TutorPage extends BaseActivity {
 
         // Set button click listeners
         btnSchedule.setOnClickListener(v -> {
-            Intent intent = new Intent(TutorPage.this, TutorScheduleActivity.class);
+            Intent intent = new Intent(TutorPage.this, ScheduleActivity.class);
             startActivity(intent);
         });
 

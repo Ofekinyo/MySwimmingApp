@@ -62,7 +62,7 @@
         android:layout_marginBottom="16dp"
         android:background="@drawable/rounded_button_blue"/>
 
-    <!-- Schedule for swimmers-->
+    <!-- ScheduleActivity for swimmers-->
     <Button
         android:id="@+id/btnSwimmerSchedule"
         android:layout_width="match_parent"

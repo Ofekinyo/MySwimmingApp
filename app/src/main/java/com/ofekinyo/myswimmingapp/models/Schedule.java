@@ -6,7 +6,7 @@ public class Schedule {
     private SimpleDate date;
     private SimpleTime time;
 
-    // Default constructor required for calls to DataSnapshot.getValue(Schedule.class)
+    // Default constructor required for calls to DataSnapshot.getValue(ScheduleActivity.class)
     public Schedule() {
         this.date = SimpleDate.now();
         this.time = SimpleTime.now();

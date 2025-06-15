@@ -36,7 +36,7 @@
         android:layout_gravity="center"
         android:layout_marginBottom="32dp" />
 
-    <!-- Schedule Button -->
+    <!-- ScheduleActivity Button -->
     <Button
         android:id="@+id/btnTutorSchedule"
         android:layout_width="match_parent"

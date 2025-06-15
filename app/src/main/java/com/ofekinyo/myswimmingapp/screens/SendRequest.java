@@ -84,7 +84,7 @@ public class SendRequest extends BaseActivity {
     private void showTimePicker() {
         Calendar calendar = Calendar.getInstance();
         new TimePickerDialog(this,
-                (view, hourOfDay, minute) -> etTime.setText(String.format("%02d:%02d", hourOfDay, minute)),
+                (view, hourOfDay, minute) -> etTime.setText(String.format("%02d:%02d:00", hourOfDay, minute)),
                 calendar.get(Calendar.HOUR_OF_DAY),
                 calendar.get(Calendar.MINUTE),
                 true).show();

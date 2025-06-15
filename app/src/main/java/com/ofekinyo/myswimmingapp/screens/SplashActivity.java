@@ -43,54 +43,54 @@ public class SplashActivity extends AppCompatActivity {
                 e.printStackTrace();
             } finally {
 
-                if (authenticationService.isUserSignedIn()) {
-                    String uid = authenticationService.getCurrentUserId();
-
-                    databaseService.getUser(uid, new DatabaseService.DatabaseCallback<User>() {
-                        @Override
-                        public void onCompleted(User user) {
-                            String role;
-
-                            if (user instanceof Tutor) {
-                                role = "tutor";
-                            } else if (user instanceof Swimmer) {
-                                role = "swimmer";
-                            } else if (user instanceof Admin) {
-                                role = "admin";
-                            } else {
-                                role = "unknown";
-                            }
-
-                            switch (role) {
-                                case "tutor":
-                                    startActivity(new Intent(SplashActivity.this, TutorPage.class));
-                                    finish();
-                                    break;
-                                case "swimmer":
-                                    startActivity(new Intent(SplashActivity.this, SwimmerPage.class));
-                                    finish();
-                                    break;
-                                case "admin":
-                                    startActivity(new Intent(SplashActivity.this, AdminPage.class));
-                                    finish();
-                                    break;
-                                default:
-                                    Log.d("CheckRole", "User role is unknown");
-                                    // handle unknown role
-                                    break;
-                            }
-                        }
-
-                        @Override
-                        public void onFailed(Exception e) {
-                            Log.e("CheckRole", "Error getting user", e);
-                        }
-                    });
-
-                } else {
+//                if (authenticationService.isUserSignedIn()) {
+//                    String uid = authenticationService.getCurrentUserId();
+//
+//                    databaseService.getUser(uid, new DatabaseService.DatabaseCallback<User>() {
+//                        @Override
+//                        public void onCompleted(User user) {
+//                            String role;
+//
+//                            if (user instanceof Tutor) {
+//                                role = "tutor";
+//                            } else if (user instanceof Swimmer) {
+//                                role = "swimmer";
+//                            } else if (user instanceof Admin) {
+//                                role = "admin";
+//                            } else {
+//                                role = "unknown";
+//                            }
+//
+//                            switch (role) {
+//                                case "tutor":
+//                                    startActivity(new Intent(SplashActivity.this, TutorPage.class));
+//                                    finish();
+//                                    break;
+//                                case "swimmer":
+//                                    startActivity(new Intent(SplashActivity.this, SwimmerPage.class));
+//                                    finish();
+//                                    break;
+//                                case "admin":
+//                                    startActivity(new Intent(SplashActivity.this, AdminPage.class));
+//                                    finish();
+//                                    break;
+//                                default:
+//                                    Log.d("CheckRole", "User role is unknown");
+//                                    // handle unknown role
+//                                    break;
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onFailed(Exception e) {
+//                            Log.e("CheckRole", "Error getting user", e);
+//                        }
+//                    });
+//
+//                } else {
                     startActivity(new Intent(SplashActivity.this, MainActivity.class));
                     finish();
-                }
+                //}
             }
         }).start();
     }

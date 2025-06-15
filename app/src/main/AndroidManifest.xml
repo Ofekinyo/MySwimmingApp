@@ -34,7 +34,7 @@
             android:name=".screens.SwimmerScheduleActivity"
             android:exported="false" />
         <activity
-            android:name=".screens.TutorScheduleActivity"
+            android:name=".screens.ScheduleActivity"
             android:exported="false" />
         <activity
             android:name=".screens.AdminLoginActivity"

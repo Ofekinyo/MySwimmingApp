@@ -33,7 +33,7 @@ public class SwimmerPage extends BaseActivity {
         });
 
         btnSwimmerSchedule.setOnClickListener(v -> {
-            Intent intent = new Intent(SwimmerPage.this, SwimmerScheduleActivity.class);
+            Intent intent = new Intent(SwimmerPage.this, ScheduleActivity.class);
             startActivity(intent);
         });
     }

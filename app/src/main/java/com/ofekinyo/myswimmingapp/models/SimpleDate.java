@@ -93,13 +93,13 @@ public class SimpleDate implements Comparable<SimpleDate> {
 
     // Helper method to create a SimpleDate from a string in format "YYYY-MM-DD"
     public static SimpleDate fromString(String dateStr) {
-        String[] parts = dateStr.split("-");
+        String[] parts = dateStr.split("/");
         if (parts.length != 3) {
-            throw new IllegalArgumentException("Date string must be in format YYYY-MM-DD");
+            throw new IllegalArgumentException("Date string must be in format DD/MM/YYYY");
         }
-        int year = Integer.parseInt(parts[0]);
-        int month = Integer.parseInt(parts[1]) - 1; // Convert to 0-11
-        int day = Integer.parseInt(parts[2]);
+        int day = Integer.parseInt(parts[0]);
+        int month = Integer.parseInt(parts[1]) - 1; // Convert to 0-based (0 = January)
+        int year = Integer.parseInt(parts[2]);
         return new SimpleDate(year, month, day);
     }
 

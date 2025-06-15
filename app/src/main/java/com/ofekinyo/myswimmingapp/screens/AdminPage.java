@@ -48,21 +48,25 @@ public class AdminPage extends BaseActivity {
             // Initialize buttons
             Button editUserButton = findViewById(R.id.btnUsersList);
             Button addUserButton = findViewById(R.id.btnAddUser);
+            Button btnSchedule = findViewById(R.id.btnTutorSchedule);
 
             Log.d(TAG, "All buttons found successfully");
 
             // Navigate to EditUser Activity
             editUserButton.setOnClickListener(v -> {
-                Log.d(TAG, "Edit user button clicked");
                 Intent intent = new Intent(AdminPage.this, UsersList.class);
                 startActivity(intent);
             });
 
             // Add User Button functionality
             addUserButton.setOnClickListener(v -> {
-                Log.d(TAG, "Add user button clicked");
                 Intent intent = new Intent(AdminPage.this, Register.class);
                 intent.putExtra("admin_verified", true);
+                startActivity(intent);
+            });
+
+            btnSchedule.setOnClickListener(v -> {
+                Intent intent = new Intent(AdminPage.this, ScheduleActivity.class);
                 startActivity(intent);
             });
 
