@@ -5,6 +5,8 @@ public class Schedule {
     private String title;
     private SimpleDate date;
     private SimpleTime time;
+    private String tutorName;
+    private String swimmerName;
 
     // Default constructor required for calls to DataSnapshot.getValue(ScheduleActivity.class)
     public Schedule() {
@@ -17,6 +19,15 @@ public class Schedule {
         this.title = title;
         this.date = date;
         this.time = time;
+    }
+
+    public Schedule(String id, String title, SimpleDate date, SimpleTime time, String tutorName, String swimmerName) {
+        this.id = id;
+        this.title = title;
+        this.date = date;
+        this.time = time;
+        this.tutorName = tutorName;
+        this.swimmerName = swimmerName;
     }
 
     public String getId() {
@@ -49,5 +60,21 @@ public class Schedule {
 
     public void setTime(SimpleTime time) {
         this.time = time;
+    }
+
+    public String getTutorName() {
+        return tutorName;
+    }
+
+    public void setTutorName(String tutorName) {
+        this.tutorName = tutorName;
+    }
+
+    public String getSwimmerName() {
+        return swimmerName;
+    }
+
+    public void setSwimmerName(String swimmerName) {
+        this.swimmerName = swimmerName;
     }
 }

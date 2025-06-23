@@ -68,8 +68,6 @@ public class TutorsList extends BaseActivity {
 
         // Set up search functionality
         setupSearch();
-
-        setupBackButton();
     }
 
     private void setupSearch() {
@@ -149,14 +147,6 @@ public class TutorsList extends BaseActivity {
                 Log.e(TAG, "Error loading tutors", e);
                 Toast.makeText(TutorsList.this, "שגיאה בטעינת המדריכים: " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
-        });
-    }
-
-    private void setupBackButton() {
-        Button backButton = findViewById(R.id.btnBack);
-        backButton.setOnClickListener(v -> {
-            startActivity(new Intent(TutorsList.this, SwimmerPage.class));
-            finish();
         });
     }
 

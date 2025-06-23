@@ -25,6 +25,24 @@
             android:gravity="end"/>
 
         <TextView
+            android:id="@+id/tvTutorName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/blue1_font"
+            android:layout_marginBottom="4dp"
+            android:gravity="end"/>
+
+        <TextView
+            android:id="@+id/tvSwimmerName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/blue1_font"
+            android:layout_marginBottom="4dp"
+            android:gravity="end"/>
+
+        <TextView
             android:id="@+id/tvScheduleDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

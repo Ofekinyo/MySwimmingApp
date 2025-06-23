@@ -12,8 +12,13 @@ public class Swimmer extends User implements Serializable {
     // Constructor with all parameters
 
 
-    public Swimmer(String id, String Fname, String Lname, String phone, String email, Integer age, String gender, String city, String password, String role, double height, double weight) {
-        super(id, Fname, Lname, phone, email, age, gender, city, password, role);
+    public Swimmer(String id, String Fname, String Lname,
+                   String email, String phone, String city,
+                   String gender, Integer age, String password,
+                   Boolean isAdmin, String role, double height, double weight) {
+        super(id, Fname, Lname, email,
+                phone, city, gender, age,
+                password, isAdmin, role);
         this.height = height;
         this.weight = weight;
     }
@@ -67,6 +72,7 @@ public class Swimmer extends User implements Serializable {
                 ", phone='" + phone + '\'' +
                 ", age=" + age +
                 ", password='" + password + '\'' +
+                ", isAdmin='" + isAdmin + '\'' +
                 '}';
     }
 

@@ -36,8 +36,25 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
     public void onBindViewHolder(@NonNull ScheduleViewHolder holder, int position) {
         Schedule schedule = scheduleList.get(position);
         holder.scheduleTitle.setText(schedule.getTitle());
-        holder.scheduleDate.setText("Date: " + schedule.getDate());
-        holder.scheduleTime.setText("Time: " + schedule.getTime());
+        
+        // Display tutor name
+        if (schedule.getTutorName() != null && !schedule.getTutorName().isEmpty()) {
+            holder.tutorName.setText("מדריך: " + schedule.getTutorName());
+            holder.tutorName.setVisibility(View.VISIBLE);
+        } else {
+            holder.tutorName.setVisibility(View.GONE);
+        }
+        
+        // Display swimmer name
+        if (schedule.getSwimmerName() != null && !schedule.getSwimmerName().isEmpty()) {
+            holder.swimmerName.setText("שחיין: " + schedule.getSwimmerName());
+            holder.swimmerName.setVisibility(View.VISIBLE);
+        } else {
+            holder.swimmerName.setVisibility(View.GONE);
+        }
+        
+        holder.scheduleDate.setText("תאריך: " + schedule.getDate());
+        holder.scheduleTime.setText("שעה: " + schedule.getTime());
     }
 
     @Override
@@ -46,11 +63,13 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
     }
 
     static class ScheduleViewHolder extends RecyclerView.ViewHolder {
-        TextView scheduleTitle, scheduleDate, scheduleTime;
+        TextView scheduleTitle, scheduleDate, scheduleTime, tutorName, swimmerName;
 
         public ScheduleViewHolder(@NonNull View itemView) {
             super(itemView);
             scheduleTitle = itemView.findViewById(R.id.tvScheduleTitle);
+            tutorName = itemView.findViewById(R.id.tvTutorName);
+            swimmerName = itemView.findViewById(R.id.tvSwimmerName);
             scheduleDate = itemView.findViewById(R.id.tvScheduleDate);
             scheduleTime = itemView.findViewById(R.id.tvScheduleTime);
         }

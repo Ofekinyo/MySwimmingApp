@@ -67,19 +67,5 @@
             android:layout_weight="1"
             android:overScrollMode="never" />
 
-        <!-- Replaced Back Button -->
-        <Button
-            android:id="@+id/btnBack"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="חזור לעמוד הראשי"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:backgroundTint="@color/blue1_font"
-            android:textColor="@android:color/white"
-            android:drawableStart="@android:drawable/ic_media_previous"
-            android:drawablePadding="8dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="4dp" />
     </LinearLayout>
 </LinearLayout>

@@ -7,7 +7,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ofekinyo.myswimmingapp.R;
-import com.ofekinyo.myswimmingapp.models.Admin;
 import com.ofekinyo.myswimmingapp.models.Swimmer;
 import com.ofekinyo.myswimmingapp.models.Tutor;
 import com.ofekinyo.myswimmingapp.models.User;
@@ -67,9 +66,7 @@ public class Login extends BaseActivity {
             public void onCompleted(User user) {
                 SharedPreferencesUtil.saveUser(Login.this, user);
                 Intent intent = null;
-                if (user instanceof Admin) {
-                    intent = new Intent(Login.this, AdminPage.class);
-                } else if (user instanceof Tutor) {
+                if (user instanceof Tutor) {
                     intent = new Intent(Login.this, TutorPage.class);
                 } else if (user instanceof Swimmer) {
                     intent = new Intent(Login.this, SwimmerPage.class);

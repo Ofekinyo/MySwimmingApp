@@ -30,28 +30,22 @@ public class SharedPreferencesUtil {
         editor.putString("city", user.getCity());
         editor.putString("gender", user.getGender());
         editor.putString("role", user.getRole());  // Save role (Swimmer or Tutor)
+        editor.putBoolean("isAdmin", user.getAdmin() != null ? user.getAdmin() : false);  // Save admin status
         editor.apply();
     }
 
-    // Retrieve user data
-    public static User getUser(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        if (!isUserLoggedIn(context)) {
-            return null;
-        }
-
-        String uid = sharedPreferences.getString("uid", "");
-        String email = sharedPreferences.getString("email", "");
-        String Fname = sharedPreferences.getString("Fname", "");
-        String Lname = sharedPreferences.getString("Lname", "");
-        String phone = (sharedPreferences.getString("phone", "0"));  // Convert safely
-        int age = Integer.parseInt(sharedPreferences.getString("age", "0"));
-        String city = sharedPreferences.getString("city", "");
-        String gender = sharedPreferences.getString("gender", "");
-        String role = sharedPreferences.getString("role", "");  // Retrieve role
-
-        return new User(uid, Fname, Lname, phone, email, age, gender, city, "", role);
+    // Check if user is logged in
+    public static boolean isUserAdmin(Context context) {
+        return context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).getBoolean("isAdmin", false);
     }
+
+    public static void setUserIsAdmin(Context context, boolean isAdmin) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("isAdmin", isAdmin);
+        editor.apply();
+    }
+
 
     // Check if user is logged in
     public static boolean isUserLoggedIn(Context context) {

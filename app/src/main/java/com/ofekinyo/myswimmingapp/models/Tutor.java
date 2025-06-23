@@ -8,8 +8,8 @@ import java.util.List;
 
 public class Tutor extends User implements Serializable {
     private List<String> sessionTypes;
-    private double price;                // Coaching price - now nullable
-    private int experience;          // Years of experience - now nullable
+    private double price;       // Coaching price - now nullable
+    private int experience;      // Years of experience - now nullable
     private List<Schedule> schedules;
 
     // No-argument constructor required by Firebase
@@ -19,9 +19,11 @@ public class Tutor extends User implements Serializable {
     }
 
     // Constructor with all parameters
-    public Tutor(String id, String fname, String lname, String phone, String email, Integer age, String password, String gender,
-                 String city, String role, List<String> sessionTypes, int experience, double price, List<Schedule> schedules) {
-        super(id, fname, lname, phone, email, age, gender, city, password, role);
+    public Tutor(String id, String fname, String lname, String email, String phone, String city, String gender,
+                 Integer age, String password, Boolean isAdmin,
+                 String role, List<String> sessionTypes, int experience, double price,
+                 List<Schedule> schedules) {
+        super(id, fname, lname,  email,phone, city,  gender, age,password, isAdmin, role);
         this.sessionTypes = sessionTypes;
         this.experience = experience;
         this.price = price;
@@ -29,7 +31,10 @@ public class Tutor extends User implements Serializable {
     }
 
     public Tutor(Tutor tutor) {
-        super(tutor.id, tutor.fname, tutor.lname, tutor.phone, tutor.email, tutor.age, tutor.gender, tutor.city, tutor.password, tutor.role);
+        super(tutor.id, tutor.fname, tutor.lname,
+                tutor.email, tutor.phone, tutor.city,
+                tutor.gender, tutor.age, tutor.password,
+                tutor.isAdmin, tutor.role);
         this.sessionTypes = new ArrayList<>(tutor.sessionTypes);
         this.experience = tutor.experience;
         this.price = tutor.price;
@@ -98,6 +103,7 @@ public class Tutor extends User implements Serializable {
                 ", phone='" + phone + '\'' +
                 ", age=" + age +
                 ", password='" + password + '\'' +
+                ", isAdmin='" + isAdmin + '\'' +
                 '}';
     }
 }

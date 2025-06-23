@@ -1,244 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@drawable/water_gradient_bg"
-    android:fillViewport="true"
     android:fitsSystemWindows="true">
 
-    <LinearLayout
+    <include layout="@layout/toolbar_main" />
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="32dp"
-        android:paddingBottom="16dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:orientation="vertical"
-        tools:context=".screens.Register">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        <!-- Headline -->
-        <TextView
-            android:id="@+id/tvHeadline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:paddingBottom="8dp"
-            android:text="הרשמה"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:shadowColor="#000000"
-            android:shadowRadius="4"/>
-
-        <!-- Basic Information Section -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="פרטים בסיסיים"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"/>
-
-        <!-- First Name -->
-        <EditText
-            android:id="@+id/etFirstName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="שם פרטי"
-            android:inputType="textPersonName"
-            android:minHeight="48dp"
-            android:padding="12dp"
-            android:background="@drawable/rounded_transparent_bg"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"/>
-
-        <!-- Last Name -->
-        <EditText
-            android:id="@+id/etLastName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="שם משפחה"
-            android:inputType="textPersonName"
-            android:minHeight="48dp"
-            android:padding="12dp"
-            android:background="@drawable/rounded_transparent_bg"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"/>
-
-        <!-- Email -->
-        <EditText
-            android:id="@+id/etEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="אימייל"
-            android:inputType="textEmailAddress"
-            android:minHeight="48dp"
-            android:padding="12dp"
-            android:background="@drawable/rounded_transparent_bg"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"/>
-
-        <!-- Phone -->
-        <EditText
-            android:id="@+id/etPhone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="טלפון"
-            android:inputType="phone"
-            android:minHeight="48dp"
-            android:padding="12dp"
-            android:background="@drawable/rounded_transparent_bg"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"/>
-
-        <!-- Spinner for Cities -->
-        <Spinner
-            android:id="@+id/spinnerCities"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/rounded_transparent_bg"
-            android:popupBackground="@color/white"/>
-
-        <!-- Gender EditText -->
-        <EditText
-            android:id="@+id/etGender"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="מגדר"
-            android:layout_marginTop="8dp"
-            android:inputType="text"
-            android:minHeight="48dp"
-            android:padding="12dp"
-            android:background="@drawable/rounded_transparent_bg"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"/>
-
-        <!-- Age EditText -->
-        <EditText
-            android:id="@+id/etAge"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="גיל"
-            android:layout_marginTop="8dp"
-            android:inputType="number"
-            android:minHeight="48dp"
-            android:padding="12dp"
-            android:background="@drawable/rounded_transparent_bg"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"/>
-
-        <!-- Password -->
-        <EditText
-            android:id="@+id/etPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="סיסמה"
-            android:inputType="textPassword"
-            android:minHeight="48dp"
-            android:padding="12dp"
-            android:background="@drawable/rounded_transparent_bg"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"/>
-
-        <!-- Role Selection -->
-        <TextView
-            android:id="@+id/roleSelectionLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="בחר תפקיד"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"/>
-
-        <RadioGroup
-            android:id="@+id/radioGroup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-
-            <RadioButton
-                android:id="@+id/radioTutor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="מדריך" />
-
-            <RadioButton
-                android:id="@+id/radioSwimmer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="שחיין" />
-
-            <RadioButton
-                android:id="@+id/radioAdmin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="מנהל"
-                android:textColor="@color/white" />
-
-        </RadioGroup>
-
-        <!-- Admin Passkey Field (Initially Hidden) -->
-        <EditText
-            android:id="@+id/etAdminPasskey"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="הכנס קוד מנהל"
-            android:inputType="textPassword"
-            android:visibility="gone"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:padding="12dp"
-            android:background="@drawable/rounded_transparent_bg"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"/>
-
-        <!-- Verify Admin Button (Initially Hidden) -->
-        <Button
-            android:id="@+id/btnVerifyAdmin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="אמת קוד"
-            android:visibility="gone"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/rounded_button_blue"
-            android:textColor="@color/white"/>
-
-        <!-- Tutor Specific Fields -->
         <LinearLayout
-            android:id="@+id/tutorFieldsContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="32dp"
+            android:paddingBottom="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:orientation="vertical"
-            android:visibility="gone">
+            tools:context=".screens.Register">
 
+            <!-- Headline -->
+            <TextView
+                android:id="@+id/tvHeadline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingBottom="8dp"
+                android:text="הרשמה"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:shadowColor="#000000"
+                android:shadowRadius="4"/>
+
+            <!-- Basic Information Section -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="פרטי מדריך"
+                android:text="פרטים בסיסיים"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"/>
 
+            <!-- First Name -->
             <EditText
-                android:id="@+id/etExperience"
+                android:id="@+id/etFirstName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="שנות ניסיון"
+                android:layout_marginTop="8dp"
+                android:hint="שם פרטי"
+                android:inputType="textPersonName"
+                android:minHeight="48dp"
+                android:padding="12dp"
+                android:background="@drawable/rounded_transparent_bg"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"/>
+
+            <!-- Last Name -->
+            <EditText
+                android:id="@+id/etLastName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="שם משפחה"
+                android:inputType="textPersonName"
+                android:minHeight="48dp"
+                android:padding="12dp"
+                android:background="@drawable/rounded_transparent_bg"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"/>
+
+            <!-- Email -->
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="אימייל"
+                android:inputType="textEmailAddress"
+                android:minHeight="48dp"
+                android:padding="12dp"
+                android:background="@drawable/rounded_transparent_bg"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"/>
+
+            <!-- Phone -->
+            <EditText
+                android:id="@+id/etPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="טלפון"
+                android:inputType="phone"
+                android:minHeight="48dp"
+                android:padding="12dp"
+                android:background="@drawable/rounded_transparent_bg"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"/>
+
+            <!-- Spinner for Cities -->
+            <Spinner
+                android:id="@+id/spinnerCities"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_transparent_bg"
+                android:popupBackground="@color/white"/>
+
+            <!-- Gender EditText -->
+            <EditText
+                android:id="@+id/etGender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="מגדר"
+                android:layout_marginTop="8dp"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:padding="12dp"
+                android:background="@drawable/rounded_transparent_bg"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"/>
+
+            <!-- Age EditText -->
+            <EditText
+                android:id="@+id/etAge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="גיל"
+                android:layout_marginTop="8dp"
                 android:inputType="number"
                 android:minHeight="48dp"
                 android:padding="12dp"
@@ -246,135 +143,213 @@
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"/>
 
+            <!-- Password -->
             <EditText
-                android:id="@+id/etPrice"
+                android:id="@+id/etPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="מחיר לשיעור"
-                android:inputType="numberDecimal"
                 android:layout_marginTop="8dp"
+                android:hint="סיסמה"
+                android:inputType="textPassword"
                 android:minHeight="48dp"
                 android:padding="12dp"
                 android:background="@drawable/rounded_transparent_bg"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"/>
 
+            <!-- Role Selection -->
             <TextView
+                android:id="@+id/roleSelectionLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="סוגי שיעורים"
-                android:textColor="@color/white"
-                android:layout_marginTop="8dp"/>
-
-            <CheckBox
-                android:id="@+id/cbBeginner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="שחייה למתחילים"
-                android:textColor="@color/white"/>
-
-            <CheckBox
-                android:id="@+id/cbAdvanced"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="טכניקה מתקדמת"
-                android:textColor="@color/white"/>
-
-            <CheckBox
-                android:id="@+id/cbCompetitive"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="אימון תחרותי"
-                android:textColor="@color/white"/>
-
-            <CheckBox
-                android:id="@+id/cbSafety"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="בטיחות והישרדות במים"
-                android:textColor="@color/white"/>
-
-            <CheckBox
-                android:id="@+id/cbRehab"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="שיקום ותרפיה"
-                android:textColor="@color/white"/>
-
-            <CheckBox
-                android:id="@+id/cbInfants"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="תינוקות ופעוטות"
-                android:textColor="@color/white"/>
-        </LinearLayout>
-
-        <!-- Swimmer Specific Fields -->
-        <LinearLayout
-            android:id="@+id/swimmerFieldsContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="פרטי שחיין"
+                android:text="בחר תפקיד"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"/>
 
-            <EditText
-                android:id="@+id/etHeight"
+            <RadioGroup
+                android:id="@+id/radioGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="גובה (בס״מ)"
-                android:inputType="numberDecimal"
-                android:minHeight="48dp"
-                android:padding="12dp"
-                android:background="@drawable/rounded_transparent_bg"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"/>
+                android:orientation="horizontal"
+                android:gravity="center">
 
-            <EditText
-                android:id="@+id/etWeight"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="משקל (בק״ג)"
-                android:inputType="numberDecimal"
-                android:layout_marginTop="8dp"
-                android:minHeight="48dp"
-                android:padding="12dp"
-                android:background="@drawable/rounded_transparent_bg"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"/>
+                <RadioButton
+                    android:id="@+id/radioTutor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="מדריך" />
 
-            <EditText
-                android:id="@+id/etGoal"
+                <RadioButton
+                    android:id="@+id/radioSwimmer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="שחיין" />
+
+            </RadioGroup>
+
+            <!-- Tutor Specific Fields -->
+            <LinearLayout
+                android:id="@+id/tutorFieldsContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="מטרת אימון"
-                android:inputType="textMultiLine"
-                android:layout_marginTop="8dp"
-                android:minHeight="48dp"
-                android:padding="12dp"
-                android:background="@drawable/rounded_transparent_bg"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="פרטי מדריך"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="8dp"/>
+
+                <EditText
+                    android:id="@+id/etExperience"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="שנות ניסיון"
+                    android:inputType="number"
+                    android:minHeight="48dp"
+                    android:padding="12dp"
+                    android:background="@drawable/rounded_transparent_bg"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"/>
+
+                <EditText
+                    android:id="@+id/etPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="מחיר לשיעור"
+                    android:inputType="numberDecimal"
+                    android:layout_marginTop="8dp"
+                    android:minHeight="48dp"
+                    android:padding="12dp"
+                    android:background="@drawable/rounded_transparent_bg"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="סוגי שיעורים"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="8dp"/>
+
+                <CheckBox
+                    android:id="@+id/cbBeginner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="שחייה למתחילים"
+                    android:textColor="@color/white"/>
+
+                <CheckBox
+                    android:id="@+id/cbAdvanced"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="טכניקה מתקדמת"
+                    android:textColor="@color/white"/>
+
+                <CheckBox
+                    android:id="@+id/cbCompetitive"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="אימון תחרותי"
+                    android:textColor="@color/white"/>
+
+                <CheckBox
+                    android:id="@+id/cbSafety"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="בטיחות והישרדות במים"
+                    android:textColor="@color/white"/>
+
+                <CheckBox
+                    android:id="@+id/cbRehab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="שיקום ותרפיה"
+                    android:textColor="@color/white"/>
+
+                <CheckBox
+                    android:id="@+id/cbInfants"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="תינוקות ופעוטות"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
+
+            <!-- Swimmer Specific Fields -->
+            <LinearLayout
+                android:id="@+id/swimmerFieldsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="פרטי שחיין"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="8dp"/>
+
+                <EditText
+                    android:id="@+id/etHeight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="גובה (בס״מ)"
+                    android:inputType="numberDecimal"
+                    android:minHeight="48dp"
+                    android:padding="12dp"
+                    android:background="@drawable/rounded_transparent_bg"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"/>
+
+                <EditText
+                    android:id="@+id/etWeight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="משקל (בק״ג)"
+                    android:inputType="numberDecimal"
+                    android:layout_marginTop="8dp"
+                    android:minHeight="48dp"
+                    android:padding="12dp"
+                    android:background="@drawable/rounded_transparent_bg"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"/>
+
+                <EditText
+                    android:id="@+id/etGoal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="מטרה כללית"
+                    android:inputType="textMultiLine"
+                    android:layout_marginTop="8dp"
+                    android:minHeight="48dp"
+                    android:padding="12dp"
+                    android:background="@drawable/rounded_transparent_bg"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="הרשמה"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rounded_button_blue"
                 android:textColor="@color/white"
-                android:textColorHint="@color/white"/>
+                android:padding="12dp"/>
+
         </LinearLayout>
-
-        <Button
-            android:id="@+id/btnRegister"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="הרשמה"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/rounded_button_blue"
-            android:textColor="@color/white"
-            android:padding="12dp"/>
-
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+</LinearLayout>

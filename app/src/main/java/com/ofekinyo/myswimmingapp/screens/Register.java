@@ -1,10 +1,8 @@
 package com.ofekinyo.myswimmingapp.screens;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -15,15 +13,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
-import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.models.Swimmer;
 import com.ofekinyo.myswimmingapp.models.Tutor;
-import com.ofekinyo.myswimmingapp.models.User;
-import com.ofekinyo.myswimmingapp.models.Admin;
 import com.ofekinyo.myswimmingapp.services.AuthenticationService;
 import com.ofekinyo.myswimmingapp.services.DatabaseService;
 import com.ofekinyo.myswimmingapp.utils.SharedPreferencesUtil;
@@ -33,21 +26,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Register extends AppCompatActivity {
+public class Register extends BaseActivity {
 
     private static final String TAG = "Register";
-    private static final String ADMIN_PASSKEY = "NewAdminCreate!";
     private EditText etFName, etLName, etEmail, etPhone, etPassword, etGender, etAge;
     private EditText etExperience, etPrice; // Tutor fields
     private EditText etHeight, etWeight, etGoal; // Swimmer fields
-    private EditText etAdminPasskey; // Admin passkey field
-    private Button btnRegister, btnVerifyAdmin;
+    private Button btnRegister;
     private CheckBox cbBeginner, cbAdvanced, cbCompetitive, cbSafety, cbRehab, cbInfants;
     private Spinner spCity;
     private RadioGroup radioGroup;
-    private RadioButton radioTutor, radioSwimmer, radioAdmin;
+    private RadioButton radioTutor, radioSwimmer;
     private LinearLayout tutorFieldsContainer, swimmerFieldsContainer;
-    private boolean isAdminVerified = false;
 
     private AuthenticationService authService;
     private DatabaseService dbService;
@@ -56,7 +46,7 @@ public class Register extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
+        setupToolbar("הרשמה");
         authService = AuthenticationService.getInstance();
         dbService = DatabaseService.getInstance();
 
@@ -65,52 +55,13 @@ public class Register extends AppCompatActivity {
         setupRoleSelection();
 
         btnRegister.setOnClickListener(v -> handleRegistration());
-        btnVerifyAdmin.setOnClickListener(v -> verifyAdminPasskey());
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
-        
-        // Check if returning from successful admin verification
-        if (intent.getBooleanExtra("admin_verified", false)) {
-            disableRoleSelection();
-        }
-    }
 
-    private void disableRoleSelection() {
-        // Change headline for admin registration
-        ((TextView) findViewById(R.id.tvHeadline)).setText("הרשמת מנהל חדש");
-        
-        // Completely disable role selection
-        radioGroup.setEnabled(false);
-        radioAdmin.setChecked(true);
-        radioTutor.setEnabled(false);
-        radioSwimmer.setEnabled(false);
-        radioAdmin.setEnabled(false);
-        
-        // Make radio buttons non-clickable
-        radioTutor.setClickable(false);
-        radioSwimmer.setClickable(false);
-        radioAdmin.setClickable(false);
-        
-        // Force admin selection if somehow changed
-        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            radioAdmin.setChecked(true);
-            radioTutor.setChecked(false);
-            radioSwimmer.setChecked(false);
-        });
-        
-        // Hide role selection label since role is fixed
-        TextView roleLabel = findViewById(R.id.roleSelectionLabel);
-        if (roleLabel != null) {
-            roleLabel.setText("תפקיד: מנהל");
-        }
-        
-        // Hide role-specific containers
-        tutorFieldsContainer.setVisibility(View.GONE);
-        swimmerFieldsContainer.setVisibility(View.GONE);
     }
 
     private void initViews() {
@@ -127,11 +78,6 @@ public class Register extends AppCompatActivity {
         radioGroup = findViewById(R.id.radioGroup);
         radioTutor = findViewById(R.id.radioTutor);
         radioSwimmer = findViewById(R.id.radioSwimmer);
-        radioAdmin = findViewById(R.id.radioAdmin);
-
-        // Admin fields
-        etAdminPasskey = findViewById(R.id.etAdminPasskey);
-        btnVerifyAdmin = findViewById(R.id.btnVerifyAdmin);
 
         // Containers
         tutorFieldsContainer = findViewById(R.id.tutorFieldsContainer);
@@ -155,8 +101,26 @@ public class Register extends AppCompatActivity {
 
     private void setupCitySpinner() {
         ArrayList<String> cities = new ArrayList<>(Arrays.asList(
-                "Tel Aviv", "Jerusalem", "Haifa", "Eilat", "Beersheba", "Nazareth",
-                "Petah Tikva", "Ashdod", "Netanya", "Rishon Lezion"
+                "Jerusalem",
+                "Tel Aviv",
+                "Haifa",
+                "Rishon Lezion",
+                "Petah Tikva",
+                "Ashdod",
+                "Netanya",
+                "Beersheba",
+                "Holon",
+                "Bat Yam",
+                "Ramat Gan",
+                "Herzliya",
+                "Rehovot",
+                "Nazareth",
+                "Eilat",
+                "Kfar Saba",
+                "Hadera",
+                "Modiin",
+                "Lod",
+                "Ramla"
         ));
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, cities);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -169,8 +133,6 @@ public class Register extends AppCompatActivity {
                 showTutorFields();
             } else if (checkedId == R.id.radioSwimmer) {
                 showSwimmerFields();
-            } else if (checkedId == R.id.radioAdmin) {
-                showAdminFields();
             }
         });
     }
@@ -178,41 +140,15 @@ public class Register extends AppCompatActivity {
     private void showTutorFields() {
         tutorFieldsContainer.setVisibility(View.VISIBLE);
         swimmerFieldsContainer.setVisibility(View.GONE);
-        etAdminPasskey.setVisibility(View.GONE);
-        btnVerifyAdmin.setVisibility(View.GONE);
         btnRegister.setEnabled(true);
     }
 
     private void showSwimmerFields() {
         tutorFieldsContainer.setVisibility(View.GONE);
         swimmerFieldsContainer.setVisibility(View.VISIBLE);
-        etAdminPasskey.setVisibility(View.GONE);
-        btnVerifyAdmin.setVisibility(View.GONE);
         btnRegister.setEnabled(true);
     }
 
-    private void showAdminFields() {
-        tutorFieldsContainer.setVisibility(View.GONE);
-        swimmerFieldsContainer.setVisibility(View.GONE);
-        etAdminPasskey.setVisibility(View.VISIBLE);
-        btnVerifyAdmin.setVisibility(View.VISIBLE);
-        btnRegister.setEnabled(false); // Disable registration until passkey is verified
-    }
-
-    private void verifyAdminPasskey() {
-        String enteredPasskey = etAdminPasskey.getText().toString().trim();
-        
-        if (enteredPasskey.equals(ADMIN_PASSKEY)) {
-            isAdminVerified = true;
-            Toast.makeText(this, "קוד נכון!", Toast.LENGTH_SHORT).show();
-            etAdminPasskey.setEnabled(false);
-            btnVerifyAdmin.setEnabled(false);
-            btnRegister.setEnabled(true);
-        } else {
-            Toast.makeText(this, "קוד לא נכון", Toast.LENGTH_SHORT).show();
-            etAdminPasskey.setText("");
-        }
-    }
 
     private void handleRegistration() {
         // Get basic user information
@@ -236,8 +172,6 @@ public class Register extends AppCompatActivity {
             role = "Tutor";
         } else if (radioSwimmer.isChecked()) {
             role = "Swimmer";
-        } else if (radioAdmin.isChecked() && isAdminVerified) {
-            role = "Admin";
         } else {
             Toast.makeText(Register.this, "יש לבחור תפקיד", Toast.LENGTH_SHORT).show();
             return;
@@ -335,9 +269,6 @@ public class Register extends AppCompatActivity {
                     case "Swimmer":
                         createSwimmer(userId, fname, lname, email, phone, city, gender, age, password);
                         break;
-                    case "Admin":
-                        createAdmin(userId, fname, lname, email, phone, city, gender, age, password);
-                        break;
                 }
             }
 
@@ -353,10 +284,8 @@ public class Register extends AppCompatActivity {
     private void createTutor(String userId, String fname, String lname, String email, String phone,
                            String city, String gender, int age, String password) {
         // Create tutor with null values for optional fields first
-        // TODO fix experience and price
-        Tutor tutor = new Tutor(userId, fname, lname, phone, email, age, password, gender, city,
+        Tutor tutor = new Tutor(userId, fname, lname, email, phone, city, gender, age, password,false,
                 "Tutor", null, 0, 0, new ArrayList<>());
-        
         // Add tutor-specific fields
         tutor.setExperience(Integer.parseInt(etExperience.getText().toString().trim()));
         tutor.setPrice(Double.parseDouble(etPrice.getText().toString().trim()));
@@ -387,12 +316,14 @@ public class Register extends AppCompatActivity {
         });
     }
 
-    private void createSwimmer(String userId, String fname, String lname, String email, String phone,
+    private void createSwimmer(String userId, String fname, String lname,
+                               String email, String phone,
                              String city, String gender, int age, String password) {
         double height = Double.parseDouble(etHeight.getText().toString().trim());
         double weight = Double.parseDouble(etWeight.getText().toString().trim());
         
-        Swimmer swimmer = new Swimmer(userId, fname, lname, phone, email, age, gender, city, password, "Swimmer", height, weight);
+        Swimmer swimmer = new Swimmer(userId, fname, lname, email, phone, city, gender,
+                age,  password, false,  "Swimmer", height, weight);
         swimmer.setGoal(etGoal.getText().toString().trim());
 
         // Save swimmer data
@@ -412,37 +343,11 @@ public class Register extends AppCompatActivity {
         });
     }
 
-    private void createAdmin(String userId, String fname, String lname, String email, String phone,
-                           String city, String gender, int age, String password) {
-        // Create admin with all required fields
-        Admin admin = new Admin(userId, fname, lname, phone, email, age, password, gender, city, "Admin");
-        
-        // Save admin data
-        dbService.createNewAdmin(admin, new DatabaseService.DatabaseCallback<Void>() {
-            @Override
-            public void onCompleted(Void aVoid) {
-                SharedPreferencesUtil.saveUser(Register.this, admin);
-                navigateToNextScreen("Admin");
-            }
-
-            @Override
-            public void onFailed(Exception e) {
-                Log.e(TAG, "Error saving admin data", e);
-                Toast.makeText(Register.this, "שגיאה בשמירת פרטי המנהל", 
-                             Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-
     private void navigateToNextScreen(String role) {
         Log.d(TAG, "Starting navigation to next screen for role: " + role);
         Toast.makeText(Register.this, "הרשמה בוצעה בהצלחה!", Toast.LENGTH_LONG).show();
         Intent intent;
         switch (role) {
-            case "Admin":
-                Log.d(TAG, "Creating intent for AdminPage");
-                intent = new Intent(Register.this, AdminPage.class);
-                break;
             case "Tutor":
                 Log.d(TAG, "Creating intent for TutorPage");
                 intent = new Intent(Register.this, TutorPage.class);

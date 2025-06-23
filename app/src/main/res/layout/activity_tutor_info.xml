@@ -169,15 +169,6 @@
             android:layout_height="wrap_content"
             android:text="Session Types"
             android:textColor="@color/white" />
-        <!-- Back Button -->
-        <Button
-            android:id="@+id/btnBack"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="חזור"
-            android:background="@drawable/rounded_button_red"
-            android:textColor="@color/white" />
     </LinearLayout>
 
 </ScrollView>

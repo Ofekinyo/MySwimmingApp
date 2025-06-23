@@ -66,17 +66,6 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             android:layout_marginBottom="12dp" />
-
-        <!-- Admin Login Button -->
-        <Button
-            android:id="@+id/btnAdminLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="התחברות מנהל"
-            android:background="@drawable/rounded_button_red"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:layout_marginBottom="12dp" />
     </LinearLayout>
 
     <!-- Motivational Quote -->

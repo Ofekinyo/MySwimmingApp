@@ -49,10 +49,10 @@
 
     <!-- ScheduleActivity for swimmers-->
     <Button
-        android:id="@+id/btnSwimmerSchedule"
+        android:id="@+id/btnAdminSchedule"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="השיעורים שלי"
+        android:text="כל השיעורים"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:elevation="4dp"

@@ -14,6 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.screens.About;
 import com.ofekinyo.myswimmingapp.screens.Account;
+import com.ofekinyo.myswimmingapp.screens.AdminPage;
 import com.ofekinyo.myswimmingapp.screens.Login;
 import com.ofekinyo.myswimmingapp.services.AuthenticationService;
 import com.ofekinyo.myswimmingapp.services.DatabaseService;
@@ -51,6 +52,17 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // Show admin menu item only if user is admin
+        MenuItem adminItem = menu.findItem(R.id.action_admin);
+        if (adminItem != null) {
+            boolean isAdmin = SharedPreferencesUtil.isUserAdmin(this);
+            adminItem.setVisible(isAdmin);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
         
@@ -60,6 +72,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         } else if (itemId == R.id.action_about) {
             startActivity(new Intent(this, About.class));
             return true;
+        } else if (itemId == R.id.action_admin) {
+            startActivity(new Intent(this, AdminPage.class));
+            return true;
         } else if (itemId == R.id.action_logout) {
             authenticationService.signOut();
             SharedPreferencesUtil.signOutUser(this);
@@ -68,6 +83,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             startActivity(intent);
             return true;
         } else if (itemId == R.id.action_back) {
+            finish();
             return true;
         }
         

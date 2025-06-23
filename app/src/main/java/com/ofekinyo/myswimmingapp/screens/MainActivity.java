@@ -10,7 +10,7 @@ import com.ofekinyo.myswimmingapp.base.BaseActivity;
 public class MainActivity extends BaseActivity {
 
     private static final String TAG = "MainActivity";
-    private Button loginButton, registerButton, adminLoginButton;
+    private Button loginButton, registerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +20,6 @@ public class MainActivity extends BaseActivity {
 
         loginButton = findViewById(R.id.btnLogin);
         registerButton = findViewById(R.id.btnRegister);
-        adminLoginButton = findViewById(R.id.btnAdminLogin);
 
         // Set up button click listeners
         loginButton.setOnClickListener(v -> {
@@ -31,11 +30,6 @@ public class MainActivity extends BaseActivity {
         registerButton.setOnClickListener(v -> {
             Intent registerIntent = new Intent(MainActivity.this, Register.class);
             startActivity(registerIntent);
-        });
-
-        adminLoginButton.setOnClickListener(v -> {
-            Intent adminLoginIntent = new Intent(MainActivity.this, AdminLoginActivity.class);
-            startActivity(adminLoginIntent);
         });
     }
 

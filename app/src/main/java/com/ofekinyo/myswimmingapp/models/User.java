@@ -8,9 +8,12 @@ public class User implements Serializable {
     protected String id, fname, lname, email, gender, city, role, phone;
     protected Integer age; // Changed from int to Integer
     protected String password;
+    protected Boolean isAdmin;
 
     // Constructor with all parameters
-    public User(String id, String fname, String lname, String phone, String email, Integer age, String gender, String city, String password, String role) {
+    public User(String id, String fname, String lname, String email,
+                String phone, String city,String gender,
+                Integer age ,String password, Boolean isAdmin ,String role) {
         this.id = id;
         this.fname = fname;
         this.lname = lname;
@@ -21,10 +24,13 @@ public class User implements Serializable {
         this.city = city;
         this.password = password;
         this.role = role;
+        this.isAdmin = isAdmin != null ? isAdmin : false;
     }
 
     // Default constructor
-    public User() {}
+    public User() {
+        this.isAdmin = false;
+    }
 
     // Copy constructor
     public User(User user) {
@@ -37,6 +43,7 @@ public class User implements Serializable {
         this.gender = user.gender;
         this.city = user.city;
         this.role = user.role;
+        this.isAdmin = user.isAdmin;
     }
 
     // Getters and Setters
@@ -120,7 +127,13 @@ public class User implements Serializable {
         this.role = role;
     }
 
+    public Boolean getAdmin() {
+        return isAdmin;
+    }
 
+    public void setAdmin(Boolean admin) {
+        isAdmin = admin;
+    }
 
     @Override
     public String toString() {
@@ -128,12 +141,14 @@ public class User implements Serializable {
                 "id='" + id + '\'' +
                 ", fname='" + fname + '\'' +
                 ", lname='" + lname + '\'' +
-                ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
-                ", age=" + age +
                 ", gender='" + gender + '\'' +
                 ", city='" + city + '\'' +
                 ", role='" + role + '\'' +
+                ", phone='" + phone + '\'' +
+                ", age=" + age +
+                ", password='" + password + '\'' +
+                ", isAdmin=" + isAdmin +
                 '}';
     }
 

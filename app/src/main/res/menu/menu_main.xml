@@ -13,6 +13,11 @@
         app:showAsAction="never"/>
 
     <item
+        android:id="@+id/action_admin"
+        android:title="ניהול מערכת"
+        app:showAsAction="never"/>
+
+    <item
         android:id="@+id/action_logout"
         android:title="התנתק"
         app:showAsAction="never"/>

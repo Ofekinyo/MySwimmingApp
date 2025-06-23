@@ -1,7 +1,9 @@
 package com.ofekinyo.myswimmingapp.screens;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,10 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.adapters.UserAdapter;
 import com.ofekinyo.myswimmingapp.base.BaseActivity;
-import com.ofekinyo.myswimmingapp.models.Admin;
 import com.ofekinyo.myswimmingapp.models.Swimmer;
 import com.ofekinyo.myswimmingapp.models.Tutor;
 import com.ofekinyo.myswimmingapp.models.User;
+import com.ofekinyo.myswimmingapp.services.AuthenticationService;
 import com.ofekinyo.myswimmingapp.services.DatabaseService;
 
 import java.util.ArrayList;
@@ -24,7 +26,6 @@ public class UsersList extends BaseActivity {
     private RecyclerView recyclerView;
     private UserAdapter adapter;
     private List<User> users;
-    private DatabaseService databaseService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,51 @@ public class UsersList extends BaseActivity {
         setContentView(R.layout.activity_users_list);
         setupToolbar("רשימת משתמשים");
 
+        // Verify admin privileges first
+        verifyAdminAccess();
+    }
+
+    private void verifyAdminAccess() {
+        String currentUserId = AuthenticationService.getInstance().getCurrentUserId();
+        if (currentUserId == null) {
+            // User not logged in, redirect to login
+            Intent intent = new Intent(this, Login.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
+        databaseService.getUser(currentUserId, new DatabaseService.DatabaseCallback<User>() {
+            @Override
+            public void onCompleted(User user) {
+                if (user != null && user.getAdmin() != null && user.getAdmin()) {
+                    // User is admin, proceed with initialization
+                    initializeViews();
+                } else {
+                    // User is not admin, redirect to login
+                    Toast.makeText(UsersList.this, "Access denied. Admin privileges required.", Toast.LENGTH_LONG).show();
+                    authenticationService.signOut();
+                    Intent intent = new Intent(UsersList.this, Login.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+                Log.e(TAG, "Error verifying admin status", e);
+                Toast.makeText(UsersList.this, "Error verifying admin status", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(UsersList.this, Login.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            }
+        });
+    }
+
+    private void initializeViews() {
         recyclerView = findViewById(R.id.recyclerViewUsers);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         
@@ -58,15 +104,11 @@ public class UsersList extends BaseActivity {
                     case "Swimmer":
                         databaseService.createNewSwimmer((Swimmer) user, callback);
                         break;
-                    case "Admin":
-                        databaseService.createNewAdmin((Admin) user, callback);
-                        break;
                 }
             }
         });
         recyclerView.setAdapter(adapter);
         
-        databaseService = DatabaseService.getInstance();
         loadUsers();
     }
 
@@ -87,17 +129,6 @@ public class UsersList extends BaseActivity {
             @Override
             public void onCompleted(List<Swimmer> swimmers) {
                 adapter.addUsers(swimmers);
-            }
-
-            @Override
-            public void onFailed(Exception e) {
-
-            }
-        });
-        databaseService.getAllAdmins(new DatabaseService.DatabaseCallback<List<Admin>>() {
-            @Override
-            public void onCompleted(List<Admin> admins) {
-                adapter.addUsers(admins);
             }
 
             @Override

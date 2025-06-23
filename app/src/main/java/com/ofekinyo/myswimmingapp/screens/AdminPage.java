@@ -8,6 +8,9 @@ import android.widget.Toast;
 
 import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.base.BaseActivity;
+import com.ofekinyo.myswimmingapp.models.User;
+import com.ofekinyo.myswimmingapp.services.AuthenticationService;
+import com.ofekinyo.myswimmingapp.services.DatabaseService;
 
 public class AdminPage extends BaseActivity {
 
@@ -27,8 +30,8 @@ public class AdminPage extends BaseActivity {
 
             Log.d(TAG, "AuthService initialized");
 
-            initializeButtons();
-            Log.d(TAG, "Button initialization completed");
+            // Verify admin privileges
+            verifyAdminAccess();
             
         } catch (Exception e) {
             Log.e(TAG, "Error in onCreate", e);
@@ -43,12 +46,53 @@ public class AdminPage extends BaseActivity {
         }
     }
 
+    private void verifyAdminAccess() {
+        String currentUserId = AuthenticationService.getInstance().getCurrentUserId();
+        if (currentUserId == null) {
+            // User not logged in, redirect to login
+            Intent intent = new Intent(this, Login.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
+        databaseService.getUser(currentUserId, new DatabaseService.DatabaseCallback<User>() {
+            @Override
+            public void onCompleted(User user) {
+                if (user != null && user.getAdmin() != null && user.getAdmin()) {
+                    // User is admin, proceed with initialization
+                    initializeButtons();
+                    Log.d(TAG, "Button initialization completed");
+                } else {
+                    // User is not admin, redirect to login
+                    Toast.makeText(AdminPage.this, "Access denied. Admin privileges required.", Toast.LENGTH_LONG).show();
+                    authenticationService.signOut();
+                    Intent intent = new Intent(AdminPage.this, Login.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+                Log.e(TAG, "Error verifying admin status", e);
+                Toast.makeText(AdminPage.this, "Error verifying admin status", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(AdminPage.this, Login.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            }
+        });
+    }
+
     private void initializeButtons() {
         try {
             // Initialize buttons
             Button editUserButton = findViewById(R.id.btnUsersList);
             Button addUserButton = findViewById(R.id.btnAddUser);
-            Button btnSchedule = findViewById(R.id.btnTutorSchedule);
+            Button btnSchedule = findViewById(R.id.btnAdminSchedule);
 
             Log.d(TAG, "All buttons found successfully");
 
@@ -67,6 +111,7 @@ public class AdminPage extends BaseActivity {
 
             btnSchedule.setOnClickListener(v -> {
                 Intent intent = new Intent(AdminPage.this, ScheduleActivity.class);
+                intent.putExtra("admin_access", true);
                 startActivity(intent);
             });
 
@@ -83,5 +128,4 @@ public class AdminPage extends BaseActivity {
         super.onResume();
         Log.d(TAG, "onResume called");
     }
-
 }

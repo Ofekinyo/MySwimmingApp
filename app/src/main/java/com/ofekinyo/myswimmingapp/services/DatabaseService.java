@@ -7,8 +7,6 @@ import androidx.annotation.Nullable;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.DataSnapshot;
-import com.ofekinyo.myswimmingapp.models.Admin;
 import com.ofekinyo.myswimmingapp.models.Session;
 import com.ofekinyo.myswimmingapp.models.Swimmer;
 import com.ofekinyo.myswimmingapp.models.Tutor;
@@ -27,7 +25,6 @@ public class DatabaseService {
     private static final String USERS_PATH = "Users";
     private static final String TUTORS_PATH = USERS_PATH + "/Tutors";
     private static final String SWIMMERS_PATH = USERS_PATH + "/Swimmers";
-    private static final String ADMINS_PATH = USERS_PATH + "/Admins";
     private static final String SESSIONS_PATH = "Sessions";
 
     public interface DatabaseCallback<T> {
@@ -113,9 +110,6 @@ public class DatabaseService {
         writeData(SWIMMERS_PATH + "/" + swimmer.getId(), swimmer, callback);
     }
 
-    public void createNewAdmin(@NotNull final Admin admin, @Nullable final DatabaseCallback<Void> callback) {
-        writeData(ADMINS_PATH + "/" + admin.getId(), admin, callback);
-    }
 
     public void getTutor(@NotNull final String tutorId, @NotNull final DatabaseCallback<Tutor> callback) {
         getData(TUTORS_PATH + "/" + tutorId, Tutor.class, callback);
@@ -125,21 +119,12 @@ public class DatabaseService {
         getData(SWIMMERS_PATH + "/" + swimmerId, Swimmer.class, callback);
     }
 
-    public void getAdmin(@NotNull final String adminId, @NotNull final DatabaseCallback<Admin> callback) {
-        getData(ADMINS_PATH+"/"+ adminId, Admin.class, callback);
-    }
-
-
     public void getAllTutors(@NotNull final DatabaseCallback<List<Tutor>> callback) {
         getDataList(TUTORS_PATH, Tutor.class, callback);
     }
 
     public void getAllSwimmers(@NotNull final DatabaseCallback<List<Swimmer>> callback) {
         getDataList(SWIMMERS_PATH, Swimmer.class, callback);
-    }
-
-    public void getAllAdmins(@NotNull final DatabaseCallback<List<Admin>> callback) {
-        getDataList(ADMINS_PATH, Admin.class, callback);
     }
 
     public void updateSessionStatus(Session session, DatabaseCallback<Void> callback) {
@@ -173,20 +158,6 @@ public class DatabaseService {
                     getSwimmer(uid, new DatabaseCallback<Swimmer>() {
                         @Override
                         public void onCompleted(Swimmer swimmer) {
-                            if (swimmer == null) {
-                                getAdmin(uid, new DatabaseCallback<Admin>() {
-                                    @Override
-                                    public void onCompleted(Admin admin) {
-                                        callback.onCompleted(admin);
-                                    }
-
-                                    @Override
-                                    public void onFailed(Exception e) {
-                                        callback.onFailed(e);
-                                    }
-                                });
-                                return;
-                            }
                             callback.onCompleted(swimmer);
                         }
 
