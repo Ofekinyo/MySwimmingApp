@@ -13,10 +13,12 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.ofekinyo.myswimmingapp.R;
 import com.ofekinyo.myswimmingapp.models.Swimmer;
 import com.ofekinyo.myswimmingapp.models.Tutor;
+import com.ofekinyo.myswimmingapp.models.UserRole;
 import com.ofekinyo.myswimmingapp.services.AuthenticationService;
 import com.ofekinyo.myswimmingapp.services.DatabaseService;
 import com.ofekinyo.myswimmingapp.utils.SharedPreferencesUtil;
@@ -26,35 +28,35 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Register extends BaseActivity {
+public class Register extends AppCompatActivity {
 
     private static final String TAG = "Register";
-    private EditText etFName, etLName, etEmail, etPhone, etPassword, etGender, etAge;
-    private EditText etExperience, etPrice; // Tutor fields
-    private EditText etHeight, etWeight, etGoal; // Swimmer fields
-    private Button btnRegister;
-    private CheckBox cbBeginner, cbAdvanced, cbCompetitive, cbSafety, cbRehab, cbInfants;
-    private Spinner spCity;
+    private EditText etFirstName, etLastName, etEmail, etPhone, etPassword, etExperience, etPrice, etHeight, etWeight, etGoal, etGender, etAge;
+    private Spinner spinnerCities;
     private RadioGroup radioGroup;
-    private RadioButton radioTutor, radioSwimmer;
     private LinearLayout tutorFieldsContainer, swimmerFieldsContainer;
+    private Button btnRegister, btnLogin;
+    private CheckBox cbBeginner, cbAdvanced, cbCompetitive, cbSafety, cbRehab, cbInfants;
+    private TextView tvLogin;
 
-    private AuthenticationService authService;
-    private DatabaseService dbService;
+    private AuthenticationService authenticationService;
+    private DatabaseService databaseService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        setupToolbar("הרשמה");
-        authService = AuthenticationService.getInstance();
-        dbService = DatabaseService.getInstance();
 
-        initViews();
+        authenticationService = AuthenticationService.getInstance();
+        databaseService = DatabaseService.getInstance();
+
+        initializeViews();
         setupCitySpinner();
         setupRoleSelection();
 
-        btnRegister.setOnClickListener(v -> handleRegistration());
+        btnRegister.setOnClickListener(v -> registerUser());
+        btnLogin.setOnClickListener(v -> navigateToLogin());
+        tvLogin.setOnClickListener(v -> navigateToLogin());
     }
 
     @Override
@@ -64,28 +66,23 @@ public class Register extends BaseActivity {
 
     }
 
-    private void initViews() {
-        // Basic fields
-        etFName = findViewById(R.id.etFirstName);
-        etLName = findViewById(R.id.etLastName);
+    private void initializeViews() {
+        etFirstName = findViewById(R.id.etFirstName);
+        etLastName = findViewById(R.id.etLastName);
         etEmail = findViewById(R.id.etEmail);
         etPhone = findViewById(R.id.etPhone);
         etPassword = findViewById(R.id.etPassword);
-        spCity = findViewById(R.id.spinnerCities);
-        etGender = findViewById(R.id.etGender);
-        etAge = findViewById(R.id.etAge);
-        btnRegister = findViewById(R.id.btnRegister);
+        spinnerCities = findViewById(R.id.spinnerCities);
         radioGroup = findViewById(R.id.radioGroup);
-        radioTutor = findViewById(R.id.radioTutor);
-        radioSwimmer = findViewById(R.id.radioSwimmer);
-
-        // Containers
         tutorFieldsContainer = findViewById(R.id.tutorFieldsContainer);
         swimmerFieldsContainer = findViewById(R.id.swimmerFieldsContainer);
-
-        // Tutor fields
         etExperience = findViewById(R.id.etExperience);
         etPrice = findViewById(R.id.etPrice);
+        etHeight = findViewById(R.id.etHeight);
+        etWeight = findViewById(R.id.etWeight);
+        etGoal = findViewById(R.id.etGoal);
+        etGender = findViewById(R.id.etGender);
+        etAge = findViewById(R.id.etAge);
         cbBeginner = findViewById(R.id.cbBeginner);
         cbAdvanced = findViewById(R.id.cbAdvanced);
         cbCompetitive = findViewById(R.id.cbCompetitive);
@@ -93,10 +90,9 @@ public class Register extends BaseActivity {
         cbRehab = findViewById(R.id.cbRehab);
         cbInfants = findViewById(R.id.cbInfants);
 
-        // Swimmer fields
-        etHeight = findViewById(R.id.etHeight);
-        etWeight = findViewById(R.id.etWeight);
-        etGoal = findViewById(R.id.etGoal);
+        btnRegister = findViewById(R.id.btnRegister);
+        btnLogin = findViewById(R.id.btnLogin);
+        tvLogin = findViewById(R.id.tvLogin);
     }
 
     private void setupCitySpinner() {
@@ -124,7 +120,7 @@ public class Register extends BaseActivity {
         ));
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, cities);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spCity.setAdapter(adapter);
+        spinnerCities.setAdapter(adapter);
     }
 
     private void setupRoleSelection() {
@@ -149,15 +145,14 @@ public class Register extends BaseActivity {
         btnRegister.setEnabled(true);
     }
 
-
-    private void handleRegistration() {
+    private void registerUser() {
         // Get basic user information
-        String fname = etFName.getText().toString().trim();
-        String lname = etLName.getText().toString().trim();
+        String fname = etFirstName.getText().toString().trim();
+        String lname = etLastName.getText().toString().trim();
         String email = etEmail.getText().toString().trim();
         String phone = etPhone.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
-        String city = spCity.getSelectedItem().toString().trim();
+        String city = spinnerCities.getSelectedItem().toString().trim();
         String gender = etGender.getText().toString().trim();
         String ageStr = etAge.getText().toString().trim();
 
@@ -168,9 +163,9 @@ public class Register extends BaseActivity {
 
         // Get role
         String role;
-        if (radioTutor.isChecked()) {
+        if (radioGroup.getCheckedRadioButtonId() == R.id.radioTutor) {
             role = "Tutor";
-        } else if (radioSwimmer.isChecked()) {
+        } else if (radioGroup.getCheckedRadioButtonId() == R.id.radioSwimmer) {
             role = "Swimmer";
         } else {
             Toast.makeText(Register.this, "יש לבחור תפקיד", Toast.LENGTH_SHORT).show();
@@ -191,8 +186,8 @@ public class Register extends BaseActivity {
 
     private boolean validateBasicInputs(String fname, String lname, String email, String phone, 
                                       String password, String city, String gender, String ageStr) {
-        if (TextUtils.isEmpty(fname)) { etFName.setError("יש להזין שם פרטי"); return false; }
-        if (TextUtils.isEmpty(lname)) { etLName.setError("יש להזין שם משפחה"); return false; }
+        if (TextUtils.isEmpty(fname)) { etFirstName.setError("יש להזין שם פרטי"); return false; }
+        if (TextUtils.isEmpty(lname)) { etLastName.setError("יש להזין שם משפחה"); return false; }
         if (!Validator.isEmailValid(email)) {
             etEmail.setError("אימייל לא תקין"); return false;
         }
@@ -259,7 +254,7 @@ public class Register extends BaseActivity {
 
     private void createUserAccount(String fname, String lname, String email, String phone,
                                  String password, String city, String gender, int age, String role) {
-        authService.signUp(email, password, new AuthenticationService.AuthCallback<String>() {
+        authenticationService.signUp(email, password, new AuthenticationService.AuthCallback<String>() {
             @Override
             public void onCompleted(String userId) {
                 switch (role) {
@@ -300,7 +295,7 @@ public class Register extends BaseActivity {
         tutor.setSessionTypes(sessionTypes);
 
         // Save tutor data
-        dbService.createNewTutor(tutor, new DatabaseService.DatabaseCallback<Void>() {
+        databaseService.createNewTutor(tutor, new DatabaseService.DatabaseCallback<Void>() {
             @Override
             public void onCompleted(Void aVoid) {
                 SharedPreferencesUtil.saveUser(Register.this, tutor);
@@ -327,7 +322,7 @@ public class Register extends BaseActivity {
         swimmer.setGoal(etGoal.getText().toString().trim());
 
         // Save swimmer data
-        dbService.createNewSwimmer(swimmer, new DatabaseService.DatabaseCallback<Void>() {
+        databaseService.createNewSwimmer(swimmer, new DatabaseService.DatabaseCallback<Void>() {
             @Override
             public void onCompleted(Void aVoid) {
                 SharedPreferencesUtil.saveUser(Register.this, swimmer);
@@ -368,5 +363,11 @@ public class Register extends BaseActivity {
             Log.e(TAG, "Error during navigation", e);
             e.printStackTrace();
         }
+    }
+
+    private void navigateToLogin() {
+        Intent intent = new Intent(Register.this, Login.class);
+        startActivity(intent);
+        finish();
     }
 }

@@ -30,6 +30,8 @@ public class SendRequest extends BaseActivity {
 
     private Tutor tutor;
     private String swimmerId;
+    private int mYear, mMonth, mDay;
+    private boolean isDateSet = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,20 +76,49 @@ public class SendRequest extends BaseActivity {
 
     private void showDatePicker() {
         Calendar calendar = Calendar.getInstance();
-        new DatePickerDialog(this,
-                (view, year, month, dayOfMonth) -> etDate.setText(dayOfMonth + "/" + (month + 1) + "/" + year),
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                (view, year, month, dayOfMonth) -> {
+                    etDate.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
+                    mYear = year;
+                    mMonth = month;
+                    mDay = dayOfMonth;
+                    isDateSet = true;
+                    etTime.setText(""); // Clear time when date changes
+                },
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)).show();
+                calendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+        datePickerDialog.show();
     }
 
     private void showTimePicker() {
+        if (!isDateSet) {
+            Toast.makeText(this, "אנא בחר תאריך תחילה", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Calendar calendar = Calendar.getInstance();
-        new TimePickerDialog(this,
-                (view, hourOfDay, minute) -> etTime.setText(String.format("%02d:%02d:00", hourOfDay, minute)),
-                calendar.get(Calendar.HOUR_OF_DAY),
-                calendar.get(Calendar.MINUTE),
-                true).show();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+                (view, hourOfDay, minuteOfHour) -> {
+                    Calendar selectedDateTime = Calendar.getInstance();
+                    selectedDateTime.set(mYear, mMonth, mDay, hourOfDay, minuteOfHour);
+
+                    Calendar now = Calendar.getInstance();
+                    if (mYear == now.get(Calendar.YEAR) &&
+                            mMonth == now.get(Calendar.MONTH) &&
+                            mDay == now.get(Calendar.DAY_OF_MONTH) &&
+                            selectedDateTime.getTimeInMillis() < now.getTimeInMillis()) {
+                        Toast.makeText(this, "לא ניתן לבחור שעה שכבר עברה", Toast.LENGTH_SHORT).show();
+                        etTime.setText("");
+                    } else {
+                        etTime.setText(String.format("%02d:%02d:00", hourOfDay, minuteOfHour));
+                    }
+                }, hour, minute, true);
+        timePickerDialog.show();
     }
 
     private void submitRequest() {

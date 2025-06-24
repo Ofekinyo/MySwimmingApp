@@ -52,12 +52,6 @@ public class SplashActivity extends AppCompatActivity {
             Log.d(TAG, "User role: " + role + ", isAdmin: " + isAdmin);
             
             Intent intent = null;
-            
-            if (isAdmin) {
-                // Admin user - go to AdminPage
-                Log.d(TAG, "Redirecting admin user to AdminPage");
-                intent = new Intent(SplashActivity.this, AdminPage.class);
-            } else {
                 // Regular user - check role
                 switch (role) {
                     case "Tutor":
@@ -73,7 +67,7 @@ public class SplashActivity extends AppCompatActivity {
                         intent = new Intent(SplashActivity.this, MainActivity.class);
                         break;
                 }
-            }
+
             
             if (intent != null) {
                 // Clear activity stack and start the appropriate activity

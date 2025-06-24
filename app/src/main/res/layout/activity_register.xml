@@ -7,8 +7,6 @@
     android:background="@drawable/water_gradient_bg"
     android:fitsSystemWindows="true">
 
-    <include layout="@layout/toolbar_main" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -349,6 +347,26 @@
                 android:background="@drawable/rounded_button_blue"
                 android:textColor="@color/white"
                 android:padding="12dp"/>
+
+            <TextView
+                android:id="@+id/tvLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:text="יש לכם כבר משתמש? התחברו כאן"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_button_green"
+                android:padding="12dp"
+                android:text="התחברות"
+                android:textColor="@color/white" />
 
         </LinearLayout>
     </ScrollView>

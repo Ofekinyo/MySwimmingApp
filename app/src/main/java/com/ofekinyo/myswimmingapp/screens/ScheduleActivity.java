@@ -182,48 +182,82 @@ public class ScheduleActivity extends BaseActivity {
 
     private void processSessionsForUser(List<Session> allSessions, User user, String currentUserId) {
         List<com.ofekinyo.myswimmingapp.models.Schedule> scheduleList = new ArrayList<>();
+        List<Session> userSessions = new ArrayList<>();
 
+        // 1. Filter sessions first
         for (Session session : allSessions) {
             boolean shouldAdd = false;
-
             if (user instanceof com.ofekinyo.myswimmingapp.models.Tutor) {
                 shouldAdd = session.getTutorId().equals(currentUserId) && Boolean.TRUE.equals(session.getIsAccepted());
             } else if (user instanceof com.ofekinyo.myswimmingapp.models.Swimmer) {
                 shouldAdd = session.getSwimmerId().equals(currentUserId) && Boolean.TRUE.equals(session.getIsAccepted());
             }
-
             if (shouldAdd) {
-                try {
-                    SimpleDate date = SimpleDate.fromString(session.getDate());
-                    String timeStr = session.getTime();
-                    if (timeStr.matches("^\\d{2}:\\d{2}$")) {
-                        timeStr += ":00";
-                    }
-                    SimpleTime time = SimpleTime.fromString(timeStr);
-
-                    String title = ""; // Optionally, show Tutor/Swimmer name
-                    com.ofekinyo.myswimmingapp.models.Schedule schedule =
-                            new com.ofekinyo.myswimmingapp.models.Schedule(session.getId(), title, date, time);
-                    scheduleList.add(schedule);
-
-                    // Fetch tutor and swimmer names
-                    fetchUserNamesForSession(session, schedule, null);
-
-                } catch (Exception e) {
-                    Log.e("ScheduleParse", "Invalid date/time format in session: " + session.getId(), e);
-                    Log.e("ScheduleParse", "Trying to parse time: " + session.getTime());
-                }
+                userSessions.add(session);
             }
         }
 
-        scheduleList.sort((a, b) -> {
-            int cmp = a.getDate().compareTo(b.getDate());
-            return (cmp != 0) ? cmp : a.getTime().compareTo(b.getTime());
-        });
+        final int totalSessions = userSessions.size();
+        if (totalSessions == 0) {
+            adapter.setScheduleList(new ArrayList<>());
+            showLoading(false);
+            updateUI(new ArrayList<>());
+            return;
+        }
 
-        adapter.setScheduleList(scheduleList);
-        showLoading(false);
-        updateUI(scheduleList);
+        final int[] processedCount = {0};
+
+        for (Session session : userSessions) {
+            try {
+                SimpleDate date = SimpleDate.fromString(session.getDate());
+                String timeStr = session.getTime();
+                if (timeStr.matches("^\\d{2}:\\d{2}$")) {
+                    timeStr += ":00";
+                }
+                SimpleTime time = SimpleTime.fromString(timeStr);
+
+                String title = ""; // Title will be set after fetching names
+                com.ofekinyo.myswimmingapp.models.Schedule schedule =
+                        new com.ofekinyo.myswimmingapp.models.Schedule(session.getId(), title, date, time);
+                scheduleList.add(schedule);
+
+                // Fetch tutor and swimmer names
+                fetchUserNamesForSession(session, schedule, () -> {
+                    // Set title dynamically after names are fetched
+                    if (user instanceof com.ofekinyo.myswimmingapp.models.Tutor) {
+                        schedule.setTitle("שיעור עם " + schedule.getSwimmerName());
+                    } else {
+                        schedule.setTitle("שיעור עם " + schedule.getTutorName());
+                    }
+
+                    processedCount[0]++;
+                    if (processedCount[0] == totalSessions) {
+                        // All sessions processed, update UI
+                        scheduleList.sort((a, b) -> {
+                            int cmp = a.getDate().compareTo(b.getDate());
+                            return (cmp != 0) ? cmp : a.getTime().compareTo(b.getTime());
+                        });
+                        adapter.setScheduleList(scheduleList);
+                        showLoading(false);
+                        updateUI(scheduleList);
+                    }
+                });
+
+            } catch (Exception e) {
+                Log.e("ScheduleParse", "Invalid date/time format in session: " + session.getId(), e);
+                Log.e("ScheduleParse", "Trying to parse time: " + session.getTime());
+                processedCount[0]++;
+                if (processedCount[0] == totalSessions) {
+                    scheduleList.sort((a, b) -> {
+                        int cmp = a.getDate().compareTo(b.getDate());
+                        return (cmp != 0) ? cmp : a.getTime().compareTo(b.getTime());
+                    });
+                    adapter.setScheduleList(scheduleList);
+                    showLoading(false);
+                    updateUI(scheduleList);
+                }
+            }
+        }
     }
 
     private void fetchUserNamesForSession(Session session, com.ofekinyo.myswimmingapp.models.Schedule schedule, Runnable onComplete) {
